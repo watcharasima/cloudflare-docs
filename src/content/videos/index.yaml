@@ -207,7 +207,7 @@ entries:
     updated: 2024-10-07
     difficulty: Beginner
     content_type: 🎥 Video
-    pcx_content_type: tutorial    
+    pcx_content_type: tutorial
   - link: https://developers.cloudflare.com/pages/framework-guides/deploy-a-hono-site/#creator-interview
     title: DevTalk | Episode 01 - Yusuke Wada, creator of Hono Framework
     description: In this interview, Yusuke Wada reflects on his journey in developing Hono.
@@ -219,7 +219,7 @@ entries:
     updated: 2024-10-08
     difficulty: Beginner
     content_type: 🎥 Video
-    pcx_content_type: interview    
+    pcx_content_type: interview
   - link: https://developers.cloudflare.com/workers-ai/tutorials/image-generator-flux/
     title: How to build an AI Image Generator using Cloudflare Workers AI
     description: The new flux-schnell models on Workers AI are our most powerful text to image AI models yet. In this video, we show you how to deploy your own Workers AI image playground.
@@ -251,11 +251,24 @@ entries:
     description: In this video, we demonstrate how to build an event-driven application using Cloudflare Queues. Event-driven system lets you decouple services, allowing them to process and scale independently.
     tags: [Workers, Queues]
     languages: [TypeScript]
-    # stream_id: 
+    # stream_id:
     products: [Workers, Workers AI]
     cloudflare: true
     author: harshil
     updated: 2024-09-26
     difficulty: Intermediate
+    content_type: 🎥 Video
+    pcx_content_type: tutorial
+  - link: https://youtu.be/Y86vLbcZq28
+    title: Enhanced Observability with Worker Logs
+    description: Cloudflare Workers now offers enhanced observability with Workers Logs, allowing users to collect, store, and analyze all logging data in the Cloudflare dashboard.
+    tags: [Workers, Workers AI]
+    languages: [JavaScript, TypeScript]
+    # stream_id:
+    products: [Workers, Workers AI]
+    cloudflare: true
+    author: confidence
+    updated: 2024-10-29
+    difficulty: Beginner
     content_type: 🎥 Video
     pcx_content_type: tutorial
