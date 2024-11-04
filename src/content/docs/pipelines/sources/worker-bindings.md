@@ -2,13 +2,13 @@
 title: Worker Bindings
 pcx_content_type: concept
 sidebar:
-  order: 1
+  order: 2
 head:
   - tag: title
     content: Worker Bindings
 ---
 
-import { Render, PackageManagers } from "~/components"
+import { Render, PackageManagers } from "~/components";
 
 You can send records to your Pipeline directly from a [Cloudflare Worker](workers/). To do so, you need to:
 1. Create a Worker
@@ -17,7 +17,7 @@ You can send records to your Pipeline directly from a [Cloudflare Worker](worker
 4. Write your Worker, to send records to your Pipeline
 
 ## 1. Create a Worker
-Create a Cloudflare Worker if you don't already have one. This Worker will send records to your Pipeline.
+Create a Cloudflare Worker if you don't alreadyåhave one. This Worker will send records to your Pipeline.
 
 To create a Worker, run:
 
