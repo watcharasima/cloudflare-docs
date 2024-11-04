@@ -806,9 +806,9 @@
 			}
 		]
 	},
-	"": {
-		"example": "",
-		"description": "---------------------------------------------",
+	"wrangler secret delete": {
+		"example": "wrangler secret delete <key>",
+		"description": "Delete a secret variable from a Worker",
 		"positionals": [
 			{
 				"name": "key",

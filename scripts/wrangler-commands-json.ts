@@ -158,6 +158,11 @@ function handleSubcommands(str: string) {
 			}
 		}
 	} else {
+		// FIXME: https://github.com/cloudflare/workers-sdk/pull/7020
+		if (str.includes("wrangler secret delete <key>")) {
+			str = str.split("\n").slice(4).join("\n");
+		}
+
 		const [example, _, description] = str.split("\n");
 		const command = removePositionalsFromCommand(example);
 
