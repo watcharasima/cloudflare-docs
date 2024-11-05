@@ -30,7 +30,7 @@ You can pass multiple queries through `db.prepare()`.
 You can pass multiple queries into a single `.prepare()` statement. Simply delineate each query with a semi-colon.
 
 ```js
-const stmt = db.prepare("DELETE FROM users WHERE (name, age) = (SELECT name, age FROM users ORDER BY name, age LIMIT 1) ;SELECT * FROM users WHERE name = ?1").bind("Joe")
+const stmt = db.prepare("SELECT * FROM users WHERE name = "Anthony"; SELECT * FROM users WHERE name = ?1").bind("Joe")
 ```
 
 Note the following restrictions when passing multiple queries:
