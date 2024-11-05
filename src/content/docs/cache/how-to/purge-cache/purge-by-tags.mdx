@@ -43,7 +43,7 @@ When your content reaches our edge network, Cloudflare:
 * The `Cache-Tag` HTTP header must only contain UTF-8 encoded characters.
 * Spaces are not allowed in cache-tags.
 * Case does not matter. For example, `Tag1` and `tag1` are considered the same.
-* Cache-tags set by a Worker override those from the Origin, meaning that only the tags applied by the Worker will be effective.
+* Cache-tags set by a [Worker](/workers/examples/cache-tags/)  override those from the Origin, meaning that only the tags applied by the Worker will be effective.
 
 ## Purge using cache-tags
 
