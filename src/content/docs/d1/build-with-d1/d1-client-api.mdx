@@ -25,6 +25,19 @@ const stmt = db.prepare('SELECT * FROM users WHERE name = "John Doe"');
 
 You can pass multiple queries through `db.prepare()`.
 
+### Pass multiple queries in a single statement
+
+You can pass multiple queries into a single `.prepare()` statement. Simply delineate each query with a semi-colon.
+
+```js
+const stmt = db.prepare("DELETE FROM users WHERE (name, age) = (SELECT name, age FROM users ORDER BY name, age LIMIT 1) ;SELECT * FROM users WHERE name = ?1").bind("Joe")
+```
+
+Note the following restrictions when passing multiple queries:
+
+- The statement only returns the results of the last query, even though all queries are executed.
+- You can only pass parameters to the last query.
+
 ## Parameter binding
 
 D1 follows the [SQLite convention](https://www.sqlite.org/lang_expr.html#varparam) for prepared statements parameter binding. Currently, D1 only supports Ordered (`?NNNN`) and Anonymous (`?`) parameters. In the future, D1 will support named parameters as well.
