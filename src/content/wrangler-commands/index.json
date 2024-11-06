@@ -210,6 +210,11 @@
 				"flags": "--experimental-registry, --x-registry",
 				"description": "Use the experimental file based dev registry for multi-worker development\n",
 				"type": "[boolean] [default: false]"
+			},
+			{
+				"flags": "--experimental-vectorize-bind-to-prod",
+				"description": "Bind to production Vectorize indexes in local development mode\n",
+				"type": "[boolean] [default: false]"
 			}
 		]
 	},
@@ -1072,7 +1077,7 @@
 		"positionals": [
 			{
 				"name": "key",
-				"description": "The key value to delete",
+				"description": "The key value to delete.",
 				"type": "[string] [required]"
 			}
 		],
@@ -1110,25 +1115,40 @@
 		"positionals": [
 			{
 				"name": "filename",
-				"description": "The JSON file of key-value pairs to upload, in form [{\"key\":..., \"value\":...}\"...]",
+				"description": "The file containing the key/value pairs to write",
 				"type": "[string] [required]"
 			}
 		],
 		"options": [
 			{
 				"flags": "--binding",
-				"description": "The name of the namespace to insert values into\n",
+				"description": "The name of the namespace to write to\n",
 				"type": "[string]"
 			},
 			{
 				"flags": "--namespace-id",
-				"description": "The id of the namespace to insert values into\n",
+				"description": "The id of the namespace to write to\n",
 				"type": "[string]"
 			},
 			{
 				"flags": "--preview",
 				"description": "Interact with a preview namespace\n",
 				"type": "[boolean]"
+			},
+			{
+				"flags": "--ttl",
+				"description": "Time for which the entries should be visible\n",
+				"type": "[number]"
+			},
+			{
+				"flags": "--expiration",
+				"description": "Time since the UNIX epoch after which the entry expires\n",
+				"type": "[number]"
+			},
+			{
+				"flags": "--metadata",
+				"description": "Arbitrary JSON that is associated with a key\n",
+				"type": "[string]"
 			},
 			{
 				"flags": "--local",
@@ -1148,7 +1168,7 @@
 		"positionals": [
 			{
 				"name": "filename",
-				"description": "The JSON file of keys to delete, in the form [\"key1\", \"key2\", ...]",
+				"description": "The file containing the keys to delete",
 				"type": "[string] [required]"
 			}
 		],
@@ -1553,13 +1573,18 @@
 		],
 		"options": [
 			{
-				"flags": "-J, --jurisdiction",
-				"description": "The jurisdiction where the new bucket will be created\n",
-				"type": "[string]"
+				"flags": "--location",
+				"description": "The optional location hint that determines geographic placement of the R2 bucket\n",
+				"type": "[string] [choices: \"weur\", \"eeur\", \"apac\", \"wnam\", \"enam\"]"
 			},
 			{
 				"flags": "-s, --storage-class",
 				"description": "The default storage class for objects uploaded to this bucket\n",
+				"type": "[string]"
+			},
+			{
+				"flags": "-J, --jurisdiction",
+				"description": "The jurisdiction where the new bucket will be created\n",
 				"type": "[string]"
 			}
 		]
@@ -1729,6 +1754,13 @@
 				"description": "The name of the R2 bucket to get event notification rules for",
 				"type": "[string] [required]"
 			}
+		],
+		"options": [
+			{
+				"flags": "-J, --jurisdiction",
+				"description": "The jurisdiction where the bucket exists\n",
+				"type": "[string]"
+			}
 		]
 	},
 	"wrangler r2 bucket notification create": {
@@ -1761,6 +1793,16 @@
 				"flags": "--queue",
 				"description": "The name of the queue that will receive event notification messages\n",
 				"type": "[string] [required]"
+			},
+			{
+				"flags": "-J, --jurisdiction",
+				"description": "The jurisdiction where the bucket exists\n",
+				"type": "[string]"
+			},
+			{
+				"flags": "--description",
+				"description": "A description that can be used to identify the event notification rule after creation\n",
+				"type": "[string]"
 			}
 		]
 	},
@@ -1783,6 +1825,11 @@
 			{
 				"flags": "--rule",
 				"description": "The ID of the event notification rule to delete\n",
+				"type": "[string]"
+			},
+			{
+				"flags": "-J, --jurisdiction",
+				"description": "The jurisdiction where the bucket exists\n",
 				"type": "[string]"
 			}
 		]
@@ -2309,7 +2356,12 @@
 			{
 				"flags": "--vector",
 				"description": "Vector to query the Vectorize Index\n",
-				"type": "[array] [required]"
+				"type": "[array]"
+			},
+			{
+				"flags": "--vector-id",
+				"description": "Identifier for a vector in the index against which the index should be queried\n",
+				"type": "[string]"
 			},
 			{
 				"flags": "--top-k",
@@ -2516,67 +2568,82 @@
 				"name": "name",
 				"description": "The name of the Hyperdrive config",
 				"type": "[string] [required]"
-			}
-		],
-		"options": [
+			},
 			{
-				"flags": "--connection-string",
-				"description": "The connection string for the database you want Hyperdrive to connect to - ex: protocol://user:password@host:port/database\n",
+				"name": "Configure using a connection string"
+			},
+			{
+				"name": "--connection-string",
+				"description": "The connection string for the database you want Hyperdrive to connect to - ex: protocol://user:password@host:port/database",
 				"type": "[string]"
 			},
 			{
-				"flags": "--host",
-				"description": "The host of the origin database\n",
+				"name": "Configure using individual parameters [conflicts with --connection-string]"
+			},
+			{
+				"name": "--name",
+				"description": "The name of the Hyperdrive config",
+				"type": "[string] [required]"
+			},
+			{
+				"name": "--origin-host, --host",
+				"description": "The host of the origin database",
 				"type": "[string]"
 			},
 			{
-				"flags": "--port",
-				"description": "The port number of the origin database\n",
+				"name": "--origin-port, --port",
+				"description": "The port number of the origin database",
 				"type": "[number]"
 			},
 			{
-				"flags": "--scheme",
-				"description": "The scheme used to connect to the origin database - e.g. postgresql or postgres\n",
-				"type": "[string] [default: \"postgresql\"]"
+				"name": "--origin-scheme, --scheme",
+				"description": "The scheme used to connect to the origin database",
+				"type": "[string] [choices: \"postgres\", \"postgresql\"] [default: \"postgresql\"]"
 			},
 			{
-				"flags": "--database",
-				"description": "The name of the database within the origin database\n",
+				"name": "--database",
+				"description": "The name of the database within the origin database",
 				"type": "[string]"
 			},
 			{
-				"flags": "--user",
-				"description": "The username used to connect to the origin database\n",
+				"name": "--origin-user, --user",
+				"description": "The username used to connect to the origin database",
 				"type": "[string]"
 			},
 			{
-				"flags": "--password",
-				"description": "The password used to connect to the origin database\n",
+				"name": "--origin-password, --password",
+				"description": "The password used to connect to the origin database",
 				"type": "[string]"
 			},
 			{
-				"flags": "--access-client-id",
-				"description": "The Client ID of the Access token to use when connecting to the origin database, must be set with a Client Access Secret\n",
+				"name": "Hyperdrive over Access [conflicts with --connection-string, --origin-port]"
+			},
+			{
+				"name": "--access-client-id",
+				"description": "The Client ID of the Access token to use when connecting to the origin database",
 				"type": "[string]"
 			},
 			{
-				"flags": "--access-client-secret",
-				"description": "The Client Secret of the Access token to use when connecting to the origin database, must be set with a Client Access ID\n",
+				"name": "--access-client-secret",
+				"description": "The Client Secret of the Access token to use when connecting to the origin database",
 				"type": "[string]"
 			},
 			{
-				"flags": "--caching-disabled",
-				"description": "Disables the caching of SQL responses\n",
-				"type": "[boolean] [default: false]"
+				"name": "Caching Options"
 			},
 			{
-				"flags": "--max-age",
-				"description": "Specifies max duration for which items should persist in the cache, cannot be set when caching is disabled\n",
+				"name": "--caching-disabled",
+				"description": "Disables the caching of SQL responses",
+				"type": "[boolean]"
+			},
+			{
+				"name": "--max-age",
+				"description": "Specifies max duration for which items should persist in the cache, cannot be set when caching is disabled",
 				"type": "[number]"
 			},
 			{
-				"flags": "--swr",
-				"description": "Indicates the number of seconds cache may serve the response after it becomes stale, cannot be set when caching is disabled\n",
+				"name": "--swr",
+				"description": "Indicates the number of seconds cache may serve the response after it becomes stale, cannot be set when caching is disabled",
 				"type": "[number]"
 			}
 		]
@@ -2615,67 +2682,82 @@
 				"name": "id",
 				"description": "The ID of the Hyperdrive config",
 				"type": "[string] [required]"
-			}
-		],
-		"options": [
+			},
 			{
-				"flags": "--name",
-				"description": "Give your config a new name\n",
+				"name": "Configure using a connection string"
+			},
+			{
+				"name": "--connection-string",
+				"description": "The connection string for the database you want Hyperdrive to connect to - ex: protocol://user:password@host:port/database",
 				"type": "[string]"
 			},
 			{
-				"flags": "--origin-host",
-				"description": "The host of the origin database\n",
+				"name": "Configure using individual parameters [conflicts with --connection-string]"
+			},
+			{
+				"name": "--name",
+				"description": "Give your config a new name",
 				"type": "[string]"
 			},
 			{
-				"flags": "--origin-port",
-				"description": "The port number of the origin database\n",
+				"name": "--origin-host, --host",
+				"description": "The host of the origin database",
+				"type": "[string]"
+			},
+			{
+				"name": "--origin-port, --port",
+				"description": "The port number of the origin database",
 				"type": "[number]"
 			},
 			{
-				"flags": "--origin-scheme",
-				"description": "The scheme used to connect to the origin database - e.g. postgresql or postgres\n",
+				"name": "--origin-scheme, --scheme",
+				"description": "The scheme used to connect to the origin database",
+				"type": "[string] [choices: \"postgres\", \"postgresql\"]"
+			},
+			{
+				"name": "--database",
+				"description": "The name of the database within the origin database",
 				"type": "[string]"
 			},
 			{
-				"flags": "--database",
-				"description": "The name of the database within the origin database\n",
+				"name": "--origin-user, --user",
+				"description": "The username used to connect to the origin database",
 				"type": "[string]"
 			},
 			{
-				"flags": "--origin-user",
-				"description": "The username used to connect to the origin database\n",
+				"name": "--origin-password, --password",
+				"description": "The password used to connect to the origin database",
 				"type": "[string]"
 			},
 			{
-				"flags": "--origin-password",
-				"description": "The password used to connect to the origin database\n",
+				"name": "Hyperdrive over Access [conflicts with --connection-string, --origin-port]"
+			},
+			{
+				"name": "--access-client-id",
+				"description": "The Client ID of the Access token to use when connecting to the origin database",
 				"type": "[string]"
 			},
 			{
-				"flags": "--access-client-id",
-				"description": "The Client ID of the Access token to use when connecting to the origin database\n",
+				"name": "--access-client-secret",
+				"description": "The Client Secret of the Access token to use when connecting to the origin database",
 				"type": "[string]"
 			},
 			{
-				"flags": "--access-client-secret",
-				"description": "The Client Secret of the Access token to use when connecting to the origin database\n",
-				"type": "[string]"
+				"name": "Caching Options"
 			},
 			{
-				"flags": "--caching-disabled",
-				"description": "Disables the caching of SQL responses\n",
-				"type": "[boolean] [default: false]"
+				"name": "--caching-disabled",
+				"description": "Disables the caching of SQL responses",
+				"type": "[boolean]"
 			},
 			{
-				"flags": "--max-age",
-				"description": "Specifies max duration for which items should persist in the cache, cannot be set when caching is disabled\n",
+				"name": "--max-age",
+				"description": "Specifies max duration for which items should persist in the cache, cannot be set when caching is disabled",
 				"type": "[number]"
 			},
 			{
-				"flags": "--swr",
-				"description": "Indicates the number of seconds cache may serve the response after it becomes stale, cannot be set when caching is disabled\n",
+				"name": "--swr",
+				"description": "Indicates the number of seconds cache may serve the response after it becomes stale, cannot be set when caching is disabled",
 				"type": "[number]"
 			}
 		]
@@ -2819,6 +2901,11 @@
 			{
 				"flags": "--experimental-registry, --x-registry",
 				"description": "Use the experimental file based dev registry for multi-worker development\n",
+				"type": "[boolean] [default: false]"
+			},
+			{
+				"flags": "--experimental-vectorize-bind-to-prod",
+				"description": "Bind to production Vectorize indexes in local development mode\n",
 				"type": "[boolean] [default: false]"
 			}
 		]
@@ -3541,6 +3628,144 @@
 			{
 				"name": "folder_path",
 				"description": "The folder path containing the finetune assets",
+				"type": "[string] [required]"
+			}
+		]
+	},
+	"wrangler workflows list": {
+		"example": "wrangler workflows list",
+		"description": "List Workflows associated to account [open-beta]",
+		"options": [
+			{
+				"flags": "--page",
+				"description": "Show a sepecific page from the listing, can configure page size using \"per-page\"\n",
+				"type": "[number] [default: 1]"
+			},
+			{
+				"flags": "--per-page",
+				"description": "Configure the maximum number of workflows to show per page\n",
+				"type": "[number]"
+			}
+		]
+	},
+	"wrangler workflows describe": {
+		"example": "wrangler workflows describe <name>",
+		"description": "Describe Workflow resource [open-beta]",
+		"positionals": [
+			{
+				"name": "name",
+				"description": "Name of the workflow",
+				"type": "[string] [required]"
+			}
+		]
+	},
+	"wrangler workflows delete": {
+		"example": "wrangler workflows delete <name>",
+		"description": "Delete workflow - when deleting a workflow, it will also delete it's own instances [open-beta]",
+		"positionals": [
+			{
+				"name": "name",
+				"description": "Name of the workflow",
+				"type": "[string] [required]"
+			}
+		]
+	},
+	"wrangler workflows trigger": {
+		"example": "wrangler workflows trigger <name> [params]",
+		"description": "Trigger a workflow, creating a new instance. Can optionally take a JSON string to pass a parameter into the workflow instance [open-beta]",
+		"positionals": [
+			{
+				"name": "name",
+				"description": "Name of the workflow",
+				"type": "[string] [required]"
+			},
+			{
+				"name": "params",
+				"description": "Params for the workflow instance, encoded as a JSON string",
+				"type": "[string] [default: \"\"]"
+			}
+		],
+		"options": [
+			{
+				"flags": "--id",
+				"description": "Custom instance ID, if not provided it will default to a random UUIDv4\n",
+				"type": "[string]"
+			}
+		]
+	},
+	"wrangler workflows instances list": {
+		"example": "wrangler workflows instances list <name>",
+		"description": "Instance related commands (list, describe, terminate...) [open-beta]",
+		"positionals": [
+			{
+				"name": "name",
+				"description": "Name of the workflow",
+				"type": "[string] [required]"
+			}
+		],
+		"options": [
+			{
+				"flags": "--reverse",
+				"description": "Reverse order of the instances table\n",
+				"type": "[boolean] [default: false]"
+			},
+			{
+				"flags": "--status",
+				"description": "Filters list by instance status (can be one of: queued, running, paused, errored, terminated, complete)\n",
+				"type": "[string]"
+			},
+			{
+				"flags": "--page",
+				"description": "Show a sepecific page from the listing, can configure page size using \"per-page\"\n",
+				"type": "[number] [default: 1]"
+			},
+			{
+				"flags": "--per-page",
+				"description": "Configure the maximum number of instances to show per page\n",
+				"type": "[number]"
+			}
+		]
+	},
+	"wrangler workflows instances describe": {
+		"example": "wrangler workflows instances describe <name> <id>",
+		"description": "Describe a workflow instance - see its logs, retries and errors [open-beta]",
+		"positionals": [
+			{
+				"name": "name",
+				"description": "Name of the workflow",
+				"type": "[string] [required]"
+			},
+			{
+				"name": "id",
+				"description": "ID of the instance - instead of an UUID you can type 'latest' to get the latest instance and describe it",
+				"type": "[string] [required]"
+			}
+		],
+		"options": [
+			{
+				"flags": "--step-output",
+				"description": "Don't output the step output since it might clutter the terminal\n",
+				"type": "[boolean] [default: true]"
+			},
+			{
+				"flags": "--truncate-output-limit",
+				"description": "Truncate step output after x characters\n",
+				"type": "[number] [default: 5000]"
+			}
+		]
+	},
+	"wrangler workflows instances terminate": {
+		"example": "wrangler workflows instances terminate <name> <id>",
+		"description": "Terminate a workflow instance [open-beta]",
+		"positionals": [
+			{
+				"name": "name",
+				"description": "Name of the workflow",
+				"type": "[string] [required]"
+			},
+			{
+				"name": "id",
+				"description": "ID of the instance - instead of an UUID you can type 'latest' to get the latest instance and describe it",
 				"type": "[string] [required]"
 			}
 		]
