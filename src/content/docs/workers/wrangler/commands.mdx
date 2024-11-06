@@ -12,7 +12,8 @@ import { TabItem, Tabs, Render, Type, MetaInfo, WranglerCommand, PackageManagers
 Wrangler offers a number of commands to manage your Cloudflare Workers.
 
 - [`docs`](#docs) - Open this page in your default browser.
-- [`init`](#init) - Create a new project from a variety of web frameworks and templates. (Deprecated — use `npm create cloudflare@latest` instead)
+- [`init`](#init) - Create a new project from a variety of web frameworks and templates.
+- [`generate`](#generate) - Create a Wrangler project using an existing [Workers template](https://github.com/cloudflare/worker-template).
 - [`d1`](#d1) - Interact with D1.
 - [`vectorize`](#vectorize) - Interact with Vectorize indexes.
 - [`hyperdrive`](#hyperdrive) - Manage your Hyperdrives.
@@ -27,6 +28,7 @@ Wrangler offers a number of commands to manage your Cloudflare Workers.
 - [`r2 object`](#r2-object) - Manage Workers R2 objects.
 - [`secret`](#secret) - Manage the secret variables for a Worker.
 - [`secret:bulk`](#secretbulk) - Manage multiple secret variables for a Worker.
+- [`workflows`](#workflows) - Manage and configure Workflows.
 - [`tail`](#tail) - Start a session to livestream logs from a deployed Worker.
 - [`pages`](#pages) - Configure Cloudflare Pages.
 - [`queues`](#queues) - Configure Workers Queues.
@@ -91,12 +93,6 @@ You can then run them using your package manager of choice:
 <WranglerCommand cmd="docs" />
 
 <WranglerCommand cmd="init" />
-
-:::caution 
-
-The `init` command will be removed in a future version. Please use `npm create cloudflare@latest` instead. 
-
-:::
 
 ---
 
@@ -377,6 +373,181 @@ It may take up to 1 minute (60 seconds) for a tail to exit sampling mode after a
 :::
 
 If sampling persists after using options to filter messages, consider using [instant logs](https://developers.cloudflare.com/logs/instant-logs/).
+
+## `workflows`
+
+:::note
+
+The `wrangler workflows` command requires Wrangler version `3.83.0` or greater. Use `npx wrangler@latest` to always use the latest Wrangler version when invoking commands.
+
+:::
+
+Manage and configure [Workflows](/workflows/).
+
+### `list`
+
+Lists the registered Workflows for this account.
+
+```sh
+wrangler workflows list
+```
+
+- `--page` <Type text="number" /> <MetaInfo text="optional" />
+  -  Show a specific page from the listing. You can configure page size using "per-page".
+- `--per-page` <Type text="number" /> <MetaInfo text="optional" />
+  - Configure the maximum number of Workflows to show per page.
+
+### `instances`
+
+Manage and interact with specific instances of a Workflow.
+
+### `instances list`
+
+List Workflow instances.
+
+```sh
+wrangler workflows instances list <WORKFLOW_NAME> [OPTIONS]
+```
+
+- `WORKFLOW_NAME` <Type text="string" /> <MetaInfo text="required" />
+  - The name of a registered Workflow.
+
+### `instances describe`
+
+Describe a specific instance of a Workflow, including its current status, any persisted state, and per-step outputs.
+
+```sh
+wrangler workflows instances describe <WORKFLOW_NAME> <ID> [OPTIONS]
+```
+
+- `WORKFLOW_NAME` <Type text="string" /> <MetaInfo text="required" />
+  - The name of a registered Workflow.
+- `ID` <Type text="string" /> <MetaInfo text="required" />
+  - The ID of a Workflow instance. You can optionally provide `latest` to refer to the most recently created instance of a Workflow.
+
+```sh
+# Passing `latest` instead of an explicit ID will describe the most recently queued instance
+wrangler workflows instances describe my-workflow latest
+```
+```sh output
+Workflow Name:         my-workflow
+Instance Id:           51c73fc8-7fd5-47d9-bd82-9e301506ee72
+Version Id:            cedc33a0-11fa-4c26-8a8e-7d28d381a291
+Status:                ✅ Completed
+Trigger:               🌎 API
+Queued:                10/16/2024, 2:00:39 PM
+Success:               ✅ Yes
+Start:                 10/16/2024, 2:00:39 PM
+End:                   10/16/2024, 2:01:40 PM
+Duration:              1 minute
+# Remaining output truncated
+```
+
+### `instances terminate`
+
+Terminate (permanently stop) a Workflow instance.
+
+```sh
+wrangler workflows instances terminate <WORKFLOW_NAME> <ID> [OPTIONS]
+```
+
+- `WORKFLOW_NAME` <Type text="string" /> <MetaInfo text="required" />
+  - The name of a registered Workflow.
+- `ID` <Type text="string" /> <MetaInfo text="required" />
+  - The ID of a Workflow instance.
+
+{/*
+### `instances pause`
+
+Pause (until resumed) a Workflow instance.
+
+```sh
+wrangler workflows instances pause <WORKFLOW_NAME> <ID> [OPTIONS]
+```
+
+- `WORKFLOW_NAME` <Type text="string" /> <MetaInfo text="required" />
+  - The name of a registered Workflow.
+- `ID` <Type text="string" /> <MetaInfo text="required" />
+  - The ID of a Workflow instance.
+
+### `instances resume`
+
+Resume a paused Workflow instance.
+
+```sh
+wrangler workflows instances resume <WORKFLOW_NAME> <ID> [OPTIONS]
+```
+
+- `WORKFLOW_NAME` <Type text="string" /> <MetaInfo text="required" />
+  - The name of a registered Workflow.
+- `ID` <Type text="string" /> <MetaInfo text="required" />
+  - The ID of a Workflow instance.
+
+*/}
+
+### `describe`
+
+```sh
+wrangler workflows describe <WORKFLOW_NAME> [OPTIONS]
+```
+
+- `WORKFLOW_NAME` <Type text="string" /> <MetaInfo text="required" />
+  - The name of a registered Workflow.
+
+### `trigger`
+
+Trigger (create) a Workflow instance.
+```sh
+wrangler workflows describe <WORKFLOW_NAME> <PARAMS> [OPTIONS]
+```
+
+- `WORKFLOW_NAME` <Type text="string" /> <MetaInfo text="required" />
+  - The name of a registered Workflow.
+- `PARAMS` <Type text="string" /> <MetaInfo text="optional" />
+  - The parameters to pass to the Workflow as an event. Must be a JSON-encoded string.
+
+ ```sh
+ # Pass optional params to the Workflow.
+ wrangler workflows instances trigger my-workflow '{"hello":"world"}'
+ ```
+
+### `delete`
+
+Delete (unregister) a Workflow.
+
+```sh
+wrangler workflows delete <WORKFLOW_NAME> [OPTIONS]
+```
+
+- `WORKFLOW_NAME` <Type text="string" /> <MetaInfo text="required" />
+  - The name of a registered Workflow.
+
+## `tail`
+
+Start a session to livestream logs from a deployed Worker.
+
+```txt
+wrangler tail <WORKER> [OPTIONS]
+```
+
+- `WORKER` <Type text="string" /> <MetaInfo text="required" />
+  - The name of your Worker or the route the Worker is running on.
+- `--format` <Type text="'json'|'pretty'" /> <MetaInfo text="optional" />
+  - The format of the log entries.
+- `--status` <Type text="'ok'|'error'|'canceled'" /> <MetaInfo text="optional" />
+  - Filter by invocation status.
+- `--header` <Type text="string" /> <MetaInfo text="optional" />
+  - Filter by HTTP header.
+- `--method` <Type text="string" /> <MetaInfo text="optional" />
+  - Filter by HTTP method.
+- `--sampling-rate` <Type text="number" /> <MetaInfo text="optional" />
+  - Add a fraction of requests to log sampling rate (between `0` and `1`).
+- `--search` <Type text="string" /> <MetaInfo text="optional" />
+  - Filter by a text match in `console.log` messages.
+- `--ip` <Type text="(string|'self')\[]" />" <MetaInfo text="optional" />
+  - Filter by the IP address the request originates from. Use `"self"` to show only messages from your own IP.
+- `--version-id` <Type text="string" /> <MetaInfo text="optional" />
+  - Filter by Worker version.
 
 ---
 
