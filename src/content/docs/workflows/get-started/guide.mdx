@@ -46,9 +46,9 @@ This will create a new folder called `workflows-starter`.
 Open the `src/index.ts` file in your text editor. This file contains the following code, which is the most basic instance of a Workflow definition:
 
 <GitHubCode
-    repo="cloudflare/workflows-starer"
+    repo="cloudflare/workflows-starter"
     file="src/index.ts"
-    commit="5b9c174fd1df3718e02544e19b8a83f3b93741ef"
+    commit="a844e629ec80968118d4b116d4b26f5dcb107137"
     lang="ts"
 />
 
@@ -75,10 +75,10 @@ A `step` is what makes a Workflow powerful, as you can encapsulate errors and pe
 At its most basic, a step looks like this:
 
 <GitHubCode
-    repo="cloudflare/workflows-starer"
+    repo="cloudflare/workflows-starter"
     file="src/examples.ts"
     tag="simple-workflow-example"
-    commit="5b9c174fd1df3718e02544e19b8a83f3b93741ef"
+    commit="a844e629ec80968118d4b116d4b26f5dcb107137"
     lang="ts"
 />
 
@@ -114,9 +114,9 @@ Before you can deploy a Workflow, you need to configure it.
 Open the `wrangler.toml` file at the root of your `workflows-starter` folder, which contains the following `[[workflows]]` configuration:
 
 <GitHubCode
-    repo="cloudflare/workflows-starer"
+    repo="cloudflare/workflows-starter"
     file="wrangler.toml"
-    commit="5b9c174fd1df3718e02544e19b8a83f3b93741ef"
+    commit="a844e629ec80968118d4b116d4b26f5dcb107137"
     tag="workflows-wrangler.toml"
     lang="toml"
 />
@@ -141,9 +141,9 @@ We have a very basic Workflow definition, but now need to provide a way to call 
 Return to the `src/index.ts` file we created in the previous step and add a `fetch` handler that _binds_ to our Workflow. This binding allows us to create new Workflow instances, fetch the status of an existing Workflow, pause and/or terminate a Workflow.
 
 <GitHubCode
-    repo="cloudflare/workflows-starer"
+    repo="cloudflare/workflows-starter"
     file="src/index.ts"
-    commit="5b9c174fd1df3718e02544e19b8a83f3b93741ef"
+    commit="a844e629ec80968118d4b116d4b26f5dcb107137"
     tag="workflows-fetch-handler"
     lang="ts"
 />
@@ -167,9 +167,9 @@ This is the full contents of the `src/index.ts` file pulled down when you used t
 Before you deploy, you can review the full Workflows code and the `fetch` handler that will allow you to trigger your Workflow over HTTP:
 
 <GitHubCode
-    repo="cloudflare/workflows-starer"
+    repo="cloudflare/workflows-starter"
     file="src/index.ts"
-    commit="5b9c174fd1df3718e02544e19b8a83f3b93741ef"
+    commit="a844e629ec80968118d4b116d4b26f5dcb107137"
     lang="ts"
 />
 

@@ -50,9 +50,9 @@ This will create a new folder called `workflows-tutorial`, which contains two fi
 Open the `src/index.ts` file in your text editor. This file contains the following code, which is the most basic instance of a Workflow definition:
 
 <GitHubCode
-    repo="cloudflare/workflows-starer"
+    repo="cloudflare/workflows-starter"
     file="src/index.ts"
-    commit="5b9c174fd1df3718e02544e19b8a83f3b93741ef"
+    commit="a844e629ec80968118d4b116d4b26f5dcb107137"
     lang="ts"
 />
 
@@ -94,9 +94,9 @@ You can [bind to a Workflow](/workers/runtime-apis/bindings/#what-is-a-binding) 
 To bind a Workflow to a Worker, you need to define a `[[workflows]]` binding in your `wrangler.toml` configuration:
 
 <GitHubCode
-    repo="cloudflare/workflows-starer"
+    repo="cloudflare/workflows-starter"
     file="wrangler.toml"
-    commit="5b9c174fd1df3718e02544e19b8a83f3b93741ef"
+    commit="a844e629ec80968118d4b116d4b26f5dcb107137"
     tag="workflows-binding-wrangler.toml"
     lang="toml"
 />
@@ -110,9 +110,9 @@ You can then invoke the methods on this binding directly from your Worker script
 For example, the following Worker will fetch the status of an existing Workflow instance by ID (if supplied), else it will create a new Workflow instance and return its ID:
 
 <GitHubCode
-    repo="cloudflare/workflows-starer"
+    repo="cloudflare/workflows-starter"
     file="src/index.ts"
-    commit="5b9c174fd1df3718e02544e19b8a83f3b93741ef"
+    commit="a844e629ec80968118d4b116d4b26f5dcb107137"
     tag="workflows-fetch-handler"
     lang="ts"
 />
