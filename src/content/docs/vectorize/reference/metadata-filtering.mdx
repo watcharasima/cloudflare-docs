@@ -72,6 +72,12 @@ Both [namespaces](/vectorize/best-practices/insert-vectors/#namespaces) and meta
 { "someKey": { "$in": ["hbo", "netflix"] } }
 ```
 
+#### `$nin` operator
+
+```json
+{ "someKey": { "$nin": ["hbo", "netflix"] } }
+```
+
 #### Implicit logical `AND` with multiple keys
 
 ```json
