@@ -61,7 +61,13 @@ const { tableOfContents } = Astro.props.entry.data;
 
 		&:not([data-has-toc]) {
 			.feedback-prompt-content {
-				display: block;	
+				display: block;
+			}
+		}
+
+		&[data-has-hero] {
+			.feedback-prompt-content {
+				display: none;
 			}
 		}
 	}
