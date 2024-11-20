@@ -5,6 +5,10 @@ productLink: "/cloudflare-one/applications/configure-apps/"
 productArea: Cloudflare One
 productAreaLink: /cloudflare-one/changelog/
 entries:
+  - publish_date: "2024-11-20"
+  Title: SCIM support for all IdPs
+  description: |-
+      Admins can now configure the System for Cross-domain Identity Management for any supported IdP. This allows for automatic user deprovisioning, identity updates and better group policy management.
   - publish_date: "2024-08-26"
     title: Reduce automatic seat deprovisioning minimum to 1 month, down from 2 months.
     description: |-
