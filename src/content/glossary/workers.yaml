@@ -103,7 +103,7 @@ entries:
 
   - term: subrequest
     general_definition: |-
-      A subrequest is any request that a Worker makes to either Internet resources using the [Fetch API](/workers/runtime-apis/fetch/) or requests to other Cloudflare services like [R2](/r2/), [KV](/kv/), or [D1](/d1/).
+      A subrequest is any request that a Worker makes to either Internet resources using the [Fetch API](/workers/runtime-apis/fetch/) or requests to other Cloudflare services like [R2](/r2/), [Workers KV](/kv/), or [D1](/d1/).
 
   - term: Tail Worker
     general_definition: |-

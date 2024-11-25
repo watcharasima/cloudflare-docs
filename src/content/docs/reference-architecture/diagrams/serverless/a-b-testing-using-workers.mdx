@@ -31,7 +31,7 @@ Cloudflare's low-latency, fully serverless compute platform, [Workers](/workers/
 This architecture shows a same-URL A/B testing endpoint. The A/B testing logic and configuration is deployed on the server side, so that clients do not have to implement any changes to make use of A/B testing.
 
 1. **Client**: Sends requests to server. This could be through a desktop or mobile browser, or native or mobile app.
-2. **Configuration**: Process incoming request using Workers. Read current configuration by reading from [KV](/kv/) using the [`get()`](/kv/api/read-key-value-pairs/) method. This allows for flexible updates to the A/B services configuration fully decoupled from code-deployment.
+2. **Configuration**: Process incoming request using Workers. Read current configuration by reading from [Workers KV](/kv/) using the [`get()`](/kv/api/read-key-value-pairs/) method. This allows for flexible updates to the A/B services configuration fully decoupled from code-deployment.
 3. **Origin requests**: Check for already existing cookies in the request headers. If no cookie for group assignment is set, randomly assign a group. If a cookie is set, extract assigned group from the cookie header. Send request to either the control endpoint (A) or variant endpoints (B) depending on the configuration and the assigned group.
 4. **Response**: Return the response from the origin. Additionally, if no cookie was previously set, set a cookie with the respective assigned group for session affinity.
 

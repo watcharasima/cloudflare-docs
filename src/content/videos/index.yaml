@@ -16,7 +16,7 @@ entries:
     title: Build a URL Shortener with an AI-based admin section
     description: We are building a URL Shortener, shrty.dev, on Cloudflare. The apps uses Workers KV and Workers Analytics engine. Craig decided to build with Workers AI runWithTools to provide a chat interface for admins.
     tags: [Workers Analytics Engine, AI]
-    products: [Workers AI, KV]
+    products: [Workers AI, Workers KV]
     languages: [TypeScript]
     cloudflare: true
     author: craig
@@ -29,7 +29,7 @@ entries:
     description: In this video, we will show you how to build a global database using workers-rs to keep track of every country and city you’ve visited.
     tags: []
     languages: [Rust]
-    products: [Workers, KV]
+    products: [Workers, Workers KV]
     cloudflare: true
     author: confidence
     updated: 2024-06-25
@@ -249,10 +249,10 @@ entries:
   - link: https://youtu.be/slS4RBV0SBk
     title: Cloudflare Workflows | Introduction (Part 1 of 3)
     description: In this video, we introduce Cloudflare Workflows, the Newest Developer Platform Primitive at Cloudflare.
-    tags: [Workflows, Workers, Queues, Workers AI, AI Gateway, KV]
+    tags: [Workflows, Workers, Queues, Workers AI, AI Gateway, Workers KV]
     languages: [TypeScript]
     # stream_id:
-    products: [Workflows, Workers, Queues, Workers AI, AI Gateway, KV]
+    products: [Workflows, Workers, Queues, Workers AI, AI Gateway, Workers KV]
     cloudflare: true
     author: craig
     updated: 2024-10-30
@@ -262,10 +262,10 @@ entries:
   - link: https://youtu.be/y4PPsvHrQGA
     title: Cloudflare Workflows | Batching and Monitoring Your Durable Execution (Part 2 of 3)
     description: Workflows exposes metrics such as execution, error rates, steps, and total duration!
-    tags: [Workflows, Workers, Queues, Workers AI, AI Gateway, KV]
+    tags: [Workflows, Workers, Queues, Workers AI, AI Gateway, Workers KV]
     languages: [TypeScript]
     # stream_id:
-    products: [Workflows, Workers, Queues, Workers AI, AI Gateway, KV]
+    products: [Workflows, Workers, Queues, Workers AI, AI Gateway, Workers KV]
     cloudflare: true
     author: craig
     updated: 2024-10-30
@@ -275,10 +275,10 @@ entries:
   - link: https://youtu.be/L6gR4Yr3UW8
     title: Cloudflare Workflows | Schedule and Sleep For Your Apps (Part 3 of 3)
     description: Cloudflare Workflows allows you to initiate sleep as an explicit step, which can be useful when you want a Workflow to wait, schedule work ahead, or pause until an input or other external state is ready.
-    tags: [Workflows, Workers, Queues, Workers AI, AI Gateway, KV]
+    tags: [Workflows, Workers, Queues, Workers AI, AI Gateway, Workers KV]
     languages: [TypeScript]
     # stream_id:
-    products: [Workflows, Workers, Queues, Workers AI, AI Gateway, KV]
+    products: [Workflows, Workers, Queues, Workers AI, AI Gateway, Workers KV]
     cloudflare: true
     author: craig
     updated: 2024-10-30
@@ -370,7 +370,7 @@ entries:
     updated: 2024-11-19
     difficulty: Beginner
     content_type: 🎥 Video
-    pcx_content_type: tutorial    
+    pcx_content_type: tutorial
   # - link:
   #   title:
   #   description:

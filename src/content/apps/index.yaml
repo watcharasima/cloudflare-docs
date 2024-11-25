@@ -305,7 +305,7 @@ entries:
     name: Atinotes
     description: Store Markdown notes in Cloudflare KV with this full-stack application made with Nuxt & deployed on Cloudflare Pages.
     tags: [Nuxt]
-    products: [Pages, KV]
+    products: [Pages, Workers KV]
     languages: [TypeScript]
     cloudflare: false
     updated: 2024-08-12
