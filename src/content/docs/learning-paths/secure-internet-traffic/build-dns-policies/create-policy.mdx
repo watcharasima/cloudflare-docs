@@ -38,7 +38,7 @@ To create a new DNS policy using **cURL**:
 		--data '{
 			"name": "All-DNS-SecurityCategories-Blocklist",
 				"description": "Block known security risks based on Cloudflare's threat intelligence",
-				"precedence": 1,
+				"precedence": 0,
 				"enabled": false,
 				"action": "block",
 				"filters": [
@@ -51,5 +51,24 @@ To create a new DNS policy using **cURL**:
 					}
   	}'
 	```
+</TabItem>
+<TabItem label="Terraform">
+To create a new DNS policy using **Terraform**:
+```tf
+resource "cloudflare_zero_trust_gateway_policy" "security_risks_dns_policy" {
+  account_id  = var.account_id
+  name        = "All-DNS-SecurityCategories-Blocklist"
+  description = "Block known security risks based on Cloudflare's threat intelligence"
+  precedence  = 0
+  enabled     = false
+  action      = "block"
+  filters     = ["dns"]
+  traffic     = "any(dns.security_category[*] in {68 178 80 83 176 175 117 131 134 151 153})"
+  rule_settings {
+      block_page_enabled = true
+      block_page_reason = "This domain was blocked due to being classified as a security risk to the organisation"
+    }
+}
+```
 </TabItem>
 </Tabs>
