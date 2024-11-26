@@ -99,7 +99,7 @@ Create a new Worker to read and write to your Workers KV namespace.
 
 ## 2. Create a Workers KV namespace
 
-A [KV namespace](/kv/concepts/kv-namespaces/) is a key-value database replicated to Cloudflare’s global network.
+A [Workers KV namespace](/kv/concepts/kv-namespaces/) is a key-value database replicated to Cloudflare’s global network.
 
 <Tabs syncKey = 'CLIvsDash'> <TabItem label='CLI'>
 
@@ -179,7 +179,7 @@ To bind your Workers KV namespace to your Worker:
 
 :::note[Bindings]
 
-A binding is how your Worker interacts with external resources such as [KV namespaces](/kv/concepts/kv-namespaces/). A binding is a runtime variable that the Workers runtime provides to your code. You can declare a variable name in your `wrangler.toml` file that binds to these resources at runtime, and interact with them through this variable. Every binding's variable name and behavior is determined by you when deploying the Worker.
+A binding is how your Worker interacts with external resources such as [Workers KV namespaces](/kv/concepts/kv-namespaces/). A binding is a runtime variable that the Workers runtime provides to your code. You can declare a variable name in your `wrangler.toml` file that binds to these resources at runtime, and interact with them through this variable. Every binding's variable name and behavior is determined by you when deploying the Worker.
 
 Refer to [Environment](/kv/reference/environments/) for more information.
 
@@ -312,7 +312,7 @@ You can view key-value pairs directly from the dashboard.
 
 When using [`wrangler dev`](/workers/wrangler/commands/#dev) to develop locally, Wrangler defaults to using a local version of Workers KV to avoid interfering with any of your live production data in Workers KV. This means that reading keys that you have not written locally returns null.
 
-To have `wrangler dev` connect to your Workers KV namespace running on Cloudflare's global network, call `wrangler dev --remote` instead. This uses the `preview_id` of the Workers KV binding configuration in the `wrangler.toml` file. See the [KV binding docs](/kv/concepts/kv-bindings/#using-the-kv-binding-when-developing-locally) for more information.
+To have `wrangler dev` connect to your Workers KV namespace running on Cloudflare's global network, call `wrangler dev --remote` instead. This uses the `preview_id` of the Workers KV binding configuration in the `wrangler.toml` file. See the [Workers KV binding docs](/kv/concepts/kv-bindings/#using-the-kv-binding-when-developing-locally) for more information.
 
 :::
 
@@ -465,6 +465,6 @@ By finishing this tutorial, you have:
 
 If you have any feature requests or notice any bugs, share your feedback directly with the Cloudflare team by joining the [Cloudflare Developers community on Discord](https://discord.cloudflare.com).
 
-- Learn more about the [KV API](/kv/api/).
+- Learn more about the [Workers KV API](/kv/api/).
 - Understand how to use [Environments](/kv/reference/environments/) with Workers KV.
 - Read the Wrangler [`kv` command documentation](/kv/reference/kv-commands/).
