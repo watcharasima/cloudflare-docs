@@ -59,11 +59,11 @@ export default {
 
 Workers using ES modules format do not rely on any global bindings. However, Service Worker syntax accesses bindings on the global scope.
 
-To understand bindings, refer the following `TODO` KV namespace binding example. To create a `TODO` KV namespace binding, you will:
+To understand bindings, refer the following `TODO` Workers KV namespace binding example. To create a `TODO` Workers KV namespace binding, you will:
 
-1. Create a KV namespace named `My Tasks` and receive an ID that you will use in your binding.
+1. Create a Workers KV namespace named `My Tasks` and receive an ID that you will use in your binding.
 2. Create a Worker.
-3. Find your Worker's `wrangler.toml` configuration file and add a KV namespace binding:
+3. Find your Worker's `wrangler.toml` configuration file and add a Workers KV namespace binding:
 
 ```toml
 kv_namespaces = [
@@ -73,17 +73,17 @@ kv_namespaces = [
 
 In the following sections, you will use your binding in Service Worker and ES modules format.
 
-:::note[Reference KV from Durable Objects and Workers]
+:::note[Reference Workers KV from Durable Objects and Workers]
 
 
-To learn more about how to reference KV from Workers, refer to the [KV bindings documentation](/kv/concepts/kv-bindings/).
+To learn more about how to reference Workers KV from Workers, refer to the [Workers KV bindings documentation](/kv/concepts/kv-bindings/).
 
 
 :::
 
 ### Bindings in Service Worker format
 
-In Service Worker syntax, your `TODO` KV namespace binding is defined in the global scope of your Worker. Your `TODO` KV namespace binding is available to use anywhere in your Worker application's code.
+In Service Worker syntax, your `TODO` Workers KV namespace binding is defined in the global scope of your Worker. Your `TODO` Workers KV namespace binding is available to use anywhere in your Worker application's code.
 
 ```js
 addEventListener("fetch", async (event) => {
@@ -104,7 +104,7 @@ async function getTodos() {
 
 In ES modules format, bindings are only available inside the `env` parameter that is provided at the entry point to your Worker.
 
-To access the `TODO` KV namespace binding in your Worker code, the `env` parameter must be passed from the `fetch` handler in your Worker to the `getTodos` function.
+To access the `TODO` Workers KV namespace binding in your Worker code, the `env` parameter must be passed from the `fetch` handler in your Worker to the `getTodos` function.
 
 ```js
 import { getTodos } from './todos'
@@ -118,7 +118,7 @@ export default {
 };
 ```
 
-The following code represents a `getTodos` function that calls the `get` function on the `TODO` KV binding.
+The following code represents a `getTodos` function that calls the `get` function on the `TODO` Workers KV binding.
 
 ```js
 async function getTodos(env) {

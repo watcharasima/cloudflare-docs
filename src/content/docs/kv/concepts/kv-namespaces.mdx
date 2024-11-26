@@ -1,15 +1,15 @@
 ---
 pcx_content_type: concept
-title: KV namespaces
+title: Workers KV namespaces
 sidebar:
   order: 7
 
 ---
 import { Type, MetaInfo } from "~/components";
 
-A KV namespace is a key-value database replicated to Cloudflare’s global network.
+A Workers KV namespace is a key-value database replicated to Cloudflare’s global network.
 
-Bind your KV namespaces through Wrangler or via the Cloudflare dashboard.
+Bind your Workers KV namespaces through Wrangler or via the Cloudflare dashboard.
 
 :::note
 
@@ -17,21 +17,21 @@ KV namespace IDs are public and bound to your account.
 
 :::
 
-## Bind your KV namespace through Wrangler
+## Bind your Workers KV namespace through Wrangler
 
-To bind KV namespaces to your Worker, assign an array of the below object to the `kv_namespaces` key.
+To bind Workers KV namespaces to your Worker, assign an array of the below object to the `kv_namespaces` key.
 
 * `binding` <Type text="string" /> <MetaInfo text="required" />
 
-  * The binding name used to refer to the KV namespace.
+  * The binding name used to refer to the Workers KV namespace.
 
 * `id` <Type text="string" /> <MetaInfo text="required" />
 
-  * The ID of the KV namespace.
+  * The ID of the Workers KV namespace.
 
 * `preview_id` <Type text="string" /> <MetaInfo text="optional" />
 
-  * The ID of the KV namespace used during `wrangler dev`.
+  * The ID of the Workers KV namespace used during `wrangler dev`.
 
 Example:
 
@@ -41,7 +41,7 @@ kv_namespaces = [
 ]
 ```
 
-## Bind your KV namespace via the dashboard
+## Bind your Workers KV namespace via the dashboard
 
 To bind the namespace to your Worker in the Cloudflare dashboard:
 

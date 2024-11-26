@@ -8,7 +8,7 @@ pcx_content_type: tutorial
 products:
   - Workers
   - Browser Rendering
-  - KV
+  - Workers KV
 languages:
   - TypeScript
 sidebar:
@@ -57,7 +57,7 @@ Then, move into your newly created directory:
 cd queues-web-crawler
 ```
 
-## 2. Create KV namespace
+## 2. Create Workers KV namespace
 
 We need to create a KV store. This can be done through the Cloudflare dashboard or the Wrangler CLI. For this tutorial, we will use the Wrangler CLI.
 
@@ -82,7 +82,7 @@ binding = "crawler_screenshots"
 id = "<GENERATED_NAMESPACE_ID>"
 ```
 
-### Add KV bindings to wrangler.toml
+### Add Workers KV bindings to wrangler.toml
 
 Then, in your `wrangler.toml` file, add the following with the values generated in the terminal:
 
@@ -288,7 +288,7 @@ const crawlPage = async (url: string): Promise<Result> => {
 
 This helper function opens a new page in Puppeteer and navigates to the provided URL. `numCloudflareLinks` uses Puppeteer's `$$eval` (equivalent to `document.querySelectorAll`) to find the number of links to a `cloudflare.com` page. Checking if the link's `href` is to a `cloudflare.com` page is wrapped in a `try...catch` to handle cases where `href`s may not be URLs.
 
-Then, the function sets the browser viewport size and takes a screenshot of the full page. The screenshot is returned as a `Buffer` so it can be converted to an `ArrayBuffer` and written to KV.
+Then, the function sets the browser viewport size and takes a screenshot of the full page. The screenshot is returned as a `Buffer` so it can be converted to an `ArrayBuffer` and written to Workers KV.
 
 To enable recursively crawling links, add a snippet after checking the number of Cloudflare links to send messages recursively from the queue consumer to the queue itself. Recursing too deep, as is possible with crawling, will cause a Durable Object `Subrequest depth limit exceeded.` error. If one occurs, it is caught, but the links are not retried.
 
@@ -339,11 +339,11 @@ try {
 // ...
 ```
 
-This snippet saves the results from `crawlPage` into the appropriate KV namespaces. If an unexpected error occurred, the URL will be retried and resent to the queue again.
+This snippet saves the results from `crawlPage` into the appropriate Workers KV namespaces. If an unexpected error occurred, the URL will be retried and resent to the queue again.
 
-Saving the timestamp of the crawl in KV helps you avoid crawling too frequently.
+Saving the timestamp of the crawl in Workers KV helps you avoid crawling too frequently.
 
-Add a snippet before checking `robots.txt` to check KV for a crawl within the last hour. This lists all KV keys beginning with the same URL (crawls of the same page), and check if any crawls have been done within the last hour. If any crawls have been done within the last hour, the message is `ack`'ed and not retried.
+Add a snippet before checking `robots.txt` to check Workers KV for a crawl within the last hour. This lists all KV keys beginning with the same URL (crawls of the same page), and check if any crawls have been done within the last hour. If any crawls have been done within the last hour, the message is `ack`'ed and not retried.
 
 ```ts null {12-23}
 type KeyMetadata = {

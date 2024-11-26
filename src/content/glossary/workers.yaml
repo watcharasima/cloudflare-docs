@@ -57,11 +57,11 @@ entries:
     general_definition: |-
       [Isolates](/workers/reference/how-workers-works/#isolates) are lightweight contexts that provide your code with variables it can access and a safe environment to be executed within.
 
-  - term: KV
+  - term: Workers KV
     general_definition: |-
       [Workers KV](/kv/) is Cloudflare's key-value data storage.
     associated_products:
-      - KV
+      - Workers KV
 
   - term: module Worker
     general_definition: |-

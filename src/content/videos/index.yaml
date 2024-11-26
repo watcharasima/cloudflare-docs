@@ -65,7 +65,7 @@ entries:
     description: Learn how to access external APIs, cache and retrieve data using Workers KV, and create SQL-driven applications with Cloudflare D1.
     tags: []
     languages: [TypeScript, SQL]
-    products: [Workers, KV, D1]
+    products: [Workers, Workers KV, D1]
     cloudflare: true
     author: kristian
     updated: 2024-05-22

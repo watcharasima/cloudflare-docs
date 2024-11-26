@@ -33,13 +33,13 @@ export default {
 
 ## Reference
 
-The following method is provided to write to KV:
+The following method is provided to write to Workers KV:
 
 - [put()](#put-method)
 
 ### `put()` method
 
-To create a new key-value pair, or to update the value for a particular key, call the `put()` method on any KV namespace you have bound to your Worker code:
+To create a new key-value pair, or to update the value for a particular key, call the `put()` method on any Workers KV namespace you have bound to your Worker code:
 
 ```js
 env.NAMESPACE.put(key, value, options?);
@@ -74,13 +74,13 @@ The put() method returns a Promise that you should `await` on to verify a succes
 
 ### Concurrent writes to the same key
 
-Due to the eventually consistent nature of KV, concurrent writes to the same key can end up overwriting one another. It is a common pattern to write data from a single process with Wrangler or the API. This avoids competing concurrent writes because of the single stream. All data is still readily available within all Workers bound to the namespace.
+Due to the eventually consistent nature of Workers KV, concurrent writes to the same key can end up overwriting one another. It is a common pattern to write data from a single process with Wrangler or the API. This avoids competing concurrent writes because of the single stream. All data is still readily available within all Workers bound to the namespace.
 
 If concurrent writes are made to the same key, the last write will take precedence.
 
 Writes are immediately visible to other requests in the same global network location, but can take up to 60 seconds (or the value of the `cacheTtl` parameter of the `get()` or `getWithMetadata()` methods) to be visible in other parts of the world.
 
-Refer to [How KV works](/kv/concepts/how-kv-works/) for more information on this topic.
+Refer to [How Workers KV works](/kv/concepts/how-kv-works/) for more information on this topic.
 
 ### Write data in bulk
 
@@ -94,7 +94,7 @@ A `key` and a `value` are required for each KV pair. The entire request size mus
 
 KV offers the ability to create keys that automatically expire. You may configure expiration to occur either at a particular point in time, or after a certain amount of time has passed since the key was last modified.
 
-Once the expiration time of an expiring key is reached, it will be deleted from the system. After its deletion, attempts to read the key will behave as if the key does not exist. The deleted key will not count against the KV namespace’s storage usage for billing purposes.
+Once the expiration time of an expiring key is reached, it will be deleted from the system. After its deletion, attempts to read the key will behave as if the key does not exist. The deleted key will not count against the Workers KV namespace’s storage usage for billing purposes.
 
 :::note
 
@@ -268,6 +268,6 @@ async function retryWithBackoff(
 }
 ```
 
-## Other methods to access KV
+## Other methods to access Workers KV
 
 You can also [write key-value pairs from the command line with Wrangler](/kv/reference/kv-commands/#create) and [write data via the REST API](/api/operations/workers-kv-namespace-write-key-value-pair-with-metadata).

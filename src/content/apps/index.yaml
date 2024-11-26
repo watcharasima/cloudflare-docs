@@ -70,9 +70,9 @@ entries:
     updated: 2024-06-17
   - link: https://github.com/craigsdennis/shorty-dot-dev
     name: shrty.dev
-    description: A URL shortener that makes use of KV and Workers Analytics Engine. The admin interface uses Function Calling. Go Shorty!
+    description: A URL shortener that makes use of Workers KV and Workers Analytics Engine. The admin interface uses Function Calling. Go Shorty!
     tags: [AI, Hono]
-    products: [Workers AI, KV, Workers]
+    products: [Workers AI, Workers KV, Workers]
     languages: [TypeScript]
     cloudflare: true
     updated: 2024-07-02
@@ -303,7 +303,7 @@ entries:
     updated: 2024-08-12
   - link: https://github.com/atinux/atinotes
     name: Atinotes
-    description: Store Markdown notes in Cloudflare KV with this full-stack application made with Nuxt & deployed on Cloudflare Pages.
+    description: Store Markdown notes in Cloudflare Workers KV with this full-stack application made with Nuxt & deployed on Cloudflare Pages.
     tags: [Nuxt]
     products: [Pages, Workers KV]
     languages: [TypeScript]

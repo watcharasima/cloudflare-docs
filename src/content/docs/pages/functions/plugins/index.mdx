@@ -24,7 +24,7 @@ For example, a Pages Plugin could:
 * Proxy a third-party service's API.
 * Validate authorization headers.
 * Provide a full admin web app experience.
-* Store data in KV or Durable Objects.
+* Store data in Workers KV or Durable Objects.
 * Server-side render (SSR) webpages with data from a CMS.
 * Report errors and track performance.
 
@@ -94,7 +94,7 @@ Your Plugin should not use the mounted path anywhere in the file structure (for 
 
 :::
 
-You are free to use as many different files as you need. The structure of a Plugin is exactly the same as Functions in a Pages project today, except that the handlers receive a new property of their parameter object, `pluginArgs`. This property is the initialization parameter that a developer passes when mounting a Plugin. You can use this to receive API tokens, KV/Durable Object namespaces, or anything else that your Plugin needs to work.
+You are free to use as many different files as you need. The structure of a Plugin is exactly the same as Functions in a Pages project today, except that the handlers receive a new property of their parameter object, `pluginArgs`. This property is the initialization parameter that a developer passes when mounting a Plugin. You can use this to receive API tokens, Workers KV/Durable Object namespaces, or anything else that your Plugin needs to work.
 
 Returning to your static form example, if you want to intercept requests and override the behavior of an HTML form, you need to create a `functions/_middleware.ts`. Developers could then mount your Plugin on a single route, or on their entire project.
 
@@ -140,7 +140,7 @@ export const onRequestPost = async (context) => {
 
 To create a good developer experience, you should consider adding TypeScript typings to your Plugin. This allows developers to use their IDE features for autocompletion, and also ensure that they include all the parameters you are expecting.
 
-In the `index.d.ts`, export a function which takes your `pluginArgs` and returns a `PagesFunction`. For your static form example, you take two properties, `kv`, a KV namespace, and `respondWith`, a function which takes an object with a `formData` property (`FormData`) and returns a `Promise` of a `Response`:
+In the `index.d.ts`, export a function which takes your `pluginArgs` and returns a `PagesFunction`. For your static form example, you take two properties, `kv`, a Workers KV namespace, and `respondWith`, a function which takes an object with a `formData` property (`FormData`) and returns a `Promise` of a `Response`:
 
 ```typescript
 export type PluginArgs = {
@@ -198,7 +198,7 @@ export const onRequest = (context) => {
 
 ### 7. Test your Pages Plugin
 
-You can use `wrangler pages dev` to test a Pages project, including any Plugins you have installed. Remember to include any KV bindings and environment variables that the Plugin is expecting.
+You can use `wrangler pages dev` to test a Pages project, including any Plugins you have installed. Remember to include any Workers KV bindings and environment variables that the Plugin is expecting.
 
 With your Plugin mounted on the `/contact` route, a corresponding HTML file might look like this:
 

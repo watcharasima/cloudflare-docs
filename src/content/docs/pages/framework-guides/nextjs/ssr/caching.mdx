@@ -21,7 +21,7 @@ You can configure your Next.js app to write cache entries to and read from eithe
 
 It takes an extra step to enable, but Cloudflare recommends caching data using [Workers KV](/kv/).
 
-When you write cached data to Workers KV, you write to storage that can be read by any Cloudflare location. This means your app can fetch data, cache it in KV, and then subsequent requests anywhere around the world can read from this cache.
+When you write cached data to Workers KV, you write to storage that can be read by any Cloudflare location. This means your app can fetch data, cache it in Workers KV, and then subsequent requests anywhere around the world can read from this cache.
 
 :::note
 
@@ -31,7 +31,7 @@ Workers KV is eventually consistent, which means that it can take up to 60 secon
 
 :::
 
-To use Workers KV as the cache for your Next.js app, [add a KV binding](/pages/functions/bindings/#kv-namespaces) to your Pages project, and set the name of the binding to `__NEXT_ON_PAGES__KV_SUSPENSE_CACHE`.
+To use Workers KV as the cache for your Next.js app, [add a Workers KV binding](/pages/functions/bindings/#kv-namespaces) to your Pages project, and set the name of the binding to `__NEXT_ON_PAGES__KV_SUSPENSE_CACHE`.
 
 ### Cache API (default)
 

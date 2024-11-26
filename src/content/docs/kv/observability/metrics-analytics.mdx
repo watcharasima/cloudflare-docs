@@ -6,24 +6,24 @@ sidebar:
 
 ---
 
-KV exposes analytics that allow you to inspect requests and storage across all namespaces in your account.
+Workers KV exposes analytics that allow you to inspect requests and storage across all namespaces in your account.
 
 The metrics displayed in the [Cloudflare dashboard](https://dash.cloudflare.com/) charts are queried from Cloudflare’s [GraphQL Analytics API](/analytics/graphql-api/). You can access the metrics [programmatically](#query-via-the-graphql-api) via GraphQL or HTTP client.
 
 ## Metrics
 
-KV currently exposes the below metrics:
+Workers KV currently exposes the below metrics:
 
 | Dataset   | GraphQL Dataset Name      | Description                                                                   |
 | ----------------------- | --------------------------- | ------------------------------------------------------------- |
-| Operations              | `kvOperationsAdaptiveGroups`| This dataset consists of the operations made to your KV namespaces.   |
-| Storage                 | `kvStorageAdaptiveGroups`   | This dataset consists of the storage details of your KV namespaces.   |
+| Operations              | `kvOperationsAdaptiveGroups`| This dataset consists of the operations made to your Workers KV namespaces.   |
+| Storage                 | `kvStorageAdaptiveGroups`   | This dataset consists of the storage details of your Workers KV namespaces.   |
 
 Metrics can be queried (and are retained) for the past 31 days.
 
 ## View metrics in the dashboard
 
-Per-namespace analytics for KV are available in the Cloudflare dashboard. To view current and historical metrics for a database:
+Per-namespace analytics for Workers KV are available in the Cloudflare dashboard. To view current and historical metrics for a database:
 
 1. Log in to the [Cloudflare dashboard](https://dash.cloudflare.com) and select your account.
 2. Go to [**Workers & Pages** > **KV**](https://dash.cloudflare.com/?to=/:account/workers/kv/namespaces).
@@ -34,18 +34,18 @@ You can optionally select a time window to query. This defaults to the last 24 h
 
 ## Query via the GraphQL API
 
-You can programmatically query analytics for your KV namespaces via the [GraphQL Analytics API](/analytics/graphql-api/). This API queries the same datasets as the Cloudflare dashboard, and supports GraphQL [introspection](/analytics/graphql-api/features/discovery/introspection/).
+You can programmatically query analytics for your Workers KV namespaces via the [GraphQL Analytics API](/analytics/graphql-api/). This API queries the same datasets as the Cloudflare dashboard, and supports GraphQL [introspection](/analytics/graphql-api/features/discovery/introspection/).
 
 To get started using the [GraphQL Analytics API](/analytics/graphql-api/), follow the documentation to setup [Authentication for the GraphQL Analytics API](/analytics/graphql-api/getting-started/authentication/).
 
-To use the GraphQL API to retrieve KV's datasets, you must provide the `accountTag` filter with your Cloudflare Account ID. The GraphQL datasets for KV include:
+To use the GraphQL API to retrieve Workers KV's datasets, you must provide the `accountTag` filter with your Cloudflare Account ID. The GraphQL datasets for Workers KV include:
 
 - `kvOperationsAdaptiveGroups`
 - `kvStorageAdaptiveGroups`
 
 ### Examples
 
-The following are common GraphQL queries that you can use to retrieve information about KV analytics. These queries make use of variables `$accountTag`, `$date_geq`, `$date_leq`, and `$namespaceId`, which should be set as GraphQL variables or replaced in line. These variables should look similar to these:
+The following are common GraphQL queries that you can use to retrieve information about Workers KV analytics. These queries make use of variables `$accountTag`, `$date_geq`, `$date_leq`, and `$namespaceId`, which should be set as GraphQL variables or replaced in line. These variables should look similar to these:
 
 ```json
 {
@@ -113,7 +113,7 @@ query {
 }
 ```
 
-To query your account-wide read, write, delete, and list operations across all KV namespaces:
+To query your account-wide read, write, delete, and list operations across all Workers KV namespaces:
 
 ```graphql
 query {
@@ -134,7 +134,7 @@ query {
 
 #### Storage
 
-To query the storage details (`keyCount` and `byteCount`) of a KV namespace for every day of a given date range:
+To query the storage details (`keyCount` and `byteCount`) of a Workers KV namespace for every day of a given date range:
 
 ```graphql
 query Viewer {

@@ -36,14 +36,14 @@ export default {
 
 ## Reference
 
-The following methods are provided to read from KV:
+The following methods are provided to read from Workers KV:
 
 - [get()](#get-method)
 - [getWithMetadata()](#getwithmetadata-method)
 
 ### `get()` method
 
-To get the value for a given key, call the `get()` method on any KV namespace you have bound to your Worker code:
+To get the value for a given key, call the `get()` method on any Workers KV namespace you have bound to your Worker code:
 
 ```js
 env.NAMESPACE.get(key, type?);
@@ -63,7 +63,7 @@ The `get()` method returns a promise you can `await` on to get the value. If the
     cacheTtl?: number,
     type?: "text" | "json" | "arrayBuffer" | "stream"
 }`
-  - Optional. Object containing the optional `cacheTtl` and `type` properties. The `cacheTtl` property defines the length of time in seconds that a KV result is cached in the global network location it is accessed from (minimum: 60). The `type` property defines the type of the value to be returned.
+  - Optional. Object containing the optional `cacheTtl` and `type` properties. The `cacheTtl` property defines the length of time in seconds that a Workers KV result is cached in the global network location it is accessed from (minimum: 60). The `type` property defines the type of the value to be returned.
 
 #### Response
 
@@ -78,7 +78,7 @@ The `get()` method may return stale values. If a given key has recently been rea
 
 ### `getWithMetadata()` method
 
-To get the value for a given key along with its metadata, call the `getWithMetadata()` method on any KV namespace you have bound to your Worker code:
+To get the value for a given key along with its metadata, call the `getWithMetadata()` method on any Workers KV namespace you have bound to your Worker code:
 
 ```js
 env.NAMESPACE.getWithMetadata(key, type?);
@@ -164,7 +164,7 @@ The `cacheTtl` parameter must be an integer greater than or equal to `60`, which
 
 The effective `cacheTtl` of an already cached item can be reduced by getting it again with a lower `cacheTtl`. For example, if you did `NAMESPACE.get(key, {cacheTtl: 86400})` but later realized that caching for 24 hours was too long, you could `NAMESPACE.get(key, {cacheTtl: 300})` or even `NAMESPACE.get(key)` and it would check for newer data to respect the provided `cacheTtl`, which defaults to 60 seconds.
 
-## Other methods to access KV
+## Other methods to access Workers KV
 
 You can [read key-value pairs from the command line with Wrangler](/kv/reference/kv-commands/#get) and [from the REST API](/api/operations/workers-kv-namespace-read-key-value-pair).
 

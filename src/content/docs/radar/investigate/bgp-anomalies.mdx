@@ -171,7 +171,7 @@ We will use Cloudflare Workers as the platform and use its Cron Triggers to peri
 For the app, we would like it to do the following things:
 
 - Fetch from Cloudflare API with a given API token.
-- Check against Cloudflare KV to know what events are new.
+- Check against Cloudflare Workers KV to know what events are new.
 - Construct messages for new hijacks and send out alerts via webhook triggers.
 
 ### Worker app setup
@@ -210,7 +210,7 @@ compatibility_date = "2023-04-27"
 crons = [ "*/5 * * * *" ]
 ```
 
-In this example, we will also need to use Cloudflare KV to save the latest checked event IDs which allows us to know what events are new. Once you have created a KV, you can head back to the `wranglers.toml` file and add the following sections:
+In this example, we will also need to use Cloudflare Workers KV to save the latest checked event IDs which allows us to know what events are new. Once you have created a Workers KV, you can head back to the `wranglers.toml` file and add the following sections:
 
 ```toml
 [[kv_namespaces]]
@@ -261,11 +261,11 @@ export default {
 }
 ```
 
-In our example, we use the `env` variables to get the runtime variables like the TOKEN and ASN of interest, and Cloudflare
+In our example, we use the `env` variables to get the runtime variables like the TOKEN and ASN of interest, and Cloudflare Workers
 KV bindings. We do not use the `controller` and `ctx` variables in this example.
 
 First, we will need to learn about what are the new events. We define new events as the events the app has not yet processed.
-We use the Cloudflare KV bucket previously created and defined (`HIJACKS_KV`) to save and retrieve the most recent
+We use the Cloudflare Workers KV bucket previously created and defined (`HIJACKS_KV`) to save and retrieve the most recent
 processed event ID.
 
 ```javascript

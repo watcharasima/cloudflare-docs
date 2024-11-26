@@ -107,9 +107,9 @@ A [binding](/pages/functions/bindings/) allows your application to interact with
 
 Use bindings in Astro components and API routes by using `context.locals` from [Astro Middleware](https://docs.astro.build/en/guides/middleware/) to access the Cloudflare runtime which amongst other fields contains the Cloudflare's environment and consecutively any bindings set for your application.
 
-Refer to the following example of how to access a KV namespace with TypeScript.
+Refer to the following example of how to access a Workers KV namespace with TypeScript.
 
-First, you need to define Cloudflare runtime and KV type by updating the `env.d.ts`:
+First, you need to define Cloudflare runtime and Workers KV type by updating the `env.d.ts`:
 
 ```typescript
 /// <reference types="astro/client" />
@@ -127,7 +127,7 @@ declare namespace App {
 }
 ```
 
-You can then access your KV from an API endpoint in the following way:
+You can then access your Workers KV from an API endpoint in the following way:
 
 ```typescript null {3,4,5}
 import type { APIContext } from "astro";

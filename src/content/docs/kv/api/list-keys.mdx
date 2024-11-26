@@ -6,7 +6,7 @@ sidebar:
 
 ---
 
-To list all the keys in your KV namespace, call the `list()` method of the [KV binding](/kv/concepts/kv-bindings/) on any [KV namespace](/kv/concepts/kv-namespaces/) you have bound to your Worker code:
+To list all the keys in your Workers KV namespace, call the `list()` method of the [Workers KV binding](/kv/concepts/kv-bindings/) on any [Workers KV namespace](/kv/concepts/kv-namespaces/) you have bound to your Worker code:
 
 
 ```js
@@ -39,12 +39,12 @@ export default {
 
 ## Reference
 
-The following method is provided to list the keys of KV:
+The following method is provided to list the keys of Workers KV:
 - [list()](#list-method)
 
 ### `list()` method
 
-To list all the keys in your KV namespace, call the `list()` method of the [KV binding](/kv/concepts/kv-bindings/) on any KV namespace you have bound to your Worker code:
+To list all the keys in your Workers KV namespace, call the `list()` method of the [Workers KV binding](/kv/concepts/kv-bindings/) on any Workers KV namespace you have bound to your Worker code:
 
 ```ts
 env.NAMESPACE.list(options?)
@@ -105,7 +105,7 @@ await NAMESPACE.put(key, "", {
 });
 ```
 
-Changes may take up to 60 seconds (or the value set with `cacheTtl` of the `get()` or `getWithMetadata()` method) to be reflected on the application calling the method on the KV namespace.
+Changes may take up to 60 seconds (or the value set with `cacheTtl` of the `get()` or `getWithMetadata()` method) to be reflected on the application calling the method on the Workers KV namespace.
 
 ## Guidance
 
@@ -158,5 +158,5 @@ await NAMESPACE.put(key, "", {
 });
 ```
 
-## Other methods to access KV
+## Other methods to access Workers KV
 You can also [list keys on the command line with Wrangler](/kv/reference/kv-commands/#list) or [with the REST API](/api/operations/workers-kv-namespace-list-a-namespace'-s-keys).

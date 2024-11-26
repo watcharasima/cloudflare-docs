@@ -1,9 +1,9 @@
 ---
-productName: KV
+productName: Workers KV
 entries:
-  - term: KV namespace
+  - term: Workers KV namespace
     general_definition: |-
-      a KV namespace is a key-value database replicated to Cloudflare’s global network. A KV namespace must require a binding and an id.
+      a Workers KV namespace is a key-value database replicated to Cloudflare’s global network. A Workers KV namespace must require a binding and an id.
 
   - term: cacheTtl
     general_definition: |-

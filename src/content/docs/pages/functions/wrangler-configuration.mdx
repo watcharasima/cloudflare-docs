@@ -154,7 +154,7 @@ binding = "KV"
 id = "<NAMESPACE_ID>"
 ```
 
-This `wrangler.toml` configuration file adds the `nodejs_compat` compatibility flag and a KV namespace binding to your Pages project. Running `wrangler pages dev` in a Pages project directory with this `wrangler.toml` configuration file will apply the `nodejs_compat` compatibility flag locally, and expose the `KV` binding in your Pages Function code at `context.env.KV`.
+This `wrangler.toml` configuration file adds the `nodejs_compat` compatibility flag and a Workers KV namespace binding to your Pages project. Running `wrangler pages dev` in a Pages project directory with this `wrangler.toml` configuration file will apply the `nodejs_compat` compatibility flag locally, and expose the `KV` binding in your Pages Function code at `context.env.KV`.
 
 :::note
 
@@ -353,7 +353,7 @@ This will work for local development, but will fail to validate when you try to 
 
 - `kv_namespaces` <Type text="object" /> <MetaInfo text="optional" />
 
-  - A list of KV namespaces that your Function should be bound to. Refer to [KV namespaces](/pages/functions/bindings/#kv-namespaces).
+  - A list of Workers KV namespaces that your Function should be bound to. Refer to [KV namespaces](/pages/functions/bindings/#kv-namespaces).
 
 - `queues.producers` <Type text="object" /> <MetaInfo text="optional" />
 
@@ -429,7 +429,7 @@ the `script_name` key is optional.
 
 - Configure Hyperdrive bindings via your [`wrangler.toml` file](/workers/wrangler/configuration/#hyperdrive) the same way they are configured with Cloudflare Workers.
 
-### KV namespaces
+### Workers KV namespaces
 
 [Workers KV](/kv/api/) is a global, low-latency, key-value data store. It stores data in a small number of centralized data centers, then caches that data in Cloudflare’s data centers after access.
 
@@ -439,7 +439,7 @@ When using Wrangler in the default local development mode, files will be written
 
 :::
 
-- Configure KV namespace bindings via your [`wrangler.toml` file](/workers/wrangler/configuration/#kv-namespaces) the same way they are configured with Cloudflare Workers.
+- Configure Workers KV namespace bindings via your [`wrangler.toml` file](/workers/wrangler/configuration/#kv-namespaces) the same way they are configured with Cloudflare Workers.
 - Interact with your [KV namespace binding](/pages/functions/bindings/#kv-namespaces).
 
 ### Queues Producers

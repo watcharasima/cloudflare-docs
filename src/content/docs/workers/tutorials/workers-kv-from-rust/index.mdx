@@ -5,7 +5,7 @@ content_type: 📝 Tutorial
 pcx_content_type: tutorial
 title: Use Workers KV directly from Rust
 products:
-  - KV
+  - Workers KV
 languages:
   - Rust
 ---
@@ -42,9 +42,9 @@ Then select `template/hello-world-http` template, give your project a descriptiv
 
 In this tutorial, you will use Workers KV from Rust to build an app to store and retrieve cities by a given country name.
 
-## 2. Create a KV namespace
+## 2. Create a Workers KV namespace
 
-In the terminal, use Wrangler to create a KV namespace for `cities`. This generates a configuration to be added to the project:
+In the terminal, use Wrangler to create a Workers KV namespace for `cities`. This generates a configuration to be added to the project:
 
 ```sh
 npx wrangler kv:namespace create cities
@@ -60,9 +60,9 @@ kv_namespaces = [
 # build command...
 ```
 
-With this configured, you can access the KV namespace with the binding `"cities"` from Rust.
+With this configured, you can access the Workers KV namespace with the binding `"cities"` from Rust.
 
-## 3. Write data to KV
+## 3. Write data to Workers KV
 
 For this app, you will create two routes: A `POST` route to receive and store the city in KV, and a `GET` route to retrieve the city of a given country. For example, a `POST` request to `/France` with a body of `{"city": "Paris"}` should create an entry of Paris as a city in France. A `GET` request to `/France` should retrieve from KV and respond with Paris.
 
@@ -194,4 +194,4 @@ npx wrangler deploy
 ## Related resources
 
 - [Rust support in Workers](/workers/languages/rust/).
-- [Using KV in Workers](/kv/get-started/).
+- [Using Workers KV in Workers](/kv/get-started/).

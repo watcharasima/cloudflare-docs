@@ -17,13 +17,13 @@ Pages Functions only support a subset of all [bindings](/workers/runtime-apis/bi
 
 :::
 
-## KV namespaces
+## Workers KV namespaces
 
 [Workers KV](/kv/concepts/kv-namespaces/) is Cloudflare's key-value storage solution.
 
-To bind your KV namespace to your Pages Function, you can configure a KV namespace binding in [`wrangler.toml`](/pages/functions/wrangler-configuration/#kv-namespaces) or the Cloudflare dashboard.
+To bind your Workers KV namespace to your Pages Function, you can configure a Workers KV namespace binding in [`wrangler.toml`](/pages/functions/wrangler-configuration/#kv-namespaces) or the Cloudflare dashboard.
 
-To configure a KV namespace binding via the Cloudflare dashboard:
+To configure a Workers KV namespace binding via the Cloudflare dashboard:
 
 1. Log in to the [Cloudflare dashboard](https://dash.cloudflare.com) and select your account.
 2. In **Account Home**, select **Workers & Pages**.
@@ -33,7 +33,7 @@ To configure a KV namespace binding via the Cloudflare dashboard:
 6. Under **KV namespace**, select your desired namespace.
 7. Redeploy your project for the binding to take effect.
 
-Below is an example of how to use KV in your Function. In the following example, your KV namespace binding is called `TODO_LIST` and you can access the binding in your Function code on `context.env`:
+Below is an example of how to use Workers KV in your Function. In the following example, your Workers KV namespace binding is called `TODO_LIST` and you can access the binding in your Function code on `context.env`:
 
 <Tabs> <TabItem label="JavaScript" icon="seti:javascript">
 
@@ -59,14 +59,14 @@ export const onRequest: PagesFunction<Env> = async (context) => {
 
 </TabItem> </Tabs>
 
-### Interact with your KV namespaces locally
+### Interact with your Workers KV namespaces locally
 
-You can interact with your KV namespace bindings locally in one of two ways:
+You can interact with your Workers KV namespace bindings locally in one of two ways:
 
 - Configure your Pages project's `wrangler.toml` file and run [`npx wrangler pages dev`](/workers/wrangler/commands/#dev-1).
 - Pass arguments to `wrangler pages dev` directly.
 
-To interact with your KV namespace binding locally by passing arguments to the Wrangler CLI, add `-k <BINDING_NAME>` or `--kv=<BINDING_NAME>` to the `wrangler pages dev` command. For example, if your KV namespace is bound your Function via the `TODO_LIST` binding, access the KV namespace in local development by running:
+To interact with your Workers KV namespace binding locally by passing arguments to the Wrangler CLI, add `-k <BINDING_NAME>` or `--kv=<BINDING_NAME>` to the `wrangler pages dev` command. For example, if your Workers KV namespace is bound your Function via the `TODO_LIST` binding, access the Workers KV namespace in local development by running:
 
 ```sh
 npx wrangler pages dev <OUTPUT_DIR> --kv=TODO_LIST

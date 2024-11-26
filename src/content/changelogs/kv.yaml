@@ -21,7 +21,7 @@ entries:
       The unsuccessful keys are an array of keys that were not written successfully to all storage backends and therefore should be retried.
 
   - publish_date: "2024-08-08"
-    title: New KV Analytics API
+    title: New Workers KV Analytics API
     description: |-
 
       Workers KV now has a new [metrics dashboard](/kv/observability/metrics-analytics/#view-metrics-in-the-dashboard) and [analytics API](/kv/observability/metrics-analytics/#query-via-the-graphql-api) that leverages the [GraphQL Analytics API](/analytics/graphql-api/) used by many other Cloudflare products. The new analytics API provides per-account and per-namespace metrics for both operations and storage, including latency metrics for read and write operations to Workers KV.

@@ -61,7 +61,7 @@ const config = {
 export default config;
 ```
 
-3. (Needed if you are using TypeScript) Include support for environment variables. The `env` object, containing KV namespaces and other storage objects, is passed to SvelteKit via the platform property along with context and caches, meaning you can access it in hooks and endpoints. For example:
+3. (Needed if you are using TypeScript) Include support for environment variables. The `env` object, containing Workers KV namespaces and other storage objects, is passed to SvelteKit via the platform property along with context and caches, meaning you can access it in hooks and endpoints. For example:
 
 ```diff
 declare namespace App {
@@ -84,7 +84,7 @@ declare namespace App {
 
 ```
 
-4. Access the added KV or Durable objects (or generally any [binding](/pages/functions/bindings/)) in your endpoint with `env`:
+4. Access the added Workers KV or Durable Objects (or generally any [binding](/pages/functions/bindings/)) in your endpoint with `env`:
 
 ```js
 export async function post(context) {

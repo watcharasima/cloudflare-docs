@@ -1,8 +1,8 @@
 ---
 pcx_content_type: navigation
-title: Use KV API
+title: Use Workers KV API
 products:
-  - KV
+  - Workers KV
 tags:
   - AI
 sidebar:
@@ -21,7 +21,7 @@ Importantly, your `wrangler.toml` file must be updated to include the `KV` bindi
 
 ## Worker code
 
-```ts title="Embedded function calling example with KV API"
+```ts title="Embedded function calling example with Workers KV API"
 import { runWithTools } from "@cloudflare/ai-utils";
 
 type Env = {

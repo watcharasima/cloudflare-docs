@@ -202,7 +202,7 @@ Non-inheritable keys are configurable at the top-level, but cannot be inherited 
 
 - `kv_namespaces` <Type text="object" /> <MetaInfo text="optional" />
 
-  - A list of KV namespaces that your Worker should be bound to. Refer to [KV namespaces](#kv-namespaces).
+  - A list of Workers KV namespaces that your Worker should be bound to. Refer to [Workers KV namespaces](#kv-namespaces).
 
 - `r2_buckets` <Type text="object" /> <MetaInfo text="optional" />
 
@@ -610,23 +610,23 @@ binding = "<BINDING_NAME>"
 id = "<ID>"
 ```
 
-### KV namespaces
+### Workers KV namespaces
 
 [Workers KV](/kv/api/) is a global, low-latency, key-value data store. It stores data in a small number of centralized data centers, then caches that data in Cloudflare’s data centers after access.
 
-To bind KV namespaces to your Worker, assign an array of the below object to the `kv_namespaces` key.
+To bind Workers KV namespaces to your Worker, assign an array of the below object to the `kv_namespaces` key.
 
 - `binding` <Type text="string" /> <MetaInfo text="required" />
 
-  - The binding name used to refer to the KV namespace.
+  - The binding name used to refer to the Workers KV namespace.
 
 - `id` <Type text="string" /> <MetaInfo text="required" />
 
-  - The ID of the KV namespace.
+  - The ID of the Workers KV namespace.
 
 - `preview_id` <Type text="string" /> <MetaInfo text="optional" />
 
-  - The preview ID of this KV namespace. This option is **required** when using `wrangler dev --remote` to develop against remote resources. If developing locally (without `--remote`), this is an optional field. `wrangler dev` will use this ID for the KV namespace. Otherwise, `wrangler dev` will use `id`.
+  - The preview ID of this Workers KV namespace. This option is **required** when using `wrangler dev --remote` to develop against remote resources. If developing locally (without `--remote`), this is an optional field. `wrangler dev` will use this ID for the Workers KV namespace. Otherwise, `wrangler dev` will use `id`.
 
 :::note
 

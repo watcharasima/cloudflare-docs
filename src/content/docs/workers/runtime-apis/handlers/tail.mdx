@@ -35,7 +35,7 @@ export default {
 
 * `env` object
 
-  * An object containing the bindings associated with your Worker using [ES modules format](/workers/reference/migrate-to-module-workers/), such as KV namespaces and Durable Objects.
+  * An object containing the bindings associated with your Worker using [ES modules format](/workers/reference/migrate-to-module-workers/), such as Workers KV namespaces and Durable Objects.
 
 * `ctx` object
   * An object containing the context associated with your Worker using [ES modules format](/workers/reference/migrate-to-module-workers/). Currently, this object just contains the `waitUntil` function.
@@ -109,7 +109,7 @@ export default {
 Outcome is equivalent to the exit status of a script and an indicator of whether it has fully run to completion. A Worker outcome may differ from a response code if, for example:
 
 * a script successfully processes a request but is logically designed to return a `4xx`/`5xx` response.
-* a script sends a successful `200` response but an asynchronous task registered via `waitUntil()` later exceeds CPU or memory limits. 
+* a script sends a successful `200` response but an asynchronous task registered via `waitUntil()` later exceeds CPU or memory limits.
   :::
 
 ### `FetchEventInfo`

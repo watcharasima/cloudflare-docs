@@ -11,9 +11,9 @@ Workers KV provides low-latency, high-throughput global storage to your [Cloudfl
 
 This guide instructs you through:
 
-- Creating a KV namespace.
-- Writing key-value pairs to your KV namespace from a Cloudflare Worker.
-- Reading key-value pairs from a KV namespace.
+- Creating a Workers KV namespace.
+- Writing key-value pairs to your Workers KV namespace from a Cloudflare Worker.
+- Reading key-value pairs from a Workers KV namespace.
 
 You can perform these tasks through the CLI or through the Cloudflare dashboard.
 
@@ -31,7 +31,7 @@ Refer to [How Workers works](/workers/reference/how-workers-works/) to learn abo
 
 <Tabs syncKey = 'CLIvsDash'> <TabItem label='CLI'>
 
-Create a new Worker to read and write to your KV namespace.
+Create a new Worker to read and write to your Workers KV namespace.
 
 <Steps>
 1. Create a new project named `kv-tutorial` by running:
@@ -97,20 +97,20 @@ Create a new Worker to read and write to your KV namespace.
 </TabItem>
 </Tabs>
 
-## 2. Create a KV namespace
+## 2. Create a Workers KV namespace
 
 A [KV namespace](/kv/concepts/kv-namespaces/) is a key-value database replicated to Cloudflare’s global network.
 
 <Tabs syncKey = 'CLIvsDash'> <TabItem label='CLI'>
 
-[Wrangler](/workers/wrangler/) allows you to put, list, get, and delete entries within your KV namespace.
+[Wrangler](/workers/wrangler/) allows you to put, list, get, and delete entries within your Workers KV namespace.
 
 :::note
 
 KV operations are scoped to your account.
 :::
 
-To create a KV namespace via Wrangler:
+To create a Workers KV namespace via Wrangler:
 
 <Steps>
 1. Open your terminal and run the following command:
@@ -119,7 +119,7 @@ To create a KV namespace via Wrangler:
 	npx wrangler kv namespace create <BINDING_NAME>
 	```
 
-	The `npx wrangler kv namespace create <BINDING_NAME>` subcommand takes a new binding name as its argument. A KV namespace is created using a concatenation of your Worker’s name (from your `wrangler.toml` file) and the binding name you provide. A `BINDING_ID` is randomly generated for you.
+	The `npx wrangler kv namespace create <BINDING_NAME>` subcommand takes a new binding name as its argument. A Workers KV namespace is created using a concatenation of your Worker’s name (from your `wrangler.toml` file) and the binding name you provide. A `BINDING_ID` is randomly generated for you.
 
 	For this tutorial, use the binding name `BINDING_NAME`.
 
@@ -153,11 +153,11 @@ To create a KV namespace via Wrangler:
 
 </TabItem></Tabs>
 
-## 3. Bind your Worker to your KV namespace
+## 3. Bind your Worker to your Workers KV namespace
 
-You must create a binding to connect your Worker with your KV namespace. [Bindings](/workers/runtime-apis/bindings/) allow your Workers to access resources, like KV, on the Cloudflare developer platform.
+You must create a binding to connect your Worker with your Workers KV namespace. [Bindings](/workers/runtime-apis/bindings/) allow your Workers to access resources, like Workers KV, on the Cloudflare developer platform.
 
-To bind your KV namespace to your Worker:
+To bind your Workers KV namespace to your Worker:
 
 <Tabs syncKey='CLIvsDash'><TabItem label='CLI'>
 <Steps>
@@ -172,7 +172,7 @@ To bind your KV namespace to your Worker:
 
    Binding names do not need to correspond to the namespace you created. Binding names are only a reference. Specifically:
 
-	- The value (string) you set for `<BINDING_NAME>` is used to reference this KV namespace in your Worker. For this tutorial, this should be `BINDING_NAME`.
+	- The value (string) you set for `<BINDING_NAME>` is used to reference this Workers KV namespace in your Worker. For this tutorial, this should be `BINDING_NAME`.
 	- The binding must be [a valid JavaScript variable name](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Grammar_and_types#variables). For example, `binding = "MY_KV"` or `binding = "routingConfig"` would both be valid names for the binding.
 	- Your binding is available in your Worker at `env.<BINDING_NAME>` from within your Worker.
 </Steps>
@@ -193,20 +193,20 @@ Refer to [Environment](/kv/reference/environments/) for more information.
 3. Select **Settings**.
 4. Scroll to **Bindings**, then select **Add**.
 5. Select **KV namespace**.
-6. Name your binding (`BINDING_NAME`) in **Variable name**, then select the KV namespace (`kv_tutorial_namespace`) you created in [step 2](/kv/get-started/#2-create-a-kv-namespace) from the dropdown menu.
+6. Name your binding (`BINDING_NAME`) in **Variable name**, then select the Workers KV namespace (`kv_tutorial_namespace`) you created in [step 2](/kv/get-started/#2-create-a-kv-namespace) from the dropdown menu.
 7. Select **Deploy** to deploy your binding.
 </Steps>
 </TabItem></Tabs>
 
-## 4. Interact with your KV namespace
+## 4. Interact with your Workers KV namespace
 
-You can interact with your KV namespace via [Wrangler](/workers/wrangler/install-and-update/) or directly from your [Workers](/workers/) application.
+You can interact with your Workers KV namespace via [Wrangler](/workers/wrangler/install-and-update/) or directly from your [Workers](/workers/) application.
 
 ### Write a value
 
 <Tabs syncKey='CLIvsDash'><TabItem label = 'CLI'>
 
-To write a value to your empty KV namespace using Wrangler:
+To write a value to your empty Workers KV namespace using Wrangler:
 
 <Steps>
 1. Run the `wrangler kv key put` subcommand in your terminal, and input your key and value respectively. `<KEY>` and `<VALUE>` are values of your choice.
@@ -239,7 +239,7 @@ npx wrangler kv key put --namespace-id=xxxxxxxxxxxxxxxx "<KEY>" "<VALUE>" --loca
 </TabItem><TabItem label = 'Dashboard'>
 <Steps>
 1. Go to [**Storage & Databases** > **KV**](https://dash.cloudflare.com/?to=/:account/workers/kv/namespaces).
-2. Select the KV namespace you created (`kv_tutorial_namespace`), then select **View**.
+2. Select the Workers KV namespace you created (`kv_tutorial_namespace`), then select **View**.
 3. Select **KV Pairs**.
 4. Enter a `<KEY>` of your choice.
 5. Enter a `<VALUE>` of your choice.
@@ -262,7 +262,7 @@ To access the value using Wrangler:
     npx wrangler kv key get [OPTIONS] "<KEY>"
     ```
 
-    A KV namespace can be specified in two ways:
+    A Workers KV namespace can be specified in two ways:
 
     <Details header="With a `--binding`">
 
@@ -304,20 +304,20 @@ You can view key-value pairs directly from the dashboard.
 </Steps>
 </TabItem></Tabs>
 
-## 5. Access your KV namespace from your Worker
+## 5. Access your Workers KV namespace from your Worker
 
 <Tabs syncKey = 'CLIvsDash'><TabItem label = 'CLI'>
 
 :::note
 
-When using [`wrangler dev`](/workers/wrangler/commands/#dev) to develop locally, Wrangler defaults to using a local version of KV to avoid interfering with any of your live production data in KV. This means that reading keys that you have not written locally returns null.
+When using [`wrangler dev`](/workers/wrangler/commands/#dev) to develop locally, Wrangler defaults to using a local version of Workers KV to avoid interfering with any of your live production data in Workers KV. This means that reading keys that you have not written locally returns null.
 
-To have `wrangler dev` connect to your Workers KV namespace running on Cloudflare's global network, call `wrangler dev --remote` instead. This uses the `preview_id` of the KV binding configuration in the `wrangler.toml` file. See the [KV binding docs](/kv/concepts/kv-bindings/#using-the-kv-binding-when-developing-locally) for more information.
+To have `wrangler dev` connect to your Workers KV namespace running on Cloudflare's global network, call `wrangler dev --remote` instead. This uses the `preview_id` of the Workers KV binding configuration in the `wrangler.toml` file. See the [KV binding docs](/kv/concepts/kv-bindings/#using-the-kv-binding-when-developing-locally) for more information.
 
 :::
 
 <Steps>
-1. In your Worker script, add your KV binding in the `Env` interface:
+1. In your Worker script, add your Workers KV binding in the `Env` interface:
 
 	```ts
 	interface Env {
@@ -332,7 +332,7 @@ To have `wrangler dev` connect to your Workers KV namespace running on Cloudflar
 	let value = await env.BINDING_NAME.put(key, value);
 	```
 
-3. Use the KV `get()` method to fetch the data you stored in your KV database:
+3. Use the KV `get()` method to fetch the data you stored in your Workers KV database:
 
 	```ts
 	let value = await env.BINDING_NAME.get("KEY");
@@ -367,8 +367,8 @@ export default {
 
 The code above:
 
-1. Writes a key to `BINDING_NAME` using KV's `put()` method.
-2. Reads the same key using KV's `get()` method, and returns an error if the key is null (or in case the key is not set, or does not exist).
+1. Writes a key to `BINDING_NAME` using Workers KV's `put()` method.
+2. Reads the same key using Workers KV's `get()` method, and returns an error if the key is null (or in case the key is not set, or does not exist).
 3. Uses JavaScript's [`try...catch`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch) exception handling to catch potential errors. When writing or reading from any service, such as Workers KV or external APIs using `fetch()`, you should expect to handle exceptions explicitly.
 
 To run your project locally, enter the following command within your project directory:
@@ -411,8 +411,8 @@ The browser should simply return the `VALUE` corresponding to the `KEY` you have
 
 	The code above:
 
-	1. Writes a key to `BINDING_NAME` using KV's `put()` method.
-	2. Reads the same key using KV's `get()` method, and returns an error if the key is null (or in case the key is not set, or does not exist).
+	1. Writes a key to `BINDING_NAME` using Workers KV's `put()` method.
+	2. Reads the same key using Workers KV's `get()` method, and returns an error if the key is null (or in case the key is not set, or does not exist).
 	3. Uses JavaScript's [`try...catch`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch) exception handling to catch potential errors. When writing or reading from any service, such as Workers KV or external APIs using `fetch()`, you should expect to handle exceptions explicitly.
 
 	The browser should simply return the `VALUE` corresponding to the `KEY` you have specified with the `get()` method.
@@ -422,12 +422,12 @@ The browser should simply return the `VALUE` corresponding to the `KEY` you have
 
 </TabItem></Tabs>
 
-## 6. Deploy your KV
+## 6. Deploy your Workers KV
 
 <Tabs syncKey = 'CLIvsDash'><TabItem label = 'CLI'>
 
 <Steps>
-1. Run the following command to deploy KV to Cloudflare's global network:
+1. Run the following command to deploy Workers KV to Cloudflare's global network:
 
     ```sh
     npx wrangler deploy
@@ -457,7 +457,7 @@ The browser should simply return the `VALUE` corresponding to the `KEY` you have
 
 By finishing this tutorial, you have:
 
-1. Created a KV namespace
+1. Created a Workers KV namespace
 2. Created a Worker that writes and reads from that namespace
 3. Deployed your project globally.
 

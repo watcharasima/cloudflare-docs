@@ -212,7 +212,7 @@ Secrets should be handled using the [`wrangler secret`](/workers/wrangler/comman
 
 ### kv\_namespaces
 
-`kv_namespaces` defines a list of KV namespace bindings for your Worker.
+`kv_namespaces` defines a list of Workers KV namespace bindings for your Worker.
 
 Usage:
 
@@ -252,22 +252,22 @@ let value = await FOO.get("keyname");
 
 * `binding` required
 
-  * The name of the global variable your code will reference. It will be provided as a [KV runtime instance](/kv/api/).
+  * The name of the global variable your code will reference. It will be provided as a [Workers KV runtime instance](/kv/api/).
 
 * `id` required
 
-  * The ID of the KV namespace that your `binding` should represent. Required for `wrangler publish`.
+  * The ID of the Workers KV namespace that your `binding` should represent. Required for `wrangler publish`.
 
 * `preview_id` required
 
-  * The ID of the KV namespace that your `binding` should represent during `wrangler dev` or `wrangler preview`. Required for `wrangler dev` and `wrangler preview`.
+  * The ID of the Workers KV namespace that your `binding` should represent during `wrangler dev` or `wrangler preview`. Required for `wrangler dev` and `wrangler preview`.
 
 
 
 :::note
 
 
-Creating your KV namespaces can be handled using Wrangler’s [KV Commands](/workers/wrangler/migration/v1-to-v2/wrangler-legacy/commands/#kv).
+Creating your Workers KV namespaces can be handled using Wrangler's [Workers KV Commands](/workers/wrangler/migration/v1-to-v2/wrangler-legacy/commands/#kv).
 
 You can also define your `kv_namespaces` using an [alternative TOML syntax](https://github.com/toml-lang/toml/blob/master/toml.md#user-content-table).
 
@@ -477,7 +477,7 @@ Workers now supports the ES Modules syntax. This format allows you to export a c
 
 Module Workers `export` their event handlers instead of using `addEventListener` calls.
 
-Modules receive all bindings (KV Namespaces, Environment Variables, and Secrets) as arguments to the exported handlers. With the Service Worker format, these bindings are available as global variables.
+Modules receive all bindings (Workers KV Namespaces, Environment Variables, and Secrets) as arguments to the exported handlers. With the Service Worker format, these bindings are available as global variables.
 
 :::note
 
