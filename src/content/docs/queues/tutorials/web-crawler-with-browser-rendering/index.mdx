@@ -59,7 +59,7 @@ cd queues-web-crawler
 
 ## 2. Create Workers KV namespace
 
-We need to create a KV store. This can be done through the Cloudflare dashboard or the Wrangler CLI. For this tutorial, we will use the Wrangler CLI.
+We need to create a key-value store. This can be done through the Cloudflare dashboard or the Wrangler CLI. For this tutorial, we will use the Wrangler CLI.
 
 ```sh
 npx wrangler kv namespace create crawler_links
@@ -343,7 +343,7 @@ This snippet saves the results from `crawlPage` into the appropriate Workers KV 
 
 Saving the timestamp of the crawl in Workers KV helps you avoid crawling too frequently.
 
-Add a snippet before checking `robots.txt` to check Workers KV for a crawl within the last hour. This lists all KV keys beginning with the same URL (crawls of the same page), and check if any crawls have been done within the last hour. If any crawls have been done within the last hour, the message is `ack`'ed and not retried.
+Add a snippet before checking `robots.txt` to check Workers KV for a crawl within the last hour. This lists all key-value keys beginning with the same URL (crawls of the same page), and check if any crawls have been done within the last hour. If any crawls have been done within the last hour, the message is `ack`'ed and not retried.
 
 ```ts null {12-23}
 type KeyMetadata = {

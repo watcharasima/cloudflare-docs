@@ -55,9 +55,9 @@ npm install --save-dev @types/accept-language-parser
 
 ## 2. Create a new Workers KV namespace
 
-Next, we will create a KV store. This can be done through the Cloudflare dashboard or the Wrangler CLI. For this example, we will use the Wrangler CLI.
+Next, we will create a key-value store. This can be done through the Cloudflare dashboard or the Wrangler CLI. For this example, we will use the Wrangler CLI.
 
-To create a KV store via Wrangler:
+To create a key-value store via Wrangler:
 
 1. Open your terminal and run the following command:
 
@@ -128,20 +128,20 @@ We now have one Workers KV binding that will use the production Workers KV names
 
 To store static assets in Workers KV, you can use the Wrangler CLI, the Workers KV binding from a Worker application, or the Workers KV REST API. We will demonstrate how to use the Wrangler CLI.
 
-For this scenario, we'll be storing a sample HTML file within our KV store. Create a new file `index.html` in the root of project with the following content:
+For this scenario, we'll be storing a sample HTML file within our key-value store. Create a new file `index.html` in the root of project with the following content:
 
 ```html title="index.html"
 Hello World!
 ```
 
-We can then use the following Wrangler commands to create a KV pair for this file within our production and preview namespaces:
+We can then use the following Wrangler commands to create a key-value pair for this file within our production and preview namespaces:
 
 ```sh
 npx wrangler kv key put index.html --path index.html --binding assets --preview false
 npx wrangler kv key put index.html --path index.html --binding assets --preview
 ```
 
-This will create a KV pair with the filename as key and the file content as value, within the our production and preview namespaces specified by your binding in your `wrangler.toml` file.
+This will create a key-value pair with the filename as key and the file content as value, within the our production and preview namespaces specified by your binding in your `wrangler.toml` file.
 
 ## 4. Serve static assets from Workers KV from your Worker application
 
@@ -180,7 +180,7 @@ export default {
 			mimeType += "; charset=utf-8";
 		}
 
-		//get the value from the KV store and return it if found
+		//get the value from the key-value store and return it if found
 		const value = await env.assets.get(key, 'arrayBuffer')
 		if(!value){
 			return new Response("Not found", {
@@ -197,7 +197,7 @@ export default {
 } satisfies ExportedHandler<Env>;
 ```
 
-This code will use the path within the URL and find the file associated to the path within the KV store. It also sets the proper MIME type in the response to indicate to the browser how to handle the response. To retrieve the value from the KV store, this code uses `arrayBuffer` to properly handle binary data such as images, documents, and video/audio files.
+This code will use the path within the URL and find the file associated to the path within the key-value store. It also sets the proper MIME type in the response to indicate to the browser how to handle the response. To retrieve the value from the key-value store, this code uses `arrayBuffer` to properly handle binary data such as images, documents, and video/audio files.
 
 To start the Worker, run the following within a terminal:
 
@@ -218,7 +218,7 @@ Your worker has access to the following bindings:
 [wrangler:inf] Ready on http://localhost:<PORT>
 ```
 
-Access the URL provided by the Wrangler command as such `http://localhost:<PORT>/index.html`. You will be able to see the returned HTML file containing the file contents of our `index.html` file that was added to our KV store. Try it out with an image or a document and you will see that this Worker is also properly serving those assets from Workers KV.
+Access the URL provided by the Wrangler command as such `http://localhost:<PORT>/index.html`. You will be able to see the returned HTML file containing the file contents of our `index.html` file that was added to our key-value store. Try it out with an image or a document and you will see that this Worker is also properly serving those assets from Workers KV.
 
 ## 5. Create an endpoint to generate dynamic responses from your key-value pairs
 
@@ -344,7 +344,7 @@ export default {
 			mimeType += "; charset=utf-8";
 		}
 
-		//get the value from the KV store and return it if found
+		//get the value from the key-value store and return it if found
 		const value = await env.assets.get(key, 'arrayBuffer')
 		if(!value){
 			return new Response("Not found", {
@@ -361,7 +361,7 @@ export default {
 } satisfies ExportedHandler<Env>;
 ```
 
-This new code provides a specific endpoint, `/hello-world`, which will provide translated responses. When this URL is accessed, our Worker code will first retrieve the language that is requested by the client in the `Accept-Language` request header and the translations from our KV store for the `hello-world.json` key. It then gets the translated message and returns the generated HTML.
+This new code provides a specific endpoint, `/hello-world`, which will provide translated responses. When this URL is accessed, our Worker code will first retrieve the language that is requested by the client in the `Accept-Language` request header and the translations from our key-value store for the `hello-world.json` key. It then gets the translated message and returns the generated HTML.
 
 ```sh
 npx wrangler dev --remote
@@ -379,7 +379,7 @@ npx wrangler deploy
 
 Wrangler will automatically set your Workers KV binding to use the production Workers KV namespace set in our `wrangler.toml` file with the Workers KV namespace id. Throughout this example, we uploaded our assets to both the preview and the production Workers KV namespaces.
 
-We can now verify that our project is properly working by accessing our Workers default hostname and accessing `<WORKER-SUBDOMAIN>.<DEFAULT-ACCOUNT-HOSTNAME>.dev/index.html` or `<WORKER-SUBDOMAIN>.<DEFAULT-ACCOUNT-HOSTNAME>.dev/hello-world` to see our deployed Worker in action, generating responses from the values in our KV store.
+We can now verify that our project is properly working by accessing our Workers default hostname and accessing `<WORKER-SUBDOMAIN>.<DEFAULT-ACCOUNT-HOSTNAME>.dev/index.html` or `<WORKER-SUBDOMAIN>.<DEFAULT-ACCOUNT-HOSTNAME>.dev/hello-world` to see our deployed Worker in action, generating responses from the values in our key-value store.
 
 ## Related resources
 

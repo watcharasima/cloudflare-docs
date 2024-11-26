@@ -283,7 +283,7 @@ while (true) {
 	const query_params = `per_page=10&page=${page}&involvedAsn=${env.TARGET_ASN}&sortBy=ID&sortOrder=DESC`;
 	const data = await apiFetch(env, query_params);
 
-	// first batch, save KV value only
+	// first batch, save key-value value only
 	if (first_batch) {
 		await env.HIJACKS_KV.put("latest_id", events[0].id.toString());
 		return;
@@ -318,7 +318,7 @@ const kv_latest_id = new_events[new_events.length - 1].id;
 for (const event of new_events) {
 	await send_alert(env, event);
 }
-// update latest_id KV value
+// update latest_id key-value value
 await env.HIJACKS_KV.put("latest_id", kv_latest_id.toString());
 ```
 

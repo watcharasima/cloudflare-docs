@@ -44,7 +44,7 @@ Changes are usually immediately visible in the Cloudflare global network locatio
 
 Negative lookups indicating that the key does not exist are also cached, so the same delay exists noticing a value is created as when a value is changed.
 
-Workers KV does not perform like an in-memory datastore, such as [Redis](https://redis.io). Accessing KV values, even when locally cached, has significantly more latency than reading a value from memory within a Worker script.
+Workers KV does not perform like an in-memory datastore, such as [Redis](https://redis.io). Accessing key-value values, even when locally cached, has significantly more latency than reading a value from memory within a Worker script.
 
 ## Consistency
 
@@ -54,11 +54,10 @@ Visibility of changes takes longer in locations which have recently read a previ
 
 :::note
 
-Workers KV is not ideal for applications where you need support for atomic operations or where values must be read and written in a single transaction.
-If you need stronger consistency guarantees, consider using [Durable Objects](/durable-objects/).
+Workers KV is not ideal for applications where you need support for atomic operations or where values must be read and written in a single transaction. If you need stronger consistency guarantees, consider using [Durable Objects](/durable-objects/).
 :::
 
-An approach to achieve write-after-write consistency is to send all of your writes for a given KV key through a corresponding instance of a Durable Object, and then read that value from KV in other Workers. This is useful if you need more control over writes, but are satisfied with KV's read characteristics described above.
+An approach to achieve write-after-write consistency is to send all of your writes for a given key-value key through a corresponding instance of a Durable Object, and then read that value from Workers KV in other Workers. This is useful if you need more control over writes, but are satisfied with Workers KV's read characteristics described above.
 
 ## Security
 

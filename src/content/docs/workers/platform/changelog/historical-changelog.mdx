@@ -471,7 +471,7 @@ We chose the limit of 6 concurrent connections based on the fact that Chrome enf
 Changes this week:
 
 * Durable Objects storage API now supports listing keys by prefix.
-* Improved error message when a single request performs more than 1000 KV operations to make clear that a per-request limit was reached, not a global rate limit.
+* Improved error message when a single request performs more than 1000 key-value operations to make clear that a per-request limit was reached, not a global rate limit.
 * `wrangler dev` previews should now honor non-default resource limits, for example, longer CPU limits for those in the Workers Unbound beta.
 * Fixed off-by-one line numbers in Worker exceptions.
 * Exceptions thrown in a Durable Object’s `fetch()` method are now tunneled to its caller.

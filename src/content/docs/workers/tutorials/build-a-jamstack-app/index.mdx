@@ -259,7 +259,7 @@ async fetch (request, env, ctx) {
 
 At this point, you have built a Cloudflare Worker that takes data from Cloudflare Workers KV and renders a static page based on that Worker. That static page reads data and generates a todo list based on that data. The remaining task is creating todos from inside the application UI. You can add todos using the Workers KV API — update the cache by running `env.TODOS.put(newData)`.
 
-To update a todo item, you will add a second handler in your Workers script, designed to watch for `PUT` requests to `/`. When a request body is received at that URL, the Worker will send the new todo data to your KV store.
+To update a todo item, you will add a second handler in your Workers script, designed to watch for `PUT` requests to `/`. When a request body is received at that URL, the Worker will send the new todo data to your key-value store.
 
 Add this new functionality in `fetch`: if the request method is a PUT, it will take the request body and update the cache.
 
