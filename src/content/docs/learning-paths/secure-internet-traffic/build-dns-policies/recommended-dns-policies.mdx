@@ -60,13 +60,61 @@ resource "cloudflare_zero_trust_gateway_policy" "dns_whitelist_policy" {
 <Details header="Quarantined-Users-DNS-Restricted-Access">
 
 <Render file="zero-trust/blocklist-restricted-users" />
-
-| Selector         | Operator | Value               | Logic | Action |
-| ---------------- | -------- | ------------------- | ----- | ------ |
-| Domain           | in list  | *Known Domains*     | Or    | Block  |
-| Host             | in list  | *Known Domains*     | And   |        |
-| User Group Names | in       | *Quarantined Users* |       |        |
-
+<Tabs>
+<TabItem label="Dashboard">
+| Selector         | Operator			| Value															| Logic | Action |
+| ---------------- | ------------ | --------------------------------- | ----- | ------ |
+| Domain           | not in list  | *Allowed Remediation Domains*     | Or    | Block  |
+| Host             | not in list  | *Allowed Remediation Domains*     | And   |        |
+| User Group Names | in						| *Quarantined Users*								|       |        |
+</TabItem>
+<TabItem label="API">
+```sh
+curl --request POST \
+  --URL https://api.cloudflare.com/client/v4/accounts/{account_id}/gateway/rules \
+  --header 'Content-Type: application/JSON' \
+  --header "Authorization: Bearer <API TOKEN>" \
+	--data '{
+  "name": "Quarantined-Users-DNS-Restricted-Access",
+  "description": "Restrict quarantined users traffic to corporate policy remediation domains, so that quarantined users can obtain help and/or remediate their security posture",
+  "precedence": 10,
+  "enabled": false,
+  "action": "block",
+  "filters": [
+    "dns"
+  ],
+	"traffic": "not(any(dns.domains[*] in $<Allowed Remediation Domains list UUID>)) or not(any(dns.domains[*] in $<Allowed Remediation Domains list UUID>))",
+  "identity": "any(identity.groups.name[*] in {\"Quarantined Users\"})",
+	"rule_settings": {
+    "block_page_enabled": true,
+    "notification_settings": {
+      "enabled": true
+    }
+	}'
+```
+</TabItem>
+<TabItem label="Terraform">
+```tf
+resource "cloudflare_zero_trust_gateway_policy" "dns_restrict_quarantined_users" {
+  account_id  = var.account_id
+  name        = "Quarantined-Users-DNS-Restricted-Access"
+  description = "Restrict quarantined users traffic to corporate policy remediation domains, so that quarantined users can obtain help and/or remediate their security posture"
+  precedence  = 10
+  enabled     = false
+  action      = "block"
+  filters     = ["dns"]
+  traffic     = "not(any(dns.domains[*] in $<Allowed Remediation Domains list UUID>)) or not(any(dns.domains[*] in $<Allowed Remediation Domains list UUID>))"
+	identity		=	"any(identity.groups.name[*] in {\"Quarantined Users\"})"
+	rule_settings {
+			block_page_enabled = true
+			notification_settings {
+					enabled = true
+				}
+		}
+}
+```
+</TabItem>
+</Tabs>
 
 </Details>
 
