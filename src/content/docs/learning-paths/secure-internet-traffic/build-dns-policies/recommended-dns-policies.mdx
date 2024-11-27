@@ -24,7 +24,7 @@ Allowlist any known domains and hostnames. With this policy, you ensure that you
 ```sh
 curl --request POST \
   --url https://api.cloudflare.com/client/v4/accounts/{account_id}/gateway/rules \
-  --header 'Content-Type: application/json' \
+  --header 'Content-Type: application/JSON' \
   --header "Authorization: Bearer <API TOKEN>" \
 	--data '{
   "name": "All-DNS-Domain-Allowlist",
