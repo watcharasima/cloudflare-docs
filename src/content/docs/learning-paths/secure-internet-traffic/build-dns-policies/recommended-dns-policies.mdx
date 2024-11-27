@@ -146,13 +146,55 @@ resource "cloudflare_zero_trust_gateway_policy" "dns_restrict_quarantined_users"
 
 
 <Details header="All-DNS-GeoCountryIP-Blocklist">
-
 Block websites hosted in countries categorized as high risk. The designation of such countries may result from your organization's users or through the implementation of regulations including [EAR](https://www.tradecompliance.pitt.edu/embargoed-and-sanctioned-countries), [OFAC](https://orpa.princeton.edu/export-controls/sanctioned-countries), and [ITAR](https://www.tradecompliance.pitt.edu/embargoed-and-sanctioned-countries).
-
+<Tabs>
+<TabItem label="Dashboard">
 | Selector                        | Operator | Value                                                                                                                                                           | Action |
 | ------------------------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
 | Resolved Country IP Geolocation | in       | *Afghanistan*, *Belarus*, *Congo (Kinshasa)*, *Cuba*, *Iran*, *Iraq*, *Korea (North)*, *Myanmar*, *Russian Federation*, *Sudan*, *Syria*, *Ukraine*, *Zimbabwe* | Block  |
-
+</TabItem>
+<TabItem label="API">
+```sh
+curl --request POST \
+  --URL https://api.cloudflare.com/client/v4/accounts/{account_id}/gateway/rules \
+  --header 'Content-Type: application/json' \
+  --header "Authorization: Bearer <API TOKEN>" \
+	--data '{
+	"name": "All-DNS-GeoCountryIP-Blocklist",
+  "description": "Block traffic hosted in countries categorized as high security risks",
+  "precedence": 50,
+  "enabled": false,
+  "action": "block",
+  "filters": [
+    "dns"
+  ],
+  "traffic": "any(dns.dst.geo.country[*] in {\"AF\" \"BY\" \"CD\" \"CU\" \"IR\" \"IQ\" \"KP\" \"MM\" \"RU\" \"SD\" \"SY\" \"UA\" \"ZW\"})",
+  "rule_settings": {
+    "block_page_enabled": true,
+    "block_reason": "This domain was blocked due to being classified as a security risk to the organisation"
+    }
+}'
+```
+</TabItem>
+<TabItem label="Terraform">
+```tf
+resource "cloudflare_zero_trust_gateway_policy" "dns_geolocation_block_policy" {
+  account_id  = var.account_id
+  name        = "All-DNS-GeoCountryIP-Blocklist"
+  description = "Block traffic hosted in countries categorized as high security risks"
+  precedence  = 50
+  enabled     = false
+  action      = "block"
+  filters     = ["dns"]
+  traffic     = "any(dns.dst.geo.country[*] in {\"AF\" \"BY\" \"CD\" \"CU\" \"IR\" \"IQ\" \"KP\" \"MM\" \"RU\" \"SD\" \"SY\" \"UA\" \"ZW\"})"
+  rule_settings {
+      block_page_enabled = true
+      block_page_reason = "This domain was blocked due to being classified as a security risk to the organisation"
+    }
+}
+```
+</TabItem>
+</Tabs>
 
 </Details>
 
