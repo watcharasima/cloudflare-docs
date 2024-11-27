@@ -213,7 +213,7 @@ curl --request POST \
   --url https://api.cloudflare.com/client/v4/accounts/{account_id}/gateway/rules \
   --header 'Content-Type: application/json' \
   --header "Authorization: Bearer <API TOKEN>" \
-{
+	--data '{
   "name": "All-DNS-DomainTopLevel-Blocklist",
   "description": "Block DNS queries of known risky TLDs",
   "precedence": 60,
@@ -227,7 +227,7 @@ curl --request POST \
     "block_page_enabled": true,
     "block_reason": "This domain was blocked due to being classified as a security risk to the organisation"
     }
-  }
+  }'
 ```
 </TabItem>
 <TabItem label="Terraform">
