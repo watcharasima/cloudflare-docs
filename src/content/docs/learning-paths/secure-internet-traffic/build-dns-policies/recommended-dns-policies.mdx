@@ -6,21 +6,54 @@ sidebar:
 
 ---
 
-import { Details, Render } from "~/components"
+import { Details, Render, Tabs, TabItem } from "~/components"
 
 We recommend you add the following DNS policies to build an Internet and SaaS app security strategy for your organization.
 
 
 <Details header="All-DNS-Domain-Allowlist">
-
+<Tabs syncKey="dashPlusAPI">
 Allowlist any known domains and hostnames. With this policy, you ensure that your users can access your organization's domains even if the domains fall under a blocked category, such as **Newly Seen Domains** or **Login Screens**.
-
+<TabItem label="Dashboard">
 | Selector | Operator | Value           | Logic | Action |
 | -------- | -------- | --------------- | ----- | ------ |
 | Domain   | in list  | *Known Domains* | Or    | Allow  |
 | Host     | in list  | *Known Domains* |       |        |
-
-
+</TabItem>
+<TabItem label="API">
+```sh
+curl --request POST \
+  --url https://api.cloudflare.com/client/v4/accounts/{account_id}/gateway/rules \
+  --header 'Content-Type: application/json' \
+  --header "Authorization: Bearer <API TOKEN>" \
+	--data '{
+  "name": "All-DNS-Domain-Allowlist",
+  "description": "Organization-wide whitelist. Explicitly allow resolution of these DNS domains",
+  "precedence": 0,
+  "enabled": false,
+  "action": "allow",
+  "filters": [
+    "dns"
+  ],
+  "traffic": "any(dns.domains[*] in $<Global Whitelist UUID>) or dns.fqdn in $<Global Whitelist UUID>"
+}'
+```
+</TabItem>
+<TabItem label="Terraform">
+```tf
+resource "cloudflare_zero_trust_gateway_policy" "dns_whitelist_policy" {
+  account_id  = var.account_id
+  name        = "All-DNS-Domain-Allowlist"
+  description = "Organization-wide whitelist. Explicitly allow resolution of these DNS domains"
+  precedence  = 0
+  enabled     = false
+  action      = "allow"
+  filters     = ["dns"]
+  traffic     = "any(dns.domains[*] in ${"$"}${cloudflare_zero_trust_list.domain_whitelist.id}) or dns.fqdn in ${"$"}${cloudflare_zero_trust_list.domain_whitelist.id}"
+}
+```
+</TabItem>
+</Tabs>
 </Details>
 
 
