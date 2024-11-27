@@ -200,13 +200,55 @@ resource "cloudflare_zero_trust_gateway_policy" "dns_geolocation_block_policy" {
 
 
 <Details header="All-DNS-DomainTopLevel-Blocklist">
-
 Block frequently misused top-level domains (TLDs) to reduce security risks, especially when there is no discernible advantage to be gained from allowing access. Similarly, restricting access to specific country-level TLDs may be necessary to comply with regulations such as [OFAC](https://orpa.princeton.edu/export-controls/sanctioned-countries) and [ITAR](https://www.tradecompliance.pitt.edu/embargoed-and-sanctioned-countries).
-
+<Tabs>
+<TabItem label="Dashboard">
 | Selector | Operator      | Value                                                                                                    | Action |
 | -------- | ------------- | -------------------------------------------------------------------------------------------------------- | ------ |
 | Domain   | matches regex | `[.](cn\|ru)$ or [.](rest\|hair\|top\|live\|cfd\|boats\|beauty\|mom\|skin\|okinawa)$ or [.](zip\|mobi)$` | Block  |
-
+</TabItem>
+<TabItem label="API">
+```sh
+curl --request POST \
+  --url https://api.cloudflare.com/client/v4/accounts/{account_id}/gateway/rules \
+  --header 'Content-Type: application/json' \
+  --header "Authorization: Bearer <API TOKEN>" \
+{
+  "name": "All-DNS-DomainTopLevel-Blocklist",
+  "description": "Block DNS queries of known risky TLDs",
+  "precedence": 60,
+  "enabled": false,
+  "action": "block",
+  "filters": [
+    "dns"
+  ],
+  "traffic": "any(dns.domains[*] matches \"[.](cn|ru)$ or [.](rest|hair|top|live|cfd|boats|beauty|mom|skin|okinawa)$ or [.](zip|mobi)$\")",
+  "rule_settings": {
+    "block_page_enabled": true,
+    "block_reason": "This domain was blocked due to being classified as a security risk to the organisation"
+    }
+  }
+```
+</TabItem>
+<TabItem label="Terraform">
+```tf
+resource "cloudflare_zero_trust_gateway_policy" "dns_blacklist_policy" {
+  account_id  = var.account_id
+  name        = "All-DNS-DomainTopLevel-Blocklist"
+  description = "Block DNS queries of known risky TLDs"
+  precedence  = 60
+  enabled     = false
+  action      = "block"
+  filters     = ["dns"]
+  traffic     = "any(dns.domains[*] matches \"[.](cn|ru)$ or [.](rest|hair|top|live|cfd|boats|beauty|mom|skin|okinawa)$ or [.](zip|mobi)$\")"
+  rule_settings {
+      block_page_enabled = true
+      block_page_reason = "This domain was blocked due to being classified as a security risk to the organisation"
+    }
+}
+```
+</TabItem>
+</Tabs>
 
 </Details>
 
