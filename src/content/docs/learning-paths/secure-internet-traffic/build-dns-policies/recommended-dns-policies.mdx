@@ -103,7 +103,7 @@ resource "cloudflare_zero_trust_gateway_policy" "dns_restrict_quarantined_users"
   enabled     = false
   action      = "block"
   filters     = ["dns"]
-  traffic     = "not(any(dns.domains[*] in $<Allowed Remediation Domains list UUID>)) or not(any(dns.domains[*] in $<Allowed Remediation Domains list UUID>))"
+  traffic     = "not(any(dns.domains[*] in ${"$"}${cloudflare_zero_trust_list.allowed_remediation_domains.id})) or not(any(dns.domains[*] in ${"$"}${cloudflare_zero_trust_list.allowed_remediation_domains.id}))"
 	identity		=	"any(identity.groups.name[*] in {\"Quarantined Users\"})"
 	rule_settings {
 			block_page_enabled = true
