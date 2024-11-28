@@ -12,13 +12,13 @@ When you write a Worker, you may need to import packages from [npm](https://www.
 Cloudflare Workers provides a subset of Node.js APIs in two forms:
 
 1. As built-in APIs provided by the Workers Runtime
-2. As polyfills that [Wrangler](/workers/wrangler/) adds to your Worker's code
+2. As polyfills that [Wrangler](/workers/wrangler/) adds to your Worker's code when it [bundles](/workers/wrangler/bundling/) it
 
 You can view which APIs are supported using the [Node.js compatability matrix](https://workers-nodejs-compat-matrix.pages.dev).
 
 ## Get Started
 
-To enable both built-in runtime APIs and polyfills for your Worker or Pages project, add the [`nodejs_compat`](/workers/configuration/compatibility-flags/#nodejs-compatibility-flag) [compatibility flag](/workers/configuration/compatibility-flags/#nodejs-compatibility-flag) to your `wrangler.toml`, and set your compatibility date to September 23rd, 2024 or later.
+To enable both built-in runtime APIs and polyfills for your Worker or Pages project, add the [`nodejs_compat`](/workers/configuration/compatibility-flags/#nodejs-compatibility-flag) [compatibility flag](/workers/configuration/compatibility-flags/#nodejs-compatibility-flag) to your `wrangler.toml`, and set your [compatibility date](/workers/configuration/compatibility-dates/) to September 23rd, 2024 or later.
 
 import { WranglerConfig } from "~/components";
 
@@ -63,6 +63,41 @@ For a full list of APIs supported, including information on which are mocked, se
 
 If an API you wish to use is missing and you want to suggest that Workers support it, please add a post or comment in the
 [Node.js APIs discussions category](https://github.com/cloudflare/workerd/discussions/categories/node-js-apis) on GitHub.
+
+### Adding Node.js polyfills yourself, via your own build process
+
+If your Worker uses a JavaScript [framework](/workers/frameworks/), many frameworks provide their own build command and tooling (via tools like Webpack, Rollup, or esbuild), that bundles your code into one or many files to be deployed.
+
+In this case, instead of relying on [Wrangler's bundling process](/workers/wrangler/bundling/) to inject polyfills of Node.js APIs, you may want to add these polyfills as part of the framework's own build process, and disable Wrangler's own bundling. This can simplify your build process — rather than running the framework's build command and bundling code, and then asking Wrangler to take this output and then bundle it again itself, you only bundle your code once. If you generate and upload [source maps](/workers/observability/source-maps/), bundling once will ensure the generated sourcemap can be used to map your compiled code back to the original source.
+
+#### How-to
+
+1. Install unenv:
+   ```bash
+   npm install --save unenv
+   ```
+
+2. Add unenv to your code using the Cloudflare preset:
+
+  ```js
+  import { env, nodeless, cloudflare } from "unenv";
+
+  const envConfig = env(nodeless, cloudflare, {});
+  ```
+
+  Refer to the [unenv documentation](https://github.com/unjs/unenv/tree/main?tab=readme-ov-file#cloudflare) for more on how to add unenv to your application.
+
+
+3. Enable the `no_bundle` option in your Worker's [wrangler.toml file](/workers/wrangler/configuration/)
+   ```toml
+   no_bundle = true
+   ```
+
+4. Run your build command, and then deploy
+
+   ```bash
+   wrangler deploy
+   ```
 
 ## Enable only AsyncLocalStorage
 
