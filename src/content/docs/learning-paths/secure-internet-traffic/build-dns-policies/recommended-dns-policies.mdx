@@ -24,7 +24,7 @@ Allowlist any known domains and hostnames. With this policy, you ensure that you
 ```sh
 curl --request POST \
   --url https://api.cloudflare.com/client/v4/accounts/{account_id}/gateway/rules \
-  --header 'Content-Type: application/JSON' \
+  --header 'Content-Type: application/json' \
   --header "Authorization: Bearer <API TOKEN>" \
 	--data '{
   "name": "All-DNS-Domain-Allowlist",
@@ -71,8 +71,8 @@ resource "cloudflare_zero_trust_gateway_policy" "dns_whitelist_policy" {
 <TabItem label="API">
 ```sh
 curl --request POST \
-  --URL https://api.cloudflare.com/client/v4/accounts/{account_id}/gateway/rules \
-  --header 'Content-Type: application/JSON' \
+  --url https://api.cloudflare.com/client/v4/accounts/{account_id}/gateway/rules \
+  --header 'Content-Type: application/json' \
   --header "Authorization: Bearer <API TOKEN>" \
 	--data '{
   "name": "Quarantined-Users-DNS-Restricted-Access",
@@ -156,7 +156,7 @@ Block websites hosted in countries categorized as high risk. The designation of 
 <TabItem label="API">
 ```sh
 curl --request POST \
-  --URL https://api.cloudflare.com/client/v4/accounts/{account_id}/gateway/rules \
+  --url https://api.cloudflare.com/client/v4/accounts/{account_id}/gateway/rules \
   --header 'Content-Type: application/json' \
   --header "Authorization: Bearer <API TOKEN>" \
 	--data '{
@@ -256,12 +256,56 @@ resource "cloudflare_zero_trust_gateway_policy" "dns_blacklist_policy" {
 <Details header="All-DNS-DomainPhishing-Blocklist">
 
 Block misused domains to protect your users against sophisticated phishing attacks, such as domains that specifically target your organization. For example, the following policy blocks specific keywords associated with an organization or its authentication services (such as `okta`, `2fa`, `cloudflare` and `sso`) while still allowing access to known domains.
-
+<Tabs>
+<TabItem label="Dashboard">
 | Selector | Operator      | Value                                       | Logic | Action |
 | -------- | ------------- | ------------------------------------------- | ----- | ------ |
 | Domain   | not in list   | *Known Domains*                             | And   | Block  |
 | Domain   | matches regex | `.*okta.*\|.*cloudflare.*\|.*mfa.*\|.sso.*` |       |        |
+</TabItem>
+<TabItem label="API">
+```sh
+curl --request POST \
+  --url https://api.cloudflare.com/client/v4/accounts/{account_id}/gateway/rules \
+  --header 'Content-Type: application/json' \
+  --header "Authorization: Bearer <API TOKEN>" \
+	--data '{
+	"name": "All-DNS-DomainPhishing-Blocklist",
+  "description": "Block misused domains used in phishing campaigns",
+  "precedence": 70,
+  "enabled": false,
+  "action": "block",
+  "filters": [
+    "dns"
+  ],
+  "traffic": "any(dns.domains[*] matches \".*okta.*|.*cloudflare.*|.*mfa.*|.sso.*\") and not(any(dns.domains[*] in $<Known Phishing Domains List UUID>))",
+  "rule_settings": {
+    "block_page_enabled": true,
+    "block_reason": "This domain was blocked due to being classified as a security risk to the organisation"
+    }
 
+		}'
+```
+</TabItem>
+<TabItem label="Terraform">
+```tf
+resource "cloudflare_zero_trust_gateway_policy" "dns_phishing_domains_block" {
+  account_id  = var.account_id
+  name        = "All-DNS-DomainPhishing-Blocklist"
+  description = "Block misused domains used in phishing campaigns"
+  precedence  = 70
+  enabled     = false
+  action      = "block"
+  filters     = ["dns"]
+  traffic     = "any(dns.domains[*] matches \".*okta.*|.*cloudflare.*|.*mfa.*|.sso.*\") and not(any(dns.domains[*] in $<Known Phishing Domains List UUID>))"
+  rule_settings {
+      block_page_enabled = true
+      block_page_reason = "This domain was blocked due to being classified as a security risk to the organisation"
+    }
+}
+```
+</TabItem>
+</Tabs>
 
 </Details>
 
