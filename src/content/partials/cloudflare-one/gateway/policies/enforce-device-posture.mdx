@@ -5,7 +5,7 @@
 import { Tabs, TabItem, Render } from "~/components";
 
 In the following example, you can use a list of [device serial numbers](/cloudflare-one/identity/devices/warp-client-checks/corp-device/) to ensure users can only access an application if they connect with the WARP client from a company device:
-<Tabs>
+<Tabs syncKey="dashPlusAPI">
 <TabItem label="Dashboard">
 | Selector                     | Operator | Value                   | Logic | Action |
 | ---------------------------- | -------- | ----------------------- | ----- | ------ |
@@ -33,11 +33,11 @@ curl --request POST \
     "block_page_enabled": true,
     "block_reason": "This domain/IP was explicitly blocked by your network administrator. Please reach out to your helpdesk for assistance"
     }
-		}'
+	}'
 ```
 </TabItem>
 <TabItem label="Terraform">
-````tf
+```tf
 resource "cloudflare_zero_trust_gateway_policy" "dns_resolvedip_blocklist_rule" {
   account_id  = var.account_id
   name        = "All-NET-ApplicationAccess-Allow"
