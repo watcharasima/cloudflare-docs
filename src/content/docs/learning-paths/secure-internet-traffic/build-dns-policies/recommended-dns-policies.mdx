@@ -297,7 +297,7 @@ resource "cloudflare_zero_trust_gateway_policy" "dns_phishing_domains_block" {
   enabled     = false
   action      = "block"
   filters     = ["dns"]
-  traffic     = "any(dns.domains[*] matches \".*okta.*|.*cloudflare.*|.*mfa.*|.sso.*\") and not(any(dns.domains[*] in $<Known Phishing Domains List UUID>))"
+  traffic     = "any(dns.domains[*] matches \".*okta.*|.*cloudflare.*|.*mfa.*|.sso.*\") and not(any(dns.domains[*] in ${"$"}${cloudflare_zero_trust_list.known_phishing_domains_list.id}))"
   rule_settings {
       block_page_enabled = true
       block_page_reason = "This domain was blocked due to being classified as a security risk to the organisation"
@@ -316,10 +316,54 @@ Block specific IP addresses that are malicious or pose a threat to your organiza
 
 <Render file="zero-trust/threat-intelligence-automation" />
 
+<Tabs>
+<TabItem label="Dashboard">
 | Selector    | Operator | Value          | Action |
 | ----------- | -------- | -------------- | ------ |
 | Resolved IP | in list  | *IP Blocklist* | Block  |
-
+</TabItem>
+<TabItem label="API">
+```sh
+curl --request POST \
+  --url https://api.cloudflare.com/client/v4/accounts/{account_id}/gateway/rules \
+  --header 'Content-Type: application/json' \
+  --header "Authorization: Bearer <API TOKEN>" \
+	--data '{
+	"name": "All-DNS-ResolvedIP-Blocklist",
+  "description": "Block specific IP addresses deemed to be a risk to the Organization",
+  "precedence": 80,
+  "enabled": false,
+  "action": "block",
+  "filters": [
+    "dns"
+  ],
+  "traffic": "any(dns.resolved_ips[*] in $<IP Blocklist UUID>)",
+  "rule_settings": {
+    "block_page_enabled": true,
+    "block_reason": "This domain was blocked due to being classified as a security risk to the organisation"
+    }
+		}'
+```
+</TabItem>
+<TabItem label="Terraform">
+````tf
+resource "cloudflare_zero_trust_gateway_policy" "dns_resolvedip_blocklist_rule" {
+  account_id  = var.account_id
+  name        = "All-DNS-ResolvedIP-Blocklist"
+  description = "Block specific IP addresses deemed to be a risk to the Organization"
+  precedence  = 80
+  enabled     = false
+  action      = "block"
+  filters     = ["dns"]
+  traffic     = "any(dns.resolved_ips[*] in ${"$"}${cloudflare_zero_trust_list.ip_blocklist.id}"
+  rule_settings {
+      block_page_enabled = true
+      block_page_reason = "This domain was blocked due to being classified as a security risk to the organisation"
+    }
+}
+```
+</TabItem>
+</Tabs>
 
 </Details>
 
