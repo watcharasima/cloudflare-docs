@@ -60,7 +60,7 @@ resource "cloudflare_zero_trust_gateway_policy" "dns_whitelist_policy" {
 <Details header="Quarantined-Users-DNS-Restricted-Access">
 
 <Render file="zero-trust/blocklist-restricted-users" />
-<Tabs>
+<Tabs syncKey="dashPlusAPI">
 <TabItem label="Dashboard">
 | Selector         | Operator			| Value															| Logic | Action |
 | ---------------- | ------------ | --------------------------------- | ----- | ------ |
@@ -147,7 +147,7 @@ resource "cloudflare_zero_trust_gateway_policy" "dns_restrict_quarantined_users"
 
 <Details header="All-DNS-GeoCountryIP-Blocklist">
 Block websites hosted in countries categorized as high risk. The designation of such countries may result from your organization's users or through the implementation of regulations including [EAR](https://www.tradecompliance.pitt.edu/embargoed-and-sanctioned-countries), [OFAC](https://orpa.princeton.edu/export-controls/sanctioned-countries), and [ITAR](https://www.tradecompliance.pitt.edu/embargoed-and-sanctioned-countries).
-<Tabs>
+<Tabs syncKey="dashPlusAPI">
 <TabItem label="Dashboard">
 | Selector                        | Operator | Value                                                                                                                                                           | Action |
 | ------------------------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
@@ -201,7 +201,7 @@ resource "cloudflare_zero_trust_gateway_policy" "dns_geolocation_block_policy" {
 
 <Details header="All-DNS-DomainTopLevel-Blocklist">
 Block frequently misused top-level domains (TLDs) to reduce security risks, especially when there is no discernible advantage to be gained from allowing access. Similarly, restricting access to specific country-level TLDs may be necessary to comply with regulations such as [OFAC](https://orpa.princeton.edu/export-controls/sanctioned-countries) and [ITAR](https://www.tradecompliance.pitt.edu/embargoed-and-sanctioned-countries).
-<Tabs>
+<Tabs syncKey="dashPlusAPI">
 <TabItem label="Dashboard">
 | Selector | Operator      | Value                                                                                                    | Action |
 | -------- | ------------- | -------------------------------------------------------------------------------------------------------- | ------ |
@@ -256,7 +256,7 @@ resource "cloudflare_zero_trust_gateway_policy" "dns_blacklist_policy" {
 <Details header="All-DNS-DomainPhishing-Blocklist">
 
 Block misused domains to protect your users against sophisticated phishing attacks, such as domains that specifically target your organization. For example, the following policy blocks specific keywords associated with an organization or its authentication services (such as `okta`, `2fa`, `cloudflare` and `sso`) while still allowing access to known domains.
-<Tabs>
+<Tabs syncKey="dashPlusAPI">
 <TabItem label="Dashboard">
 | Selector | Operator      | Value                                       | Logic | Action |
 | -------- | ------------- | ------------------------------------------- | ----- | ------ |
@@ -316,7 +316,7 @@ Block specific IP addresses that are malicious or pose a threat to your organiza
 
 <Render file="zero-trust/threat-intelligence-automation" />
 
-<Tabs>
+<Tabs syncKey="dashPlusAPI">
 <TabItem label="Dashboard">
 | Selector    | Operator | Value          | Action |
 | ----------- | -------- | -------------- | ------ |
