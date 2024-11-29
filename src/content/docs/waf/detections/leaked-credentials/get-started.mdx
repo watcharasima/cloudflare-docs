@@ -126,6 +126,12 @@ This pair of lookup expressions (for username and password) will scan incoming H
 
 Refer to the [`lookup_json_string()`](/ruleset-engine/rules-language/functions/#lookup_json_string) documentation for more information on this function.
 
+</TabItem> <TabItem label="Terraform">
+
+Use the `cloudflare_leaked_credential_check_rules` resource to add custom detection locations. For example:
+
+<Render file="leaked-credentials-detection-add-custom-location-terraform" />
+
 </TabItem> </Tabs>
 
 You only need to provide an expression for the username in custom detection locations.
