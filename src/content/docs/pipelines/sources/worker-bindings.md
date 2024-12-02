@@ -56,7 +56,7 @@ Open your newly generated `wrangler.toml` configuration file and add the followi
 ```toml
 [[pipelines]]
 	binding = "MY_PIPELINE"
-	queue = "<MY-PIPELINE-NAME>"
+	pipeline = "<MY-PIPELINE-NAME>"
 ```
 
 Replace `<MY-PIPELINE-NAME>` with the name of the Pipeline you created in step 2. Next, replace `MY_PIPELINE` with the name you want for your `binding`. The binding must be a valid JavaScript variable name. This is the variable you will use to reference this queue in your Worker.

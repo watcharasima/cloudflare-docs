@@ -11,10 +11,43 @@ head:
     content: Pipelines
 ---
 
-import { Description } from "~/components";
+import { CardGrid, Description, Feature, LinkTitleCard, Plan, RelatedProduct } from "~/components";
 
 <Description>
 
 Ingest, transform, and store real time data streams in R2.
 
 </Description>
+
+<Plan type="paid" />
+
+***
+## Features
+
+<Feature header="HTTP as a source" href="/pipelines/sources/http/">
+Pipelines generate an HTTP endpoint, which you can post data to.
+</Feature>
+
+<Feature header="R2 as a sink" href="/queues/configuration/dead-letter-queues/">
+Convert incoming records into compressed JSON files, and write to R2.
+</Feature>
+
+***
+
+## More resources
+
+<CardGrid>
+
+<LinkTitleCard title="Limits" href="/pipelines/reference/limits/" icon="document">
+Learn about Pipelines limits.
+</LinkTitleCard>
+
+<LinkTitleCard title="@CloudflareDev" href="https://x.com/cloudflaredev" icon="x.com">
+Follow @CloudflareDev on Twitter to learn about product announcements, and what is new in Cloudflare Workers.
+</LinkTitleCard>
+
+<LinkTitleCard title="Developer Discord" href="https://discord.cloudflare.com" icon="discord">
+Connect with the Workers community on Discord to ask questions, show what you are building, and discuss the platform with other developers.
+</LinkTitleCard>
+
+</CardGrid>
