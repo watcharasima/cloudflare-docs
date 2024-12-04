@@ -103,8 +103,9 @@ export default defineConfig({
 	},
 	experimental: {
 		contentIntellisense: true,
-		contentLayer: true,
-		directRenderScript: true,
+	},
+	legacy: {
+		collections: true,
 	},
 	server: {
 		port: 1111,
