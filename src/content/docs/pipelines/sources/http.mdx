@@ -1,0 +1,60 @@
+---
+title: HTTP
+pcx_content_type: concept
+sidebar:
+  order: 1
+head:
+  - tag: title
+    content: HTTP
+---
+
+import { Render, PackageManagers } from "~/components";
+
+You can send data to your Pipeline via HTTP. By default, HTTP is enabled on all Pipelines. When you create a Pipeline, it will generate an HTTP endpoint †hat you can make POST requests to.
+
+```sh
+$ npx wrangler pipelines create [PIPELINE-NAME] --r2 [R2-BUCKET-NAME] --access-key-id [ACCESS-KEY-ID] --secret-access-key [SECRET-ACCESS-KEY]
+
+🌀 Creating pipeline named "[PIPELINE-NAME]"
+✅ Successfully created pipeline [PIPELINE-NAME] with ID [PIPELINE-ID]
+
+You can now send data to your pipeline with:
+  curl "https://<PIPELINE-ID>.pipelines.cloudflare.com/" -d '[{ ...JSON_DATA... }]'
+```
+
+## Turning HTTP off
+By default, ingestion via HTTP is turned on for all Pipelines. You can turn it off by setting `--http false` when creating or updating a Pipeline.
+
+```sh
+$ npx wrangler pipelines create [PIPELINE-NAME] --r2 [R2-BUCKET-NAME] --access-key-id [ACCESS-KEY-ID] --secret-access-key [SECRET-ACCESS-KEY] --http false
+```
+
+Ingestion URLs are tied to your Pipeline ID. Turning HTTP off, and then turning it back on, will not change the URL.
+
+## Authentication
+You can secure your HTTP ingestion endpoint using Cloudflare API tokens. By default, authentication is turned off. To enable authentication, use `--authentication true` while creating or updating a Pipeline.
+
+```
+$ npx wrangler pipelines create [PIPELINE-NAME] --r2 [R2-BUCKET-NAME] --access-key-id [ACCESS-KEY-ID] --secret-access-key [SECRET-ACCESS-KEY] --authentication true
+```
+
+Once authentication is turned on, you will need to include a Cloudflare API token in your request headers.
+
+### Get API token
+1. Log in to the [Cloudflare dashboard](https://dash.cloudflare.com) and select your account.
+2. Navigate to your [API Keys](https://dash.cloudflare.com/profile/api-tokens)
+3. Select *Create Token*
+4. Choose the template for Workers Pipelines. Click on *continue to summary*, and finally on *create token*. Make sure to copy the API token, and save it securely.
+
+### Making authenticated requests
+Include the API token you created in the previous step in the headers for your request:
+
+```sh
+curl https://<PIPELINE-ID>.pipelines.cloudflare.com
+	-H "Content-Type: application/json" \
+	-H "Authorization: Bearer ${API_TOKEN}" \
+	-d '[
+  		{"key1": "value1", "key2": "value2"},
+  		{"key1": "value3", "key2": "value4"}
+			]'
+```
