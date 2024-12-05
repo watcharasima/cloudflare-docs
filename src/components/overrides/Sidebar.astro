@@ -181,6 +181,8 @@ const lookupProductTitle = async (slug: string) => {
 		const entryData = await getEntry("learning-paths", path);
 
 		return `${entryData?.data?.title} (Learning Paths)`;
+	} else if (product === "1.1.1.1") {
+		return product;
 	}
 
 	const entryData = await getEntry("products", product);

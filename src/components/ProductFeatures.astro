@@ -15,9 +15,11 @@ const props = z
 
 const { id, additional_descriptions } = props.parse(Astro.props);
 
-const { data } = await getEntry("plans", "index");
+const plans = await getEntry("plans", "index");
 
-const plan = getProperty(data, id);
+if (!plans) throw new Error(`Failed to load plans JSON`);
+
+const plan = getProperty(plans.data, id);
 
 if (!plan) throw new Error(`Failed to index plans using ${id}`);
 

@@ -16,9 +16,11 @@ const props = z
 
 const { product, notificationFilter } = props.parse(Astro.props);
 
-let notificationsRaw = (await getEntry("notifications", "index"))["data"][
-	"entries"
-];
+const entry = await getEntry("notifications", "index");
+
+if (!entry) throw new Error("Unable to load notifications");
+
+let notificationsRaw = entry["data"]["entries"];
 
 if (product) {
 	notificationsRaw = notificationsRaw.filter(

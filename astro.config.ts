@@ -104,9 +104,6 @@ export default defineConfig({
 	experimental: {
 		contentIntellisense: true,
 	},
-	legacy: {
-		collections: true,
-	},
 	server: {
 		port: 1111,
 	},
