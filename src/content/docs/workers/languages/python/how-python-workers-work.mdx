@@ -18,10 +18,10 @@ When you write a Python Worker, your code is interpreted directly by Pyodide, wi
 ## Local Development Lifecycle
 
 ```python
-from js import Response
+from cloudflare.workers import Response
 
 async def on_fetch(request, env):
-    return Response.new("Hello world!")
+    return Response("Hello world!")
 ```
 
 …with a wrangler.toml file that points to a .py file:
