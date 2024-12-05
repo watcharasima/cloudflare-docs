@@ -5,6 +5,14 @@ productLink: "/workers-ai/"
 productArea: Developer platform
 productAreaLink: /workers/platform/changelog/platform/
 entries:
+  - publish_date: "2024-12-05"
+    title: @cloudflare/ai npm package deprecation
+    decription: |-
+      - The [@cloudflare/ai](https://www.npmjs.com/package/@cloudflare/ai) npm package is now deprecated in favor of the native binding via `env.AI.run()`
+  - publish_date: "2024-12-02"
+    title: Workers AI Llama models are now out of beta
+    decription: |-
+      - Usage will start showing up on dashboard and billing will begin
   - publish_date: "2024-09-26"
     title: Workers AI Birthday Week 2024 announcements
     description: |-
