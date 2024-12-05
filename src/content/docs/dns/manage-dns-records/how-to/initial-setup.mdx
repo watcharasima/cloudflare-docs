@@ -5,7 +5,7 @@ sidebar:
   order: 1
 ---
 
-import { GlossaryTooltip, Render, TabItem, Tabs, Details } from "~/components";
+import { GlossaryTooltip, GlossaryDefinition, Render, TabItem, Tabs, Details, Example,  } from "~/components";
 
 As explained in the [overview page](/dns/manage-dns-records/), DNS records are essential, as they are used to make your website or application available to visitors and other web services.
 
@@ -20,3 +20,43 @@ As explained in the [overview page](/dns/manage-dns-records/), DNS records are e
 <Render file="dns-scan-procedure" />
 
 The sections below provide more context around what these records are and aspects to consider when reviewing them.
+
+## Zone apex record
+
+Zone apex refers the domain or subdomain on which the control of DNS records starts.
+
+<Details header="Example 1">
+<Example>
+DNS management for **example.com**:
+
+| Type | Name    | Content      | Proxy status | TTL    |
+| ---- | ------- | ------------ | ------------ | ------ |
+| A    | `blog`  | `192.0.2.1`  | Proxied      | Auto   |
+
+Zone apex: `example.com`
+
+Full record name: `blog.example.com`
+
+</Example>
+</ Details>
+
+<Details header="Example 2">
+<Example>
+DNS management for **sub.example.com**:
+
+| Type | Name    | Content      | Proxy status | TTL    |
+| ---- | ------- | ------------ | ------------ | ------ |
+| A    | `blog`  | `192.0.2.1`  | Proxied      | Auto   |
+
+Zone apex: `sub.example.com`
+
+Full record name: `blog.sub.example.com`
+
+</Example>
+</ Details>
+
+Usually, the zone apex coincides with the apex domain, as shown in example 1.
+
+<GlossaryDefinition term="apex domain" />
+
+Example 2 refers to [subdomain setups](/dns/zone-setups/subdomain-setup/) (also known as subdomain delegation), which are only available to Enterprise plans.
