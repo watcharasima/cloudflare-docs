@@ -3,14 +3,11 @@ title: Worker Bindings
 pcx_content_type: concept
 sidebar:
   order: 2
-head:
-  - tag: title
-    content: Worker Bindings
 ---
 
-import { Render, PackageManagers } from "~/components";
+import { Render, PackageManagers } from "~/components"
 
-You can send records to your Pipeline directly from a [Cloudflare Worker](workers/). To do so, you need to:
+You can send records to your Pipeline directly from a [Cloudflare Worker](/workers/). To do so, you need to:
 1. Create a Worker
 2. Create a Pipeline
 3. Add your Pipeline as a binding in your Workers' `wrangler.toml` file
@@ -49,7 +46,7 @@ Create a new Pipeline, if you don't already have one. Follow the instructions in
 By default, Worker bindings are enabled on all Pipelines. Keep track of the name you gave your Pipeline in this stage; we'll use it in the next step.
 
 ## 3. Add a Binding
-To connect your Worker to your Pipeline, you need to create a binding. [Bindings](workers/runtime-apis/bindings/) allow you to grant specific capabilities to your Worker.
+To connect your Worker to your Pipeline, you need to create a binding. [Bindings](/workers/runtime-apis/bindings/) allow you to grant specific capabilities to your Worker.
 
 Open your newly generated `wrangler.toml` configuration file and add the following:
 
