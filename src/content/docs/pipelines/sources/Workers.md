@@ -45,7 +45,7 @@ cd pipeline-worker
 ```
 
 ## 2. Create a Pipeline
-Create a new Pipeline, if you don't already have one. If this is your first time using Pipelines, follow the instructions in the [get started guide](pipelines/get-started).
+Create a new Pipeline, if you don't already have one. If this is your first time using Pipelines, follow the instructions in the [get started guide](/pipelines/get-started).
 
 By default, Worker bindings are enabled on all Pipelines. Keep track of the name you gave your Pipeline in this stage; we'll use it in the next step.
 
