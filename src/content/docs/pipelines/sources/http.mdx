@@ -10,7 +10,8 @@ head:
 
 import { Render, PackageManagers } from "~/components";
 
-You can send data to your Pipeline via HTTP. By default, HTTP is enabled on all Pipelines. When you create a Pipeline, it will generate an HTTP endpoint †hat you can make POST requests to.
+Pipelines support ingesting data via HTTP. When you create a new Pipeline, you'll receive an HTTP endpoint that you can make post requests to.
+
 
 ```sh
 $ npx wrangler pipelines create [PIPELINE-NAME] --r2 [R2-BUCKET-NAME] --access-key-id [ACCESS-KEY-ID] --secret-access-key [SECRET-ACCESS-KEY]
@@ -22,7 +23,7 @@ You can now send data to your pipeline with:
   curl "https://<PIPELINE-ID>.pipelines.cloudflare.com/" -d '[{ ...JSON_DATA... }]'
 ```
 
-## Turning HTTP off
+## Turning HTTP ingestion off
 By default, ingestion via HTTP is turned on for all Pipelines. You can turn it off by setting `--http false` when creating or updating a Pipeline.
 
 ```sh
