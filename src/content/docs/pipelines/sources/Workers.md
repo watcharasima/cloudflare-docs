@@ -1,5 +1,5 @@
 ---
-title: Worker Bindings
+title: Workers
 pcx_content_type: concept
 sidebar:
   order: 2
@@ -7,11 +7,15 @@ sidebar:
 
 import { Render, PackageManagers } from "~/components"
 
+# Send records from a Worker
+
 You can send records to your Pipeline directly from a [Cloudflare Worker](/workers/). To do so, you need to:
 1. Create a Worker
 2. Create a Pipeline
 3. Add your Pipeline as a binding in your Workers' `wrangler.toml` file
 4. Write your Worker, to send records to your Pipeline
+5. Deploy your Worker
+6. Verify in R2
 
 ## 1. Create a Worker
 Create a Cloudflare Worker if you don't alreadyåhave one. This Worker will send records to your Pipeline.
@@ -41,7 +45,7 @@ cd pipeline-worker
 ```
 
 ## 2. Create a Pipeline
-Create a new Pipeline, if you don't already have one. Follow the instructions in the (get started guide)[pipelines/get-started] if this is your first time creating a Pipeline.
+Create a new Pipeline, if you don't already have one. If this is your first time using Pipelines, follow the instructions in the [get started guide](pipelines/get-started).
 
 By default, Worker bindings are enabled on all Pipelines. Keep track of the name you gave your Pipeline in this stage; we'll use it in the next step.
 
@@ -88,7 +92,7 @@ Replace `MY_PIPELINE` with the name of the binding you set in Step 3. If sending
 
 In a production application, you would likely use a [`try...catch`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/try...catch) statement to catch the exception and handle it directly (for example, return a custom error or even retry).
 
-### Publish your Worker
+## 5. Publish your Worker
 With your `wrangler.toml` file and `index.ts` file configured, you are ready to publish your producer Worker. To publish your producer Worker, run:
 
 ```sh
@@ -105,5 +109,8 @@ Published <YOUR-WORKER-NAME> (0.29 sec)
 
 Copy your `*.workers.dev` subdomain and paste it into a new browser tab. Refresh the page a few times to send records to your Pipeline. Your browser should return the `Success` response after sending the record to your Pipeline.
 
-## 5. Verify in R2
+## 6. Verify in R2
 Go to the R2 bucket you created in step 2 via [the Cloudflare dashboard](https://dash.cloudflare.com/). You should see a prefix for today's date. Click through, and you'll find one or more files, containing the records you sent in step 4.
+
+# Local Development
+When running your Worker locally, sending data to your Pipeline will return a successful response. However, the data will not actually be sent to a Pipeline.
