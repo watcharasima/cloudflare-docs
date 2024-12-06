@@ -61,10 +61,11 @@ Usually, the zone apex coincides with the apex domain, as shown in Example 1.
 
 Example 2 refers to [subdomain delegation](/dns/zone-setups/subdomain-setup/), which is only available to Enterprise plans.
 
-When you create a record on the zone apex, you are indicating to Cloudflare where to find the resources that correspond to `example.com` or `sub.example.com`. The zone apex is represented by `@` when [creating or editing a record](/dns/manage-dns-records/how-to/create-dns-records/).
+When you create a record on the zone apex, you are indicating to Cloudflare where to find the resources that correspond to the domain or subdomain where your zone starts (`example.com` or `sub.example.com`). The zone apex is represented by `@` when [creating or editing a record](/dns/manage-dns-records/how-to/create-dns-records/).
 
 ### Record types and where to point them
 
 Usually, the zone apex record makes your domain accessible by visitors. In this case, the necessary record type ([A, AAAA, or CNAME](/dns/manage-dns-records/reference/dns-record-types/#ip-address-resolution)) and its content will depend on the provider that [hosts](/fundamentals/setup/manage-domains/#host-your-domain) your website or application.
 
-If you are using Cloudflare Pages, refer to [Custom domains](/pages/configuration/custom-domains/). If you are using other providers, look for their guidance on how to connect domains managed on external DNS services.
+If you are using Cloudflare Pages, refer to [Custom domains](/pages/configuration/custom-domains/). If you are using other providers, look for their guidance on how to connect domains managed on external DNS services. Make sure you have the records required by your hosting provider on your [DNS records table](/dns/manage-dns-records/#dns-records-table) at Cloudflare.
+
