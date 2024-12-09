@@ -109,6 +109,10 @@ The `stale-while-revalidate` and `stale-if-error` directives are not supported w
 
 :::
 
+:::note
+Do not use dynamic or invalid hostnames in cache requests. This can cause DNS cache failures and latency.
+:::
+
 #### Parameters
 
 
@@ -154,6 +158,10 @@ cache.match(request, options);
 The `stale-while-revalidate` and `stale-if-error` directives are not supported when using the `cache.put` or `cache.match` methods.
 
 
+:::
+
+:::note
+Do not use dynamic or invalid hostnames in cache requests. This can cause DNS cache failures and latency.
 :::
 
 #### Parameters
