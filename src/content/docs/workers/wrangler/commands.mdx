@@ -275,8 +275,6 @@ You must provide either `--command` or `--file` for this command to run successf
   - Return output as JSON rather than a table.
 - `--preview` <Type text="boolean" /> <MetaInfo text="optional" />
   - Execute commands/files against a preview D1 database (as defined by `preview_database_id` in [Wrangler.toml](/workers/wrangler/configuration/#d1-databases)).
-- `--batch-size` <Type text="number" /> <MetaInfo text="optional" />
-  - Number of queries to send in a single batch.
 
 <Render file="wrangler-commands/global-flags" product="workers" />
 
@@ -339,92 +337,6 @@ wrangler d1 time-travel info <DATABASE_NAME> [OPTIONS]
 
 <Render file="wrangler-commands/global-flags" product="workers" />
 
-### `backup create`
-
-:::caution
-
-This command only works on databases created during D1's alpha period. You can check which version your database uses with `wrangler d1 info <DATABASE_NAME>`.
-
-This command will not work on databases that are created during the beta period, or after general availability (GA). Refer to [Time Travel](/d1/reference/time-travel/) in the D1 documentation for more information on D1's approach to backup and restores for databases created during the beta/GA period.
-:::
-
-Initiate a D1 backup.
-
-```txt
-wrangler d1 backup create <DATABASE_NAME>
-```
-
-- `DATABASE_NAME` <Type text="string" /> <MetaInfo text="required" />
-  - The name of the D1 database to backup.
-
-<Render file="wrangler-commands/global-flags" product="workers" />
-
-### `backup list`
-
-:::caution
-
-This command only works on databases created during D1's alpha period. You can check which version your database uses with `wrangler d1 info <DATABASE_NAME>`.
-
-This command will not work on databases that are created during the beta period, or after general availability (GA). Refer to [Time Travel](/d1/reference/time-travel/) in the D1 documentation for more information on D1's approach to backup and restores for databases created during the beta/GA period.
-:::
-
-List all available backups.
-
-```txt
-wrangler d1 backup list <DATABASE_NAME>
-```
-
-- `DATABASE_NAME` <Type text="string" /> <MetaInfo text="required" />
-  - The name of the D1 database to list the backups of.
-
-<Render file="wrangler-commands/global-flags" product="workers" />
-
-### `backup restore`
-
-:::caution
-
-This command only works on databases created during D1's alpha period. You can check which version your database uses with `wrangler d1 info <DATABASE_NAME>`.
-
-This command will not work on databases that are created during the beta period, or after general availability (GA). Refer to [Time Travel](/d1/reference/time-travel/) in the D1 documentation for more information on D1's approach to backup and restores for databases created during the beta/GA period.
-:::
-
-Restore a backup into a D1 database.
-
-```txt
-wrangler d1 backup restore <DATABASE_NAME> <BACKUP_ID>
-```
-
-- `DATABASE_NAME` <Type text="string" /> <MetaInfo text="required" />
-  - The name of the D1 database to restore the backup into.
-- `BACKUP_ID` <Type text="string" /> <MetaInfo text="required" />
-  - The ID of the backup you wish to restore.
-
-<Render file="wrangler-commands/global-flags" product="workers" />
-
-### `backup download`
-
-:::caution
-
-This command only works on databases created during D1's alpha period. You can check which version your database uses with `wrangler d1 info <DATABASE_NAME>`.
-
-This command will not work on databases that are created during the beta period, or after general availability (GA). To download existing data of a beta/GA database to your local machine refer to the `wrangler d1 export` command. Refer to [Time Travel](/d1/reference/time-travel/) in the D1 documentation for more information on D1's approach to backups for databases created during the beta/GA period.
-:::
-
-Download existing data to your local machine.
-
-```txt
-wrangler d1 backup download <DATABASE_NAME> <BACKUP_ID>
-```
-
-- `DATABASE_NAME` <Type text="string" /> <MetaInfo text="required" />
-  - The name of the D1 database you wish to download the backup of.
-- `BACKUP_ID` <Type text="string" /> <MetaInfo text="required" />
-  - The ID of the backup you wish to download.
-- `--output` <Type text="string" /> <MetaInfo text="optional" />
-  - The `.sqlite3` file to write to (defaults to `'<DB_NAME>.<SHORT_BACKUP_ID>.sqlite3'`).
-
-<Render file="wrangler-commands/global-flags" product="workers" />
-
 ### `migrations create`
 
 Create a new migration.
@@ -471,7 +383,7 @@ wrangler d1 migrations list <DATABASE_NAME> [OPTIONS]
 
 Apply any unapplied migrations.
 
-This command will prompt you to confirm the migrations you are about to apply. Confirm that you would like to proceed. After, a backup will be captured.
+This command will prompt you to confirm the migrations you are about to apply. Confirm that you would like to proceed.
 
 The progress of each migration will be printed in the console.
 
@@ -495,8 +407,6 @@ wrangler d1 migrations apply <DATABASE_NAME> [OPTIONS]
   - Specify directory to use for local persistence (for use in combination with `--local`).
 - `--preview` <Type text="boolean" /> <MetaInfo text="optional" />
   - Execute any unapplied migrations on your preview D1 database (as defined by `preview_database_id` in [`wrangler.toml`](/workers/wrangler/configuration/#d1-databases)).
-- `--batch-size` <Type text="number" /> <MetaInfo text="optional" />
-  - Number of queries to send in a single batch.
 
 <Render file="wrangler-commands/global-flags" product="workers" />
 
@@ -1702,7 +1612,7 @@ wrangler workflows trigger <WORKFLOW_NAME> <PARAMS> [OPTIONS]
 wrangler workflows trigger my-workflow '{"hello":"world"}'
 ```
 
-{/*
+{/\*
 
 ### `delete`
 
@@ -1715,7 +1625,7 @@ wrangler workflows delete <WORKFLOW_NAME> [OPTIONS]
 - `WORKFLOW_NAME` <Type text="string" /> <MetaInfo text="required" />
   - The name of a registered Workflow.
 
-*/}
+\*/}
 
 ## `tail`
 
@@ -2064,7 +1974,7 @@ wrangler queues info <name>
 ```
 
 - `name` <Type text="string" /> <MetaInfo text="required" />
-	- The name of the queue to inspect.
+  - The name of the queue to inspect.
 
 ### `consumer`
 
