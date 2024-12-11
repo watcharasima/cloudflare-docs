@@ -6,9 +6,74 @@ sidebar:
 
 ---
 
+## System overview
+
 The Cloudflare Privacy Proxy consists of a generic HTTPS CONNECT (and CONNECT-UDP ) proxy.
 These may be used to ensure that knowledge of sensitive user information leaked in web traffic is not only available to those that need it to function.
 
 A high level overview of the system is shown below. Control plane services are shown in orange, whereas dataplane services are shown in blue.
 
-test
+![Privacy Proxy system overview](~/assets/images/privacy-gateway/privacy-proxy-system-overview.png)
+
+The following components comprise the Privacy Proxy system:
+
+- **Client**: The end-user making HTTP requests via the Privacy Proxy from within a web browser and/or other supported client.
+- **Attester**: The client-facing service that authenticates the validity of end-user accounts, validates entitlements, and requests a PAT from the issuer on behalf of the end-user. Not operated by Cloudflare.
+- **Privacy API**: Cloudflare service that issues PATs to the client for redemption against the Privacy Proxy service. This service mints Private Access Tokens (PATs) using the RSA blind signature protocol.
+- **Privacy Proxy**: The HTTP CONNECT-based proxy service running on Cloudflare’s edge. This service validates the PAT passed by the client, enforces any double spend prevention necessary for the token. The service handles proxying of the wrapped HTTP request, as well as selection of the egress path and IP.
+- **Origin**: The external (target) website for the end-user request.
+
+DNS resolution uses [Cloudflare’s public resolver (1.1.1.1)](/1.1.1.1/) infrastructure for name resolution.
+
+### System architecture
+
+![System architecture](~/assets/images/privacy-gateway/system-architecture.png)
+
+### Client initialization
+
+A client requires configuration data (the region public key) to request tokens. The key is used to initialize the request for blinded tokens from the Privacy API.
+
+The client should periodically refresh this public key, especially after IP address changes, since Cloudflare will use the IP address to map to the region.
+
+This key should be kept in the client session across multiple requests.
+
+![Client initialization](~/assets/images/privacy-gateway/client-initialization.png)
+
+### Token issuance
+
+After the client is configured, it will need privacy tokens in order to make requests.
+
+When the token pool is low/empty, the client can use the stored region public key to create a batch of new blinded token requests to send to the Privacy API through the Token Proxy.
+
+The Privacy API signs the tokens and returns them to the client, which can store them in a pool for later use.
+
+![Token issuance](~/assets/images/privacy-gateway/token-issuance.png)
+
+### Example client code
+
+Cloudflare will provide access to a MASQUE client, which can be used in mobile client code to connect to the MASQUE proxy provided by Cloudflare. For example:
+
+```sh
+cargo run --bin quiche-client -- \
+  --no-verify \
+  --connect-to masque-relay.cloudflare.com \
+  --connect-type=HTTP \
+  https://example.com
+```
+
+### HTTP (Web) request flow
+
+Once the client needs to make a connection to a new server, it can connect to the Cloudflare Proxy service and request a connection to the origin with a token in the ` Proxy-Authorization ` HTTP request header.
+
+This connection can be kept alive for multiple requests/responses from the server.
+
+![HTTP request flow](~/assets/images/privacy-gateway/http-request-flow.png)
+
+## Environments
+
+Cloudflare will provide access to both development and production environments.
+Credentials are shared across both environments.
+
+| Environment          | Endpoint       | Description |                                                                                                                                                                                                                                                                                                    |
+|--------------------- | -------------- |-----------|
+|                      |                |           |
