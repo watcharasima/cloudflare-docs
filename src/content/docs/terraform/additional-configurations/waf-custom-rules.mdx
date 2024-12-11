@@ -95,7 +95,6 @@ For more information on configuring custom detection locations, refer to the [Te
 The following example creates a [custom ruleset](/ruleset-engine/custom-rulesets/) in the account with ID `<ACCOUNT_ID>` containing a single custom rule. This custom ruleset is then deployed using a separate `cloudflare_ruleset` Terraform resource. If you do not deploy a custom ruleset, it will not execute.
 
 :::caution
-
 You can only create and deploy custom rulesets at the account level.
 :::
 
@@ -153,9 +152,7 @@ For more information on configuring and deploying custom rulesets, refer to [Wor
 
 <Render file="leaked-credentials-recommend-detection" product="waf" />
 
-The following configuration creates a custom ruleset with a single rule that
-[checks for exposed
-credentials](/waf/managed-rules/check-for-exposed-credentials/configure-api/#create-a-custom-rule-checking-for-exposed-credentials).
+The following configuration creates a custom ruleset with a single rule that [checks for exposed credentials](/waf/managed-rules/check-for-exposed-credentials/configure-api/#create-a-custom-rule-checking-for-exposed-credentials).
 
 You can only add exposed credential checks to rules in a custom ruleset (that is, a ruleset with `kind = "custom"`).
 
