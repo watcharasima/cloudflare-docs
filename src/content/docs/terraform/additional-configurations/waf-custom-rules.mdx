@@ -78,10 +78,10 @@ resource "cloudflare_ruleset" "zone_custom_firewall_leaked_creds" {
   phase       = "http_request_firewall_custom"
 
   rules {
-    action = "managed_challenge"
-    expression = "(cf.waf.credential_check.username_and_password_leaked)"
+    ref         = "challenge_leaked_username_password"
     description = "Challenge requests with a leaked username and password"
-    enabled = true
+    expression  = "(cf.waf.credential_check.username_and_password_leaked)"
+    action      = "managed_challenge"
   }
 }
 ```
