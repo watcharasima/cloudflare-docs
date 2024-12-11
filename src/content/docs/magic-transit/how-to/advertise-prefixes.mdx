@@ -48,14 +48,15 @@ Current customers who are still using Cloudflare's AS209242 can continue using t
 
 After you add the prefix, you can edit its status.
 
-## Edit the status of a prefix
+## Advertise or withdraw a prefix
 
-1. From the **IP Prefixes** tab, locate the prefix you want to modify and select **Edit**.
-2. On the **Edit IP Prefix** page under **Status**, choose a status.
-3. _(Optional)_ Edit the description for your prefix.
-4. Select **Edit IP Prefix** to save your changes.
+1. Go to **Magic Transit** > **Configuration**.
+2. From **IP Prefixes** tab, select the prefix you want to modify > **Edit**.
+3. From the dropdown menu **Status**, choose weather the status of your IP is _Advertised_ or _Withdrawn_.
+4. _(Optional)_ Edit the description for your prefix.
+5. Select **Edit IP Prefix** to save your changes.
 
-:::note[Note:]
+:::note
 To avoid latency and potentially dropped routes, enable prefix advertisement from Cloudflare before withdrawing the advertisement from your data center.
 :::
 
@@ -63,8 +64,10 @@ To avoid latency and potentially dropped routes, enable prefix advertisement fro
 
 You can only delete a prefix with an **Unapproved** status. To delete prefixes with a different status, contact your administrator or account manager.
 
-1. From the **IP Prefixes** tab, locate the prefix you want to modify and select **Delete**.
-2. Confirm your choice from the modal by selecting **Delete**.
+1. Go to **Magic Transit** > **Configuration**.
+2. From the **IP Prefixes** tab, locate the prefix you want to modify.
+3. Select the three dots in front of the IP prefix > **Delete**.
+4. Confirm your choice from the modal by selecting **Delete**.
 
 :::note
 Withdrawing a prefix should propagate across Cloudflare's global network almost instantly, with changes typically taking effect within a few minutes at most. However, Cloudflare has no control over how long ISPs take to refresh their routes. Keep this in mind when announcing or withdrawing a prefix from your account, and plan accordingly.
