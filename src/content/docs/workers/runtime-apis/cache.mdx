@@ -161,7 +161,7 @@ The `stale-while-revalidate` and `stale-if-error` directives are not supported w
 :::
 
 :::note
-Do not use dynamic or invalid hostnames in cache requests. This can cause DNS cache failures and latency.
+To avoid unnecessary DNS lookups and cache inefficiencies, do not override the hostname in cache requests. Always use the hostname that matches the domain associated with your Worker.
 :::
 
 #### Parameters
