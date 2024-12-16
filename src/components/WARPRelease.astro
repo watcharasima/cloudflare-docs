@@ -1,0 +1,46 @@
+---
+import Details from "./Details.astro";
+import { marked } from "marked";
+import { z } from "astro:schema";
+import { format } from "date-fns";
+import prettyBytes from "pretty-bytes";
+import { warpReleasesSchema } from "~/schemas";
+
+type Props = z.infer<typeof props>;
+
+const props = z.object({
+	header: z.string(),
+	open: z.boolean().default(false),
+	platform: z.enum(["Windows", "Linux", "MacOS"]),
+	release: warpReleasesSchema,
+});
+
+const { header, open, platform, release } = props.parse(Astro.props);
+---
+
+<Details header={header} open={open}>
+	<p>
+		<span>
+			<h4>Download</h4>
+		</span>
+		<div class="flex gap-2">
+			<span>
+				<a href={release.packagePath}>{platform} {release.version}</a>
+			</span>
+			<span>
+				<strong>Date: </strong>
+				{format(release.date, "yyyy-MM-dd")}
+			</span>
+			<span>
+				<strong>Size: </strong>
+				{prettyBytes(release.packageSize)}
+			</span>
+		</div>
+	</p>
+	<p>
+		<span>
+			<h4>Release notes</h4>
+		</span>
+		<Fragment set:html={marked.parse(release.releaseNotes)} />
+	</p>
+</Details>

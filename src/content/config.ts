@@ -11,6 +11,7 @@ import {
 	glossarySchema,
 	learningPathsSchema,
 	videosSchema,
+	warpReleasesSchema,
 	workersAiSchema,
 } from "~/schemas";
 
@@ -72,6 +73,10 @@ export const collections = {
 	}),
 	apps: defineCollection({
 		schema: appsSchema,
+		type: "data",
+	}),
+	"warp-releases": defineCollection({
+		schema: warpReleasesSchema.array(),
 		type: "data",
 	}),
 };

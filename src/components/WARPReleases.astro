@@ -1,0 +1,39 @@
+---
+import WARPRelease from "./WARPRelease.astro";
+import Details from "./Details.astro";
+import { getEntry } from "astro:content";
+
+const sortByDate = (a: any, b: any) => b.date.getTime() - a.date.getTime();
+
+const { data: windowsReleases } = await getEntry("warp-releases", "windows-ga");
+
+windowsReleases.sort(sortByDate);
+
+const latestWindowsRelease = windowsReleases.at(0);
+
+if (!latestWindowsRelease) {
+	throw new Error();
+}
+---
+
+<WARPRelease
+	header="Download latest release"
+	open={true}
+	platform="Windows"
+	release={latestWindowsRelease}
+/>
+
+<Details header=`Previous version history (${windowsReleases.length - 1})`>
+	{
+		windowsReleases
+			.slice(1)
+			.sort(sortByDate)
+			.map((release) => (
+				<WARPRelease
+					header={`Windows ${release.version}`}
+					platform="Windows"
+					release={release}
+				/>
+			))
+	}
+</Details>

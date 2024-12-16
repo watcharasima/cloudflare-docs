@@ -1,0 +1,18 @@
+- version: 1.2.3
+  packagePath: https://example.com/
+  date: 2024-12-12
+  packageSize: 123456789
+  releaseNotes: |
+    - Lorem Ipsum
+- version: 1.2.2
+  packagePath: https://example.com/
+  date: 2024-12-11
+  packageSize: 123456789
+  releaseNotes: |
+    - Lorem Ipsum
+- version: 1.2.1
+  packagePath: https://example.com/
+  date: 2024-12-10
+  packageSize: 123456789
+  releaseNotes: |
+    - Lorem Ipsum
