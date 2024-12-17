@@ -5,7 +5,7 @@ sidebar:
   order: 2
 ---
 
-import { Render, PackageManagers } from "~/components"
+import { Render, PackageManagers } from "~/components";
 
 # Send records from a Worker
 
