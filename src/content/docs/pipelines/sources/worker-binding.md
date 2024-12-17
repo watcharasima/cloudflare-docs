@@ -113,4 +113,7 @@ Copy your `*.workers.dev` subdomain and paste it into a new browser tab. Refresh
 Go to the R2 bucket you created in step 2 via [the Cloudflare dashboard](https://dash.cloudflare.com/). You should see a prefix for today's date. Click through, and you'll find one or more files, containing the records you sent in step 4.
 
 # Local Development
-When running your Worker locally, sending data to your Pipeline will return a successful response. However, the data will not actually be sent to a Pipeline.
+:::note
+Known issue: When running your Worker locally, sending data to your Pipeline currently results in an error.
+:::
+<!-- When running your Worker locally, sending data to your Pipeline will return a successful response. However, the data will not actually be sent to a Pipeline. -->
