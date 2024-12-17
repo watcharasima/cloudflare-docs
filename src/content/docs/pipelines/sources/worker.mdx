@@ -1,8 +1,11 @@
 ---
-title: Pipeline Source - Workers
+title: Workers
 pcx_content_type: concept
 sidebar:
   order: 2
+head:
+  - tag: title
+    content: Pipeline Source - Worker
 ---
 
 import { Render, PackageManagers } from "~/components";
@@ -18,7 +21,7 @@ You can send records to your Pipeline directly from a [Cloudflare Worker](/worke
 6. Verify in R2
 
 ## 1. Create a Worker
-Create a Cloudflare Worker if you don't alreadyåhave one. This Worker will send records to your Pipeline.
+Create a Cloudflare Worker if you don't already have one. This Worker will send records to your Pipeline.
 
 To create a Worker, run:
 
@@ -32,9 +35,9 @@ To create a Worker, run:
 	file="c3-post-run-steps"
 	product="workers"
 	params={{
-		one: "Hello World example",
-		two: "Hello World Worker",
-		three: "TypeScript",
+		category: "hello-world",
+		type: "Hello World Worker",
+		lang: "TypeScript",
 	}}
 />
 
