@@ -8,7 +8,7 @@ head:
     content: Common DNS policies
 ---
 
-import { Render } from "~/components";
+import { Render, Tabs, TabItem } from "~/components";
 
 The following policies are commonly used to secure DNS traffic.
 
@@ -18,9 +18,38 @@ Refer to the [DNS policies page](/cloudflare-one/policies/gateway/dns-policies/)
 
 This policy allows users to access official corporate domains. By deploying the policy with high [order of precedence](/cloudflare-one/policies/gateway/order-of-enforcement/#order-of-precedence), you ensure that employees can access trusted domains even if they fall under a blocked category like _Newly seen domains_ or _Login pages_.
 
+<Tabs syncKey="dashPlusAPI"> <TabItem label="Dashboard">
+
 | Selector | Operator | Value             | Action | Precedence |
 | -------- | -------- | ----------------- | ------ | ---------- |
 | Domain   | in list  | _Allowed domains_ | Allow  | 1          |
+
+</TabItem>
+
+<TabItem label="API">
+
+```sh
+curl https://api.cloudflare.com/client/v4/accounts/{account_id}/gateway/rule\
+--header "Content-Type: application/json" \
+--header "Authorization: Bearer <API_TOKEN>" \
+--data '{
+  "name": "Block security risks",
+  "description": "Block all default Cloudflare DNS security categories",
+  "precedence": 0,
+  "enabled": true,
+  "action": "allow",
+  "filters": [
+    "dns"
+  ],
+  "traffic": "any(dns.domains[*] in $<LIST-UUID>)",
+  "identity": "",
+  "device_posture": ""
+}'
+```
+
+To get the UUID of your list, use the [List Zero Trust lists](/api/resources/zero_trust/subresources/gateway/subresources/lists/methods/list/) endpoint.
+
+</TabItem> </Tabs>
 
 ## Block security threats
 
