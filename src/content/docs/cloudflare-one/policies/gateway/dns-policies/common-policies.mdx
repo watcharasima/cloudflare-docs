@@ -16,11 +16,11 @@ Refer to the [DNS policies page](/cloudflare-one/policies/gateway/dns-policies/)
 
 ## Allow corporate domains
 
-This policy allows users to access official corporate domains. By deploying the policy with high [order of precedence](/cloudflare-one/policies/gateway/order-of-enforcement/#order-of-precedence), you ensure that employees can access trusted domains even if they fall under a blocked category like `Newly seen domains` or `Login pages`.
+This policy allows users to access official corporate domains. By deploying the policy with high [order of precedence](/cloudflare-one/policies/gateway/order-of-enforcement/#order-of-precedence), you ensure that employees can access trusted domains even if they fall under a blocked category like _Newly seen domains_ or _Login pages_.
 
 | Selector | Operator | Value             | Action | Precedence |
 | -------- | -------- | ----------------- | ------ | ---------- |
-| Domain   | in list  | `Allowed domains` | Allow  | 1          |
+| Domain   | in list  | _Allowed domains_ | Allow  | 1          |
 
 ## Block security threats
 
@@ -32,7 +32,7 @@ The categories included in this policy are not always a security threat, but blo
 
 | Selector           | Operator | Value                                                     | Action |
 | ------------------ | -------- | --------------------------------------------------------- | ------ |
-| Content Categories | in       | `Questionable Content`, `Security Risks`, `Miscellaneous` | Block  |
+| Content Categories | in       | _Questionable Content_, _Security Risks_, _Miscellaneous_ | Block  |
 
 <Render file="gateway/policies/block-applications" product="cloudflare-one" />
 
@@ -42,7 +42,7 @@ You can implement policies to block websites hosted in countries categorized as 
 
 | Selector                        | Operator | Value                                                                                                                                                          | Action |
 | ------------------------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
-| Resolved Country IP Geolocation | in       | `Afghanistan`, `Belarus`, `Congo (Kinshasa)`, `Cuba`, `Iran`, `Iraq`, `Korea, North`, `Myanmar`, `Russian Federation`, `Sudan`, `Syria`, `Ukraine`, `Zimbabwe` | Block  |
+| Resolved Country IP Geolocation | in       | _Afghanistan_, _Belarus_, _Congo (Kinshasa)_, _Cuba_, _Iran_, _Iraq_, _Korea, North_, _Myanmar_, _Russian Federation_, _Sudan_, _Syria_, _Ukraine_, _Zimbabwe_ | Block  |
 
 ## Block top-level domains
 
@@ -56,20 +56,20 @@ Blocking [frequently misused](https://www.spamhaus.org/statistics/tlds/) top-lev
 
 ## Block phishing attacks
 
-To protect against [sophisticated phishing attacks](https://blog.cloudflare.com/2022-07-sms-phishing-attacks/), you could prevent users from accessing phishing domains that are specifically targeting your organization. The following policy blocks specific keywords associated with an organization or its authentication services (such as `okta`, `2fa`, `cloudflare` or `sso`), while still allowing access to official corporate domains.
+To protect against [sophisticated phishing attacks](https://blog.cloudflare.com/2022-07-sms-phishing-attacks/), you could prevent users from accessing phishing domains that are specifically targeting your organization. The following policy blocks specific keywords associated with an organization or its authentication services (such as _okta_, _2fa_, _cloudflare_ or _sso_), while still allowing access to official corporate domains.
 
 | Selector | Operator      | Value                                       | Logic | Action |
 | -------- | ------------- | ------------------------------------------- | ----- | ------ |
-| Domain   | not in list   | `Corporate Domains`                         | And   | Block  |
+| Domain   | not in list   | _Corporate Domains_                         | And   | Block  |
 | Domain   | matches regex | `.*okta.*\|.*cloudflare.*\|.*mfa.*\|.sso.*` |       |        |
 
 ## Block online tracking
 
-To safeguard user privacy, some organizations will block tracking domains such as `dig.whatsapp.com` as well as other tracking domains embedded at the OS level. This policy is implemented by creating a custom blocklist. Refer to [this repository](https://github.com/nextdns/native-tracking-domains/tree/28991a0d5b2ab6d35588a74af82162ea7caff420/domains) for a list of widespread tracking domains that you can add to your blocklist.
+To safeguard user privacy, some organizations will block tracking domains such as _dig.whatsapp.com_ as well as other tracking domains embedded at the OS level. This policy is implemented by creating a custom blocklist. Refer to [this repository](https://github.com/nextdns/native-tracking-domains/tree/28991a0d5b2ab6d35588a74af82162ea7caff420/domains) for a list of widespread tracking domains that you can add to your blocklist.
 
 | Selector | Operator | Value                  | Action |
 | -------- | -------- | ---------------------- | ------ |
-| Domain   | in list  | `Top tracking domains` | Block  |
+| Domain   | in list  | _Top tracking domains_ | Block  |
 
 ## Block malicious IPs
 
@@ -77,7 +77,7 @@ Block specific IP addresses that are known to be malicious or pose a threat to y
 
 | Selector    | Operator | Value     | Action |
 | ----------- | -------- | --------- | ------ |
-| Resolved IP | in list  | `DShield` | Block  |
+| Resolved IP | in list  | _DShield_ | Block  |
 
 ## CIPA Filter
 
@@ -85,7 +85,7 @@ The CIPA Filter is a collection of subcategories that encompass a wide range of 
 
 | Selector           | Operator | Value         | Action |
 | ------------------ | -------- | ------------- | ------ |
-| Content Categories | in       | `CIPA Filter` | Block  |
+| Content Categories | in       | _CIPA Filter_ | Block  |
 
 ## Hide explicit search results
 
@@ -93,7 +93,7 @@ SafeSearch is a feature of search engines that helps you filter explicit or offe
 
 | Selector           | Operator | Value            | Action      |
 | ------------------ | -------- | ---------------- | ----------- |
-| Content Categories | in       | `Search Engines` | Safe Search |
+| Content Categories | in       | _Search Engines_ | Safe Search |
 
 <Render file="gateway/policies/policies-optional" />
 
@@ -105,16 +105,16 @@ The following example includes two policies. The first policy allows the specifi
 
 ### 1. Allow a group
 
-| Selector           | Operator | Value            | Logic | Action |
-| ------------------ | -------- | ---------------- | ----- | ------ |
-| Content Categories | in       | Social Networks  | And   | Allow  |
-| User Group Names   | in       | `marketing-team` |       |        |
+| Selector           | Operator | Value             | Logic | Action |
+| ------------------ | -------- | ----------------- | ----- | ------ |
+| Content Categories | in       | _Social Networks_ | And   | Allow  |
+| User Group Names   | in       | _marketing-team_  |       |        |
 
 ### 2. Block all other users
 
-| Selector           | Operator | Value           | Action |
-| ------------------ | -------- | --------------- | ------ |
-| Content Categories | in       | Social Networks | Block  |
+| Selector           | Operator | Value             | Action |
+| ------------------ | -------- | ----------------- | ------ |
+| Content Categories | in       | _Social Networks_ | Block  |
 
 ## Control IP version
 
@@ -129,16 +129,16 @@ To ensure traffic routes via your preferred IP version, disable **Display block 
 
 Force users to connect with IPv4.
 
-| Selector          | Operator | Value       | Logic | Action |
-| ----------------- | -------- | ----------- | ----- | ------ |
-| Query Record Type | is       | AAAA        | And   | Block  |
-| Domain            | is       | example.com |       |        |
+| Selector          | Operator | Value         | Logic | Action |
+| ----------------- | -------- | ------------- | ----- | ------ |
+| Query Record Type | is       | _AAAA_        | And   | Block  |
+| Domain            | is       | `example.com` |       |        |
 
 ### Force IPv6
 
 Force users to connect with IPv6.
 
-| Selector          | Operator | Value       | Logic | Action |
-| ----------------- | -------- | ----------- | ----- | ------ |
-| Query Record Type | is       | A           | And   | Block  |
-| Domain            | is       | example.com |       |        |
+| Selector          | Operator | Value         | Logic | Action |
+| ----------------- | -------- | ------------- | ----- | ------ |
+| Query Record Type | is       | _A_           | And   | Block  |
+| Domain            | is       | `example.com` |       |        |
