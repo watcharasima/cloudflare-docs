@@ -3,11 +3,11 @@ import { getCollection } from "astro:content";
 import type { APIRoute } from "astro";
 
 export const GET: APIRoute = async () => {
-	const notes = await getCollection("release-notes");
+	const notes = await getCollection("changelogs-next");
 
 	return rss({
-		title: "Release notes",
-		description: `Cloudflare release notes`,
+		title: "Changelogs",
+		description: `Cloudflare changelogs`,
 		site: "https://developers.cloudflare.com",
 		trailingSlash: false,
 		items: notes.map((entry) => {
@@ -17,7 +17,7 @@ export const GET: APIRoute = async () => {
 				title: entry.data.title,
 				description: entry.data.description,
 				pubDate: date,
-				link: `/release-notes/${entry.slug}/`,
+				link: `/changelogs-next/${entry.slug}/`,
 			};
 		}),
 	});

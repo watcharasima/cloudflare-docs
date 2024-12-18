@@ -4,8 +4,8 @@ import { z } from "astro:schema";
 import { getEntry, reference, type CollectionEntry } from "astro:content";
 
 import { StarlightIcon } from "..";
-import HeroImage from "~/assets/images/release-notes/hero.svg";
-import { releaseNotesSchema } from "~/schemas";
+import HeroImage from "~/assets/images/changelogs-next/hero.svg";
+import { changelogsNextSchema } from "~/schemas";
 
 type Props = z.infer<typeof props>;
 
@@ -16,7 +16,7 @@ const props = z.object({
 const { entries } = props.parse(Astro.props);
 
 async function uniqueProducts(
-	entries?: Array<CollectionEntry<"release-notes">>,
+	entries?: Array<CollectionEntry<"changelogs-next">>,
 ) {
 	const products = entries?.flatMap((entry) => entry.data.products ?? []);
 
@@ -45,7 +45,7 @@ const products = await uniqueProducts(entries);
 				New updates and improvements at Cloudflare.
 				<span>
 					<a
-						href="/release-notes/rss.xml"
+						href="/changelogs-next/rss.xml"
 						class="px-2 text-[#056DFF] no-underline hover:rounded-[4px] hover:bg-[#DCEBFF] hover:!text-[#056DFF] dark:text-[#79B1FF] dark:hover:bg-[#002B66] dark:hover:!text-[#79B1FF]"
 					>
 						Subscribe to RSS
@@ -60,7 +60,7 @@ const products = await uniqueProducts(entries);
 			{
 				entries && (
 					<div>
-						<select id="release-notes-filter" class="mt-2 h-8 w-52">
+						<select id="changelogs-next-filter" class="mt-2 h-8 w-52">
 							<option value="all">All products</option>
 							{products
 								.sort((a, b) => a.id.localeCompare(b.id))

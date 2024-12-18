@@ -2,12 +2,12 @@
 import StarlightPage from "@astrojs/starlight/components/StarlightPage.astro";
 import type { GetStaticPaths } from "astro";
 import { getCollection } from "astro:content";
-import Header from "~/components/changelogs/Header.astro";
-import ProductPills from "~/components/changelogs/ProductPills.astro";
+import Header from "~/components/changelogs-next/Header.astro";
+import ProductPills from "~/components/changelogs-next/ProductPills.astro";
 import { format } from "date-fns";
 
 export const getStaticPaths = (async () => {
-	const notes = await getCollection("release-notes");
+	const notes = await getCollection("changelogs-next");
 
 	return notes.map((note) => {
 		return {
@@ -38,7 +38,7 @@ const { Content, headings } = await note.render();
 	<Header />
 	<div class="w-full max-w-[50rem] justify-self-center">
 		<div class="!mt-0 mb-10">
-			<a href="/release-notes/" class="no-underline">
+			<a href="/changelogs-next/" class="no-underline">
 				<span class="text-accent">← </span>
 				<span class="text-black">Back to all posts</span>
 			</a>

@@ -157,21 +157,19 @@ async function handleLink(link: Link): Promise<Link> {
 	return link;
 }
 
-if (currentSection !== "release-notes") {
-	filtered.entries = await Promise.all(
-		filtered.entries.map((entry) => {
-			if (entry.type === "group") {
-				return handleGroup(entry);
-			} else {
-				return handleLink(entry);
-			}
-		}),
-	);
+filtered.entries = await Promise.all(
+	filtered.entries.map((entry) => {
+		if (entry.type === "group") {
+			return handleGroup(entry);
+		} else {
+			return handleLink(entry);
+		}
+	}),
+);
 
-	filtered.entries = filtered.entries.sort(sortGroup);
+filtered.entries = filtered.entries.sort(sortGroup);
 
-	filtered.entries[0].label = "Overview";
-}
+filtered.entries[0].label = "Overview";
 
 const lookupProductTitle = async (slug: string) => {
 	const segments = slug.split("/");
@@ -185,10 +183,6 @@ const lookupProductTitle = async (slug: string) => {
 		return `${entryData?.data?.title} (Learning Paths)`;
 	}
 
-	if (product === "release-notes") {
-		return "Release notes";
-	}
-
 	const entryData = await getEntry("products", product);
 
 	return entryData?.data?.product?.title ?? "Unknown";
@@ -197,11 +191,11 @@ const lookupProductTitle = async (slug: string) => {
 
 <a
 	href={"/" + currentSection + "/"}
-	class="items-center flex hover:opacity-80 decoration-[color:var(--orange-accent-200)]"
+	class="flex items-center decoration-[color:var(--orange-accent-200)] hover:opacity-80"
 >
 	<AstroIcon
 		name={currentSection}
-		class="text-[color:var(--orange-accent-200)] text-4xl mr-2"
+		class="mr-2 text-4xl text-[color:var(--orange-accent-200)]"
 	/>
 	<span class="text-black dark:text-white">
 		<strong>

@@ -12,7 +12,7 @@ import {
 	learningPathsSchema,
 	videosSchema,
 	workersAiSchema,
-	releaseNotesSchema,
+	changelogsNextSchema,
 } from "~/schemas";
 
 const partialSchema = z.object({
@@ -75,7 +75,7 @@ export const collections = {
 		schema: appsSchema,
 		type: "data",
 	}),
-	"release-notes": defineCollection({
-		schema: releaseNotesSchema,
+	"changelogs-next": defineCollection({
+		schema: changelogsNextSchema,
 	}),
 };
