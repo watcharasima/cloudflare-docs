@@ -94,6 +94,13 @@ g.example.com.  60  IN  A   1.1.1.1
 
 When exporting and importing, special tags starting by `cf-` allow you to control specific Cloudflare configurations. On export, these tags are automatically added to reflect the current configuration for each record on your zone.
 
+```txt title="Records with cf- tags example"
+;; CNAME Records
+a.cloudflaredocs.com.	1	IN	CNAME	example.com. ; cf_tags=test:1,cf-flatten-cname
+b.cloudflaredocs.com.	1	IN	CNAME	example.com. ; cf_tags=cf-proxied:false
+c.cloudflaredocs.com.	1	IN	CNAME	example.com. ; cf_tags=tag-without-value,cf-proxied:true
+```
+
 #### cf-proxied
 
 On export, [proxied DNS records](/dns/manage-dns-records/reference/proxied-dns-records/#proxied-records) will present a tag `cf-proxied:true` while DNS-only records will have this tag set to `cf-proxied:false`.
