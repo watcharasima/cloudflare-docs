@@ -5,7 +5,7 @@ sidebar:
   order: 2
 ---
 
-import { Render, Details, LinkButton, WARPReleases } from "~/components";
+import { Render, Details, WARPReleases } from "~/components";
 
 You can download the WARP client from [Zero Trust](https://one.dash.cloudflare.com/) under **Settings** > **Resources** > **Download the WARP client**.
 
@@ -33,106 +33,41 @@ Cloudflare tests new WARP features and improvements in an unstable beta release 
 
 ### Stable releases
 
-| Version | Date | Size | Download link |
-| -- | -- | -- | -- |
-| 2024.11.309.0 | November 18, 2024  | 77.22 MB | <LinkButton href="(https://1111-releases.cloudflareclient.com/mac/latest)">Download latest release for macOS</LinkButton> <br/> [Alternate download link](https://one.one.one.one)|
-
-This release contains minor fixes and improvements.
-
-**Changes and improvements**:
-	- Fixed an issue where SSH sessions and other application connections over TCP or UDP could drop when a device that is using MASQUE changes its primary network interface.
-	- Fixed an issue to ensure the Cloudflare root certificate (or custom certificate) is installed in the trust store if not already there.
-	- Fixed an issue with the WARP client becoming unresponsive during startup.
-	- Extended `warp-diag` to collect system profiler firewall state as part of diagnostics.
-	- Fixed an issue with the WARP client becoming unresponsive while handling LAN inclusion.
-	- Fixed an issue where users were unable to connect with an IPC error message displayed in the UI.
-	- Fixed an issue that was preventing proper operation of DNS-over-TLS (DoT) for consumer users.
-
-**Known issues**:
-	- macOS Sequoia: Due to changes Apple introduced in macOS 15.0.x, the WARP client may not behave as expected. Cloudflare recommends the use of macOS 15.1 or later.
-
-#### Previous versions
-
-Cloudflare currently supports the following older versions of WARP. To learn more about our support lifecycle, refer to [Update WARP](/cloudflare-one/connections/connect-devices/warp/download-warp/update-warp/).
-
-<Details header="macOS 2024.9.346.0">
-	- [Download]()
-	- **Date**: October 3, 2024
-	- **Size**: 76.29 MB
-	- **Release notes**: This release contains minor fixes and improvements. All customers running macOS Ventura 13.0 and above (including Sequoia) are advised to upgrade to this release. This release fixes an incompatibility with the firewall found on macOS Sonoma 14.4 and above that could result in the firewall being disabled.
-			- **Changes and improvements**:
-			  - Added `target list` to the `warp-cli` to enhance the user experience with the [Access for Infrastructure SSH](/cloudflare-one/connections/connect-networks/use-cases/ssh/ssh-infrastructure-access/) solution.
-        - Added a `tunnel reset mtu` subcommand to the `warp-cli`.
-        - Added the ability for `warp-cli` to use the team name provided in the MDM file for initial registration.
-        - Added a JSON output option to the `warp-cli`.
-        - Added the ability to execute a PCAP on multiple interfaces with `warp-cli` and `warp-dex`.
-        - Improved `warp-dex` default interface selection for PCAPs and changed `warp-dex` CLI output to JSON.
-        - Improved [application posture check](/cloudflare-one/identity/devices/warp-client-checks/application-check/) compatibility with symbolically linked files.
-        - Fixed an issue where the client, when switching between WireGuard and MASQUE protocols, sometimes required a manual tunnel key reset.
-        - Added MASQUE tunnel protocol support for the consumer version of WARP ([1.1.1.1 w/ WARP](/warp-client/)).
-			- **Known issues**:
-			  - Using MASQUE as the tunnel protocol may be incompatible if your organization has Regional Services is enabled.
-</Details>
-
-<Details header="macOS 2024.8.457.0">
-	- [Download]()
-	- **Date**:
-	- **Size**:
-	- **Release notes**:
-			- **Changes and improvements**:
-			- **Known issues**:
-</Details>
+<WARPReleases />
 
 ### Beta releases
 
 Cloudflare tests new WARP features and improvements in an unstable beta release before adding them to the stable release. To get early access to new features, download the latest beta client.
 
-<Details header="macOS 2024.11.688.1 (latest beta)">
-	- [Download]()
-	- **Date**: December 5, 2024
-	- **Size**: 81.33 MB
-	- **Release notes**: This release contains minor fixes and improvements.
-			- **Changes and improvements**:
-					- Consumers can now set the tunnel protocol using `warp-cli tunnel protocol set <protocol>`.
-					- Extended diagnostics collection time in `warp-diag` to ensure logs are captured reliably.
-					- Improved captive portal support by disabling the firewall during captive portal login flows.
-					- Improved reliability of connection establishment logic under degraded network conditions.
-					- Improved reconnection speed when a Cloudflare server is in a degraded state.
-					- Improved captive portal detection on certain public networks.
-					- Fixed an issue where admin override displayed an incorrect override end time.
-					- Reduced connectivity interruptions on WireGuard include split tunnel configurations.
-			- **Known issues**:
-					- macOS Sequoia: Due to changes Apple introduced in macOS 15.0.x, the WARP client may not behave as expected. Cloudflare recommends the use of macOS 15.1 or later.
+<Details header="Download latest release">
+
+**Download**
+
+[macOS 2024.11.688.1]() **Date**: December 5, 2024 **Size**: 81.33 MB
+
+**Release notes**
+
+This release contains minor fixes and improvements.
+
+		- **Changes and improvements**:
+				- Consumers can now set the tunnel protocol using `warp-cli tunnel protocol set <protocol>`.
+				- Extended diagnostics collection time in `warp-diag` to ensure logs are captured reliably.
+				- Improved captive portal support by disabling the firewall during captive portal login flows.
+				- Improved reliability of connection establishment logic under degraded network conditions.
+				- Improved reconnection speed when a Cloudflare server is in a degraded state.
+				- Improved captive portal detection on certain public networks.
+				- Fixed an issue where admin override displayed an incorrect override end time.
+				- Reduced connectivity interruptions on WireGuard include split tunnel configurations.
+		- **Known issues**:
+				- macOS Sequoia: Due to changes Apple introduced in macOS 15.0.x, the WARP client may not behave as expected. Cloudflare recommends the use of macOS 15.1 or later.
+
 </Details>
 
-<Details header="macOS 2024.10.537.1">
-	- [Download]()
-	- **Date**: November 5, 2024
-	- **Size**: 78.44 MB
-	- **Release notes**: This release contains an exciting new feature along with reliability improvements and general bug fixes. Please take time over the next few weeks to play with the new functionality and let us know what you think on both the community forum and through your account teams.
-			- **New features**:
-				- Added the ability for administrators to initiate remote packet capture (PCAP) and warp-diag collection
-			- **Changes and improvements**:
-				- Improved handling of multiple network interfaces on the system
-				- Improved reliability of connection establishment logic under degraded network conditions
-				- Improved captive portal detection behavior by forcing captive portal checks outside the tunnel
-				- Allow the ability to configure tunnel protocol for consumer registrations
-				- Fixed an issue with the WARP client becoming unresponsive during startup
-				- Extended diagnostics collection time in warp-diag to ensure logs are captured reliably
-				- Extended warp-diag to collect system profiler firewall state as part of diagnostics
-				- Fixed an issue with the Cloudflare WARP GUI showing garbled text in some cases
-				- Fixed an issue with the WARP client becoming unresponsive while handling LAN inclusion
-			- **Known issues**:
-				- The WARP client may not function correctly on macOS 15.0 (Sequoia). We recommend updating to macOS 15.1 to resolve these issues.
-</Details>
-
-<Details header="macOS 2024.10.279.1">
-	- [Download]()
-	- **Date**:
-	- **Size**:
-	- **Release notes**:
-			- **Changes and improvements**:
-			- **Known issues**:
+<Details header="Previous version history (2)">
+	<Details header="macOS 2024.10.537.1">
+	</Details>
+	<Details header="macOS 2024.10.279.1">
+	</Details>
 </Details>
 
 ## Linux
