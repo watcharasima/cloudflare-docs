@@ -47,7 +47,7 @@ curl https://api.cloudflare.com/client/v4/accounts/{account_id}/gateway/rule\
 }'
 ```
 
-To get the UUID of your list, use the [List Zero Trust lists](/api/resources/zero_trust/subresources/gateway/subresources/lists/methods/list/) endpoint.
+<Render file="gateway/policies/get-list" />
 
 </TabItem> </Tabs>
 
@@ -141,9 +141,8 @@ curl https://api.cloudflare.com/client/v4/accounts/{account_id}/gateway/rule\
 --data '{
   "name": "Block unauthorized applications",
   "description": "Block access to unauthorized AI applications",
-  "precedence": 0,
   "enabled": true,
-  "action": "allow",
+  "action": "block",
   "filters": [
     "dns"
   ],
@@ -159,13 +158,41 @@ curl https://api.cloudflare.com/client/v4/accounts/{account_id}/gateway/rule\
 
 You can implement policies to block websites hosted in countries categorized as high risk. The designation of such countries may result from your organization's customers or through the implementation of regulations including [EAR](https://www.tradecompliance.pitt.edu/embargoed-and-sanctioned-countries), [OFAC](https://orpa.princeton.edu/export-controls/sanctioned-countries), and [ITAR](https://www.tradecompliance.pitt.edu/embargoed-and-sanctioned-countries).
 
+<Tabs syncKey="dashPlusAPI"> <TabItem label="Dashboard">
+
 | Selector                        | Operator | Value                                                                                                                                                          | Action |
 | ------------------------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
 | Resolved Country IP Geolocation | in       | _Afghanistan_, _Belarus_, _Congo (Kinshasa)_, _Cuba_, _Iran_, _Iraq_, _Korea, North_, _Myanmar_, _Russian Federation_, _Sudan_, _Syria_, _Ukraine_, _Zimbabwe_ | Block  |
 
+</TabItem>
+
+<TabItem label="API">
+
+```sh
+curl https://api.cloudflare.com/client/v4/accounts/{account_id}/gateway/rule\
+--header "Content-Type: application/json" \
+--header "Authorization: Bearer <API_TOKEN>" \
+--data '{
+  "name": "Block banned countries",
+  "description": "Block access to banned countries",
+  "enabled": true,
+  "action": "block",
+  "filters": [
+    "dns"
+  ],
+  "traffic": "any(dns.dst.geo.country[*] in {\"AF\" \"BY\" \"CD\" \"CU\" \"IR\" \"IQ\" \"KP\" \"MM\" \"RU\" \"SD\" \"SY\" \"UA\" \"ZW\"})",
+  "identity": "",
+  "device_posture": ""
+}'
+```
+
+</TabItem> </Tabs>
+
 ## Block top-level domains
 
 Blocking [frequently misused](https://www.spamhaus.org/statistics/tlds/) top-level domains (TLDs) can reduce security risks, especially when there is no discernible advantage to be gained from allowing access. Similarly, restricting access to specific country-level TLDs may be necessary to comply with regulations like [ITAR](https://www.tradecompliance.pitt.edu/embargoed-and-sanctioned-countries) or [OFAC](https://orpa.princeton.edu/export-controls/sanctioned-countries).
+
+<Tabs syncKey="dashPlusAPI"> <TabItem label="Dashboard">
 
 | Selector | Operator      | Value                                                                 | Logic | Action |
 | -------- | ------------- | --------------------------------------------------------------------- | ----- | ------ |
@@ -173,14 +200,66 @@ Blocking [frequently misused](https://www.spamhaus.org/statistics/tlds/) top-lev
 | Domain   | matches regex | `[.](rest\|hair\|top\|live\|cfd\|boats\|beauty\|mom\|skin\|okinawa)$` | Or    |        |
 | Domain   | matches regex | `[.](zip\|mobi)$`                                                     |       |        |
 
+</TabItem>
+
+<TabItem label="API">
+
+```sh
+curl https://api.cloudflare.com/client/v4/accounts/{account_id}/gateway/rule\
+--header "Content-Type: application/json" \
+--header "Authorization: Bearer <API_TOKEN>" \
+--data '{
+  "name": "Block top-level domains",
+  "description": "Block top-level domains that are frequently used for malicious practices",
+  "enabled": true,
+  "action": "block",
+  "filters": [
+    "dns"
+  ],
+  "traffic": "any(dns.domains[*] matches \"[.](cn|ru)$\") or any(dns.domains[*] matches \"[.](rest|hair|top|live|cfd|boats|beauty|mom|skin|okinawa)$\") or any(dns.domains[*] matches \"[.](zip|mobi)$\")",
+  "identity": "",
+  "device_posture": ""
+}'
+```
+
+</TabItem> </Tabs>
+
 ## Block phishing attacks
 
 To protect against [sophisticated phishing attacks](https://blog.cloudflare.com/2022-07-sms-phishing-attacks/), you could prevent users from accessing phishing domains that are specifically targeting your organization. The following policy blocks specific keywords associated with an organization or its authentication services (such as _okta_, _2fa_, _cloudflare_ or _sso_), while still allowing access to official corporate domains.
+
+<Tabs syncKey="dashPlusAPI"> <TabItem label="Dashboard">
 
 | Selector | Operator      | Value                                       | Logic | Action |
 | -------- | ------------- | ------------------------------------------- | ----- | ------ |
 | Domain   | not in list   | _Corporate Domains_                         | And   | Block  |
 | Domain   | matches regex | `.*okta.*\|.*cloudflare.*\|.*mfa.*\|.sso.*` |       |        |
+
+</TabItem>
+
+<TabItem label="API">
+
+```sh
+curl https://api.cloudflare.com/client/v4/accounts/{account_id}/gateway/rule\
+--header "Content-Type: application/json" \
+--header "Authorization: Bearer <API_TOKEN>" \
+--data '{
+  "name": "Block phishing attacks",
+  "description": "Block attempts to phish specific domains targeting your organization",
+  "enabled": true,
+  "action": "block",
+  "filters": [
+    "dns"
+  ],
+  "traffic": "not(any(dns.domains[*] in $<LIST-UUID>)) and any(dns.domains[*] matches \".*okta.*\\|.*cloudflare.*\\|.*mfa.*\\|.sso.*\")",
+  "identity": "",
+  "device_posture": ""
+}'
+```
+
+<Render file="gateway/policies/get-list" />
+
+</TabItem> </Tabs>
 
 ## Block online tracking
 
