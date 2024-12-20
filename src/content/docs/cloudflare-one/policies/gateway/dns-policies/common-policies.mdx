@@ -391,7 +391,7 @@ curl https://api.cloudflare.com/client/v4/accounts/{account_id}/gateway/rule\
 | Selector         | Operator | Value         | Logic | Action |
 | ---------------- | -------- | ------------- | ----- | ------ |
 | Application      | in       | _Salesforce_  | And   | Block  |
-| User Group Names | in       | _Contractors_ |       |        |
+| User Group Names | in       | `Contractors` |       |        |
 
 </TabItem>
 
@@ -424,40 +424,141 @@ The following example includes two policies. The first policy allows the specifi
 
 ### 1. Allow a group
 
+<Tabs syncKey="dashPlusAPI"> <TabItem label="Dashboard">
+
 | Selector           | Operator | Value             | Logic | Action |
 | ------------------ | -------- | ----------------- | ----- | ------ |
 | Content Categories | in       | _Social Networks_ | And   | Allow  |
-| User Group Names   | in       | _marketing-team_  |       |        |
+| User Group Names   | in       | `Marketing`       |       |        |
+
+</TabItem>
+
+<TabItem label="API">
+
+```sh
+curl https://api.cloudflare.com/client/v4/accounts/{account_id}/gateway/rule\
+--header "Content-Type: application/json" \
+--header "Authorization: Bearer <API_TOKEN>" \
+--data '{
+  "name": "Allow social media for Marketing",
+  "description": "Allow access to social media sites for users in the Marketing group",
+  "precedence": 1,
+  "enabled": true,
+  "action": "allow",
+  "filters": [
+    "dns"
+  ],
+  "traffic": "any(dns.content_category[*] in {149})",
+  "identity": "any(identity.groups.name[*] in {\"Marketing\"})",
+}'
+```
+
+</TabItem> </Tabs>
 
 ### 2. Block all other users
+
+<Tabs syncKey="dashPlusAPI"> <TabItem label="Dashboard">
 
 | Selector           | Operator | Value             | Action |
 | ------------------ | -------- | ----------------- | ------ |
 | Content Categories | in       | _Social Networks_ | Block  |
+
+</TabItem>
+
+<TabItem label="API">
+
+```sh
+curl https://api.cloudflare.com/client/v4/accounts/{account_id}/gateway/rule\
+--header "Content-Type: application/json" \
+--header "Authorization: Bearer <API_TOKEN>" \
+--data '{
+  "name": "Block social media",
+  "description": "Block social media for all other users",
+  "precedence": 2,
+  "enabled": true,
+  "action": "block",
+  "filters": [
+    "dns"
+  ],
+  "traffic": "any(dns.content_category[*] in {149})",
+  "identity": "",
+}'
+```
+
+</TabItem> </Tabs>
 
 ## Control IP version
 
 Enterprise users can pair these policies with an [egress policy](/cloudflare-one/policies/gateway/egress-policies/) to control which IP address is used to egress to the origin server.
 
 :::note
-
-To ensure traffic routes via your preferred IP version, disable **Display block page**.
+To ensure traffic routes through your preferred IP version, disable **Display block page**.
 :::
 
 ### Force IPv4
 
-Force users to connect with IPv4.
+Force users to connect with IPv4 by blocking IPv6 resolution.
+
+<Tabs syncKey="dashPlusAPI"> <TabItem label="Dashboard">
 
 | Selector          | Operator | Value         | Logic | Action |
 | ----------------- | -------- | ------------- | ----- | ------ |
 | Query Record Type | is       | _AAAA_        | And   | Block  |
 | Domain            | is       | `example.com` |       |        |
 
+</TabItem>
+
+<TabItem label="API">
+
+```sh
+curl https://api.cloudflare.com/client/v4/accounts/{account_id}/gateway/rule\
+--header "Content-Type: application/json" \
+--header "Authorization: Bearer <API_TOKEN>" \
+--data '{
+  "name": "Force IPv4",
+  "description": "Force users to connect with IPv4 by blocking IPv6 resolution",
+  "enabled": true,
+  "action": "block",
+  "filters": [
+    "dns"
+  ],
+  "traffic": "dns.query_rtype == \"AAAA\" and any(dns.domains[*] == \"example.com\")",
+  "identity": "",
+}'
+```
+
+</TabItem> </Tabs>
+
 ### Force IPv6
 
-Force users to connect with IPv6.
+Force users to connect with IPv6 by blocking IPv4 resolution.
+
+<Tabs syncKey="dashPlusAPI"> <TabItem label="Dashboard">
 
 | Selector          | Operator | Value         | Logic | Action |
 | ----------------- | -------- | ------------- | ----- | ------ |
 | Query Record Type | is       | _A_           | And   | Block  |
 | Domain            | is       | `example.com` |       |        |
+
+</TabItem>
+
+<TabItem label="API">
+
+```sh
+curl https://api.cloudflare.com/client/v4/accounts/{account_id}/gateway/rule\
+--header "Content-Type: application/json" \
+--header "Authorization: Bearer <API_TOKEN>" \
+--data '{
+  "name": "Force IPv6",
+  "description": "Force users to connect with IPv6 by blocking IPv4 resolution",
+  "enabled": true,
+  "action": "block",
+  "filters": [
+    "dns"
+  ],
+  "traffic": "dns.query_rtype == \"A\" and any(dns.domains[*] == \"example.com\")",
+  "identity": "",
+}'
+```
+
+</TabItem> </Tabs>

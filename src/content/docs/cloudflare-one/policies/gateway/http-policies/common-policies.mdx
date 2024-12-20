@@ -22,19 +22,103 @@ Block attempts to reach sites by hostname or URL paths. Different approaches may
 
 Block all subdomains that use a host.
 
+<Tabs syncKey="dashPlusAPI"> <TabItem label="Dashboard">
+
 | Selector | Operator      | Value            | Action |
 | -------- | ------------- | ---------------- | ------ |
 | Host     | matches regex | `.*example\.com` | Block  |
+
+</TabItem>
+
+<TabItem label="API">
+
+```sh
+curl https://api.cloudflare.com/client/v4/accounts/{account_id}/gateway/rule\
+--header "Content-Type: application/json" \
+--header "Authorization: Bearer <API_TOKEN>" \
+--data '{
+  "name": "Block sites by hostname",
+  "description": "Block all subdomains that use a specific hostname",
+  "enabled": true,
+  "action": "block",
+  "filters": [
+    "http"
+  ],
+  "traffic": "http.request.host matches \".*example\\.com\"",
+  "identity": "",
+  "device_posture": ""
+}'
+```
+
+</TabItem> </Tabs>
 
 ### Block sites by URL
 
 Block a section of a site without blocking the entire site. For example, you can block a specific subreddit, such as `reddit.com/r/gaming`, without blocking `reddit.com`.
 
+<Tabs syncKey="dashPlusAPI"> <TabItem label="Dashboard">
+
 | Selector | Operator      | Value       | Action |
 | -------- | ------------- | ----------- | ------ |
 | URL      | matches regex | `/r/gaming` | Block  |
 
-<Render file="gateway/policies/content-categories" />
+</TabItem>
+
+<TabItem label="API">
+
+```sh
+curl https://api.cloudflare.com/client/v4/accounts/{account_id}/gateway/rule\
+--header "Content-Type: application/json" \
+--header "Authorization: Bearer <API_TOKEN>" \
+--data '{
+  "name": "Block sites by URL",
+  "description": "Block specific parts of a site without blocking the hostname",
+  "enabled": true,
+  "action": "block",
+  "filters": [
+    "http"
+  ],
+  "traffic": "http.request.uri matches \"/r/gaming\"",
+  "identity": "",
+  "device_posture": ""
+}'
+```
+
+</TabItem> </Tabs>
+
+## Block content categories
+
+Block content categories which go against your organization's acceptable use policy.
+
+<Tabs syncKey="dashPlusAPI"> <TabItem label="Dashboard">
+
+| Selector           | Operator | Value                      | Action |
+| ------------------ | -------- | -------------------------- | ------ |
+| Content Categories | in       | _Adult Themes_, _Gambling_ | Block  |
+
+</TabItem>
+
+<TabItem label="API">
+
+```sh
+curl https://api.cloudflare.com/client/v4/accounts/{account_id}/gateway/rule\
+--header "Content-Type: application/json" \
+--header "Authorization: Bearer <API_TOKEN>" \
+--data '{
+  "name": "Block adult categories",
+  "description": "Block access to unauthorized adult and gambling applications",
+  "enabled": true,
+  "action": "block",
+  "filters": [
+    "http"
+  ],
+  "traffic": "any(http.request.uri.content_category[*] in {2 67 125 133 99})",
+  "identity": "",
+  "device_posture": ""
+}'
+```
+
+</TabItem> </Tabs>
 
 ## Block unauthorized applications
 
