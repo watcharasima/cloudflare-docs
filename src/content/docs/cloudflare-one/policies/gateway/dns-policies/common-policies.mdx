@@ -295,21 +295,73 @@ curl https://api.cloudflare.com/client/v4/accounts/{account_id}/gateway/rule\
 
 Block specific IP addresses that are known to be malicious or pose a threat to your organization. This policy is usually implemented by creating custom blocklists or by using blocklists provided by threat intelligence partners or regional Computer Emergency and Response Teams (CERTs).
 
+<Tabs syncKey="dashPlusAPI"> <TabItem label="Dashboard">
+
 | Selector    | Operator | Value     | Action |
 | ----------- | -------- | --------- | ------ |
 | Resolved IP | in list  | _DShield_ | Block  |
 
-## CIPA Filter
+</TabItem>
 
-The CIPA Filter is a collection of subcategories that encompass a wide range of topics that could be harmful or inappropriate for minors. It is used as a part of [Project Cybersafe Schools](/fundamentals/reference/policies-compliances/cybersafe/) to block access to unwanted or harmful online content.
+<TabItem label="API">
+
+```sh
+curl https://api.cloudflare.com/client/v4/accounts/{account_id}/gateway/rule\
+--header "Content-Type: application/json" \
+--header "Authorization: Bearer <API_TOKEN>" \
+--data '{
+  "name": "Block malicious IPs",
+  "description": "Block specific IP addresses that are known to be malicious or pose a threat to your organization",
+  "enabled": true,
+  "action": "block",
+  "filters": [
+    "dns"
+  ],
+  "traffic": "any(dns.resolved_ips[*] in $<LIST-UUID>)",
+  "identity": "",
+  "device_posture": ""
+}'
+```
+
+</TabItem> </Tabs>
+
+## Turn on CIPA filter
+
+The CIPA (Children's Internet Protection Act) Filter is a collection of subcategories that encompass a wide range of topics that could be harmful or inappropriate for minors. It is used as a part of [Project Cybersafe Schools](/fundamentals/reference/policies-compliances/cybersafe/) to block access to unwanted or harmful online content. Upon creating this policy, your organization will have minimum CIPA compliance.
+
+<Tabs syncKey="dashPlusAPI"> <TabItem label="Dashboard">
 
 | Selector           | Operator | Value         | Action |
 | ------------------ | -------- | ------------- | ------ |
 | Content Categories | in       | _CIPA Filter_ | Block  |
 
+</TabItem>
+
+<TabItem label="API">
+
+```sh
+curl https://api.cloudflare.com/client/v4/accounts/{account_id}/gateway/rule\
+--header "Content-Type: application/json" \
+--header "Authorization: Bearer <API_TOKEN>" \
+--data '{
+  "name": "Turn on CIPA filter",
+  "description": "Block access to unwanted or harmful online content for children",
+  "enabled": true,
+  "action": "block",
+  "filters": [
+    "dns"
+  ],
+  "traffic": "any(dns.content_category[*] in {182})",
+  "identity": "",
+  "device_posture": ""
+}'
+```
+
+</TabItem> </Tabs>
+
 ## Hide explicit search results
 
-SafeSearch is a feature of search engines that helps you filter explicit or offensive content. You can enable SafeSearch on search engines like Google, Bing, Yandex, YouTube, and DuckDuckGo:
+SafeSearch is a feature of search engines that helps you filter explicit or offensive content. You can force SafeSearch on search engines like Google, Bing, Yandex, YouTube, and DuckDuckGo:
 
 | Selector           | Operator | Value            | Action      |
 | ------------------ | -------- | ---------------- | ----------- |
