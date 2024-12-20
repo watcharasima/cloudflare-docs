@@ -8,13 +8,19 @@ head:
     content: Common network policies
 ---
 
-import { Render } from "~/components";
+import { Render, Tabs, TabItem } from "~/components";
 
 The following policies are commonly used to secure network traffic.
 
 Refer to the [network policies page](/cloudflare-one/policies/gateway/network-policies/) for a comprehensive list of other selectors, operators, and actions.
 
-<Render file="gateway/policies/block-applications" />
+## Block unauthorized applications
+
+<Render file="gateway/policies/block-applications" product="cloudflare-one" />
+
+| Selector    | Operator | Value                     | Action |
+| ----------- | -------- | ------------------------- | ------ |
+| Application | in       | _Artificial Intelligence_ | Block  |
 
 <Render file="gateway/policies/policies-optional" />
 
