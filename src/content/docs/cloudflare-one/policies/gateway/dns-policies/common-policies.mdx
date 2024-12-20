@@ -382,7 +382,39 @@ curl https://api.cloudflare.com/client/v4/accounts/{account_id}/gateway/rule\
 
 </TabItem> </Tabs>
 
-<Render file="gateway/policies/policies-optional" />
+## Check user identity
+
+<Render file="gateway/policies/check-user-identity" />
+
+<Tabs syncKey="dashPlusAPI"> <TabItem label="Dashboard">
+
+| Selector         | Operator | Value         | Logic | Action |
+| ---------------- | -------- | ------------- | ----- | ------ |
+| Application      | in       | _Salesforce_  | And   | Block  |
+| User Group Names | in       | _Contractors_ |       |        |
+
+</TabItem>
+
+<TabItem label="API">
+
+```sh
+curl https://api.cloudflare.com/client/v4/accounts/{account_id}/gateway/rule\
+--header "Content-Type: application/json" \
+--header "Authorization: Bearer <API_TOKEN>" \
+--data '{
+  "name": "Check user identity",
+  "description": "Filter traffic based on a user identity group name",
+  "enabled": true,
+  "action": "block",
+  "filters": [
+    "dns"
+  ],
+  "traffic": "any(app.ids[*] in {606})",
+  "identity": "any(identity.groups.name[*] in {\"Contractors\"})",
+}'
+```
+
+</TabItem> </Tabs>
 
 ## Restrict access to specific groups
 

@@ -22,7 +22,14 @@ Refer to the [network policies page](/cloudflare-one/policies/gateway/network-po
 | ----------- | -------- | ------------------------- | ------ |
 | Application | in       | _Artificial Intelligence_ | Block  |
 
-<Render file="gateway/policies/policies-optional" />
+## Check user identity
+
+<Render file="gateway/policies/check-user-identity" />
+
+| Selector         | Operator | Value         | Logic | Action |
+| ---------------- | -------- | ------------- | ----- | ------ |
+| Application      | in       | _Salesforce_  | And   | Block  |
+| User Group Names | in       | _Contractors_ |       |        |
 
 ## Enforce device posture
 

@@ -44,7 +44,14 @@ Block a section of a site without blocking the entire site. For example, you can
 | ----------- | -------- | ------------------------- | ------ |
 | Application | in       | _Artificial Intelligence_ | Block  |
 
-<Render file="gateway/policies/policies-optional" />
+## Check user identity
+
+<Render file="gateway/policies/check-user-identity" />
+
+| Selector         | Operator | Value         | Logic | Action |
+| ---------------- | -------- | ------------- | ----- | ------ |
+| Application      | in       | _Salesforce_  | And   | Block  |
+| User Group Names | in       | _Contractors_ |       |        |
 
 ## Skip inspection for groups of applications
 
