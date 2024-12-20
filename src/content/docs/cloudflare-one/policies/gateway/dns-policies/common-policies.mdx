@@ -43,7 +43,6 @@ curl https://api.cloudflare.com/client/v4/accounts/{account_id}/gateway/rule\
   ],
   "traffic": "any(dns.domains[*] in $<LIST-UUID>)",
   "identity": "",
-  "device_posture": ""
 }'
 ```
 
@@ -78,7 +77,6 @@ curl https://api.cloudflare.com/client/v4/accounts/{account_id}/gateway/rule\
   ],
   "traffic": "any(dns.security_category[*] in {68 178 80 83 176 175 117 131 134 151 153})",
   "identity": "",
-  "device_posture": ""
 }'
 ```
 
@@ -112,7 +110,6 @@ curl https://api.cloudflare.com/client/v4/accounts/{account_id}/gateway/rule\
   ],
   "traffic": "any(dns.content_category[*] in {17 85 87 102 157 135 138 180 162 32 169 177 128 15 115 119 124 141 161})",
   "identity": "",
-  "device_posture": ""
 }'
 ```
 
@@ -146,7 +143,6 @@ curl https://api.cloudflare.com/client/v4/accounts/{account_id}/gateway/rule\
   ],
   "traffic": "any(app.type.ids[*] in {25})",
   "identity": "",
-  "device_posture": ""
 }'
 ```
 
@@ -180,7 +176,6 @@ curl https://api.cloudflare.com/client/v4/accounts/{account_id}/gateway/rule\
   ],
   "traffic": "any(dns.dst.geo.country[*] in {\"AF\" \"BY\" \"CD\" \"CU\" \"IR\" \"IQ\" \"KP\" \"MM\" \"RU\" \"SD\" \"SY\" \"UA\" \"ZW\"})",
   "identity": "",
-  "device_posture": ""
 }'
 ```
 
@@ -216,7 +211,6 @@ curl https://api.cloudflare.com/client/v4/accounts/{account_id}/gateway/rule\
   ],
   "traffic": "any(dns.domains[*] matches \"[.](cn|ru)$\") or any(dns.domains[*] matches \"[.](rest|hair|top|live|cfd|boats|beauty|mom|skin|okinawa)$\") or any(dns.domains[*] matches \"[.](zip|mobi)$\")",
   "identity": "",
-  "device_posture": ""
 }'
 ```
 
@@ -251,7 +245,6 @@ curl https://api.cloudflare.com/client/v4/accounts/{account_id}/gateway/rule\
   ],
   "traffic": "not(any(dns.domains[*] in $<LIST-UUID>)) and any(dns.domains[*] matches \".*okta.*\\|.*cloudflare.*\\|.*mfa.*\\|.sso.*\")",
   "identity": "",
-  "device_posture": ""
 }'
 ```
 
@@ -285,7 +278,6 @@ curl https://api.cloudflare.com/client/v4/accounts/{account_id}/gateway/rule\
   ],
   "traffic": "any(dns.domains[*] in $<LIST-UUID>)",
   "identity": "",
-  "device_posture": ""
 }'
 ```
 
@@ -319,7 +311,6 @@ curl https://api.cloudflare.com/client/v4/accounts/{account_id}/gateway/rule\
   ],
   "traffic": "any(dns.resolved_ips[*] in $<LIST-UUID>)",
   "identity": "",
-  "device_posture": ""
 }'
 ```
 
@@ -327,7 +318,7 @@ curl https://api.cloudflare.com/client/v4/accounts/{account_id}/gateway/rule\
 
 ## Turn on CIPA filter
 
-The CIPA (Children's Internet Protection Act) Filter is a collection of subcategories that encompass a wide range of topics that could be harmful or inappropriate for minors. It is used as a part of [Project Cybersafe Schools](/fundamentals/reference/policies-compliances/cybersafe/) to block access to unwanted or harmful online content. Upon creating this policy, your organization will have minimum CIPA compliance.
+The CIPA (Children's Internet Protection Act) Filter is a collection of subcategories that encompass a wide range of topics that could be harmful or inappropriate for minors. It is used as a part of [Project Cybersafe Schools](/fundamentals/reference/policies-compliances/cybersafe/) to block access to unwanted or harmful online content. Upon creating this policy, your organization will have minimum [CIPA compliance](https://www.fcc.gov/consumers/guides/childrens-internet-protection-act).
 
 <Tabs syncKey="dashPlusAPI"> <TabItem label="Dashboard">
 
@@ -353,7 +344,6 @@ curl https://api.cloudflare.com/client/v4/accounts/{account_id}/gateway/rule\
   ],
   "traffic": "any(dns.content_category[*] in {182})",
   "identity": "",
-  "device_posture": ""
 }'
 ```
 
@@ -363,9 +353,34 @@ curl https://api.cloudflare.com/client/v4/accounts/{account_id}/gateway/rule\
 
 SafeSearch is a feature of search engines that helps you filter explicit or offensive content. You can force SafeSearch on search engines like Google, Bing, Yandex, YouTube, and DuckDuckGo:
 
+<Tabs syncKey="dashPlusAPI"> <TabItem label="Dashboard">
+
 | Selector           | Operator | Value            | Action      |
 | ------------------ | -------- | ---------------- | ----------- |
 | Content Categories | in       | _Search Engines_ | Safe Search |
+
+</TabItem>
+
+<TabItem label="API">
+
+```sh
+curl https://api.cloudflare.com/client/v4/accounts/{account_id}/gateway/rule\
+--header "Content-Type: application/json" \
+--header "Authorization: Bearer <API_TOKEN>" \
+--data '{
+  "name": "Hide explicit search results",
+  "description": "Force SafeSearch on search engines to filter explicit or offensive content",
+  "enabled": true,
+  "action": "safesearch",
+  "filters": [
+    "dns"
+  ],
+  "traffic": "any(dns.content_category[*] in {145})",
+  "identity": "",
+}'
+```
+
+</TabItem> </Tabs>
 
 <Render file="gateway/policies/policies-optional" />
 
