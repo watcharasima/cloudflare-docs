@@ -149,4 +149,4 @@ The `cloudflared-diag-YYYY-MM-DDThh-mm-ss.zip` archive contains the files listed
 | `task-result.json` | Result of each diagnostic task | diagnoser |
 | `tunnelstate.json` | Tunnel connections at the time of diagnosis| diagnosee|
 
-[^1]: If the log file is blank, you may need to manually [set the `--loglevel` parameter](/cloudflare-one/connections/connect-networks/monitor-tunnels/logs/#view-logs-on-the-server) when you start the tunnel. This parameter is only required if you ran the tunnel from the CLI using a `cloudflared tunnel run` command. It is not necessary if the tunnel runs as a Linux/macOS service or runs in Docker/Kubernetes.
+[^1]: If the log file is blank, you may need to [set `--loglevel` to `debug`](/cloudflare-one/connections/connect-networks/monitor-tunnels/logs/#view-logs-on-the-server) when you start the tunnel. The `--loglevel` parameter is only required if you ran the tunnel from the CLI using a `cloudflared tunnel run` command. It is not necessary if the tunnel runs as a Linux/macOS service or runs in Docker/Kubernetes.
