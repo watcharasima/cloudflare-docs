@@ -48,7 +48,7 @@ This command will output the status of each diagnostic task and place a `cloudfl
 
 `cloudflared` reads diagnostic data from the [tunnel metrics server](/cloudflare-one/connections/connect-networks/monitor-tunnels/metrics/). Therefore, the metrics server must be exposed from the Docker container and reachable from the host machine.
 
-1. Determine the tunnel's [metrics server IP and port](/cloudflare-one/connections/connect-networks/monitor-tunnels/metrics/#check-the-metrics-server-address). In Docker environments, the default IP and port is `0.0.0.0:20241`.
+1. Determine the tunnel's [metrics server port](/cloudflare-one/connections/connect-networks/monitor-tunnels/metrics/#default-metrics-server-address).
 
 2. On the host machine, verify that you can reach the metrics server address. For example, if the metrics server is listening at `0.0.0.0:20241`, run the following command:
 
@@ -95,10 +95,9 @@ This command will output the status of each diagnostic task and place a `cloudfl
 
 ### Kubernetes
 
-The diagnostic feature will request data from the [tunnel metrics server](/cloudflare-one/connections/connect-networks/monitor-tunnels/metrics/#check-the-metrics-server-address) using ports `20241` to `20245`. You will need to use port forwarding to allow the local `cloudflared` instance to connect to the metrics server on one of these ports.
+The diagnostic feature will request data from the [tunnel metrics server](/cloudflare-one/connections/connect-networks/monitor-tunnels/metrics/) using ports `20241` to `20245`. You will need to use port forwarding to allow the local `cloudflared` instance to connect to the metrics server on one of these ports.
 
-
-1. Determine the tunnel's [metrics server IP and port](/cloudflare-one/connections/connect-networks/monitor-tunnels/metrics/#check-the-metrics-server-address). In Kubernetes deployments, the default IP and port is `0.0.0.0:20241`.
+1. Determine the tunnel's [metrics server port](/cloudflare-one/connections/connect-networks/monitor-tunnels/metrics/#default-metrics-server-address).
 
 2. Enable port forwarding:
 
