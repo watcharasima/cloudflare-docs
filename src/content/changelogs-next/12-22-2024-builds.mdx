@@ -1,16 +1,18 @@
 ---
-title: New Enhancements to Workers Builds
-description: Donec faucibus nunc vel fermentum porttitor. Etiam ac lorem dui. Duis facilisis facilisis sem, vel malesuada ipsum feugiat in.
+title: Enhance Builds with Build Caching and Watch Paths
+description: Speed up your builds with build caching and streamline your monorepo workflows with build watch paths in Workers Builds (beta).
 products:
   - workers
 date: 2024-12-22
 ---
 
-![Turnstile Overview](~/assets/images/turnstile/turnstile-overview.png)
+![Build caching settings](~/assets/images/workers/platform/ci-cd/workers-build-caching.png)
+![Build watch path settings](~/assets/images/workers/platform/ci-cd/workers-build-watch-paths.png)
 
-Since Birthday Week 2024, we’ve rolled out Workers Builds, our integrated CI/CD for Workers. We’ve been focused on enhancing speed and expanding support for monorepos, adding new features to make your builds faster and more efficient.
+We’ve added new features to [**Workers Builds**](/workers/ci-cd/builds/), the integrated CI/CD system for Workers (currently in beta), to improve build times and enhance monorepo support.
 
-- Build Caching: Cache dependencies and build outputs between builds to significantly reduce build times.
-- Build Watch Paths: Define paths to exclude from the build process. Perfect for monorepos, where only relevant files need to be rebuilt.
-- Check runs:
-  Try these new features today to streamline your CI/CD workflows and experience a faster, more optimized build process.
+- **[Build Caching:](/workers/ci-cd/builds/build-caching/)** Cache dependencies and build outputs between builds with a shared project-wide cache, ensuring faster builds for the entire team.
+
+- **[Build Watch Paths:](/workers/ci-cd/builds/build-watch-paths/)** Define paths to include or exclude from the build process, ideal for monorepos to target only the files that need to be rebuilt per Workers project.
+
+Both features are now available for Workers projects with Builds enabled. To get started, select your [Worker on the Cloudflare dashboard](https://dash.cloudflare.com) then go to **Settings > Builds**, and connect a GitHub or GitLab repository. Once connected, you'll see options to configure Build Cache and Build Watch Paths settings.
