@@ -46,13 +46,13 @@ notes.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 						</div>
 						<Steps>
 							<ol class="!mt-0" data-products={productIds}>
-								<li>
+								<li class="mb-16">
 									<div>
 										<a
 											href={`/changelog-next/${entry.slug}/`}
 											class="no-underline hover:underline"
 										>
-											<h3 class="mb-4 !leading-[28px] text-black">
+											<h3 class="mb-4 !leading-[36px] text-black">
 												{entry.data.title}
 											</h3>
 										</a>
@@ -123,20 +123,6 @@ notes.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 				:where(.not-content *)
 			) {
 			margin-top: 1.5rem;
-		}
-
-		.sl-markdown-content
-			li
-			> :last-child:not(li, ul, ol):not(
-				a,
-				strong,
-				em,
-				del,
-				span,
-				input,
-				:where(.not-content *)
-			) {
-			margin-bottom: 4rem;
 		}
 
 		.sl-markdown-content {
