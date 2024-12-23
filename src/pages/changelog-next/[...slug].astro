@@ -1,5 +1,7 @@
 ---
-import StarlightPage from "@astrojs/starlight/components/StarlightPage.astro";
+import StarlightPage, {
+	type StarlightPageProps,
+} from "@astrojs/starlight/components/StarlightPage.astro";
 import type { GetStaticPaths } from "astro";
 import { getCollection } from "astro:content";
 import Header from "~/components/changelog-next/Header.astro";
@@ -24,17 +26,19 @@ export const getStaticPaths = (async () => {
 const { note } = Astro.props;
 
 const { Content, headings } = await note.render();
----
 
-<StarlightPage
-	frontmatter={{
+const props = {
+	frontmatter: {
 		title: note.data.title,
 		template: "splash",
-	}}
-	headings={headings}
-	hideTitle={true}
-	hideBreadcrumbs={true}
->
+	},
+	headings,
+	hideTitle: true,
+	hideBreadcrumbs: true,
+} as StarlightPageProps;
+---
+
+<StarlightPage {...props}>
 	<Header />
 	<div class="w-full max-w-[50rem] justify-self-center">
 		<div class="!mt-0 mb-10">

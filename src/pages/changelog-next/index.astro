@@ -1,5 +1,7 @@
 ---
-import StarlightPage from "@astrojs/starlight/components/StarlightPage.astro";
+import StarlightPage, {
+	type StarlightPageProps,
+} from "@astrojs/starlight/components/StarlightPage.astro";
 import { getCollection } from "astro:content";
 
 import Header from "~/components/changelog-next/Header.astro";
@@ -11,17 +13,19 @@ import { format } from "date-fns";
 const notes = await getCollection("changelogs-next");
 
 notes.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
----
 
-<StarlightPage
-	frontmatter={{
+const props = {
+	frontmatter: {
 		title: "Changelogs",
 		tableOfContents: false,
 		template: "splash",
-	}}
-	hideTitle={true}
-	hideBreadcrumbs={true}
->
+	},
+	hideTitle: true,
+	hideBreadcrumbs: true,
+} as StarlightPageProps;
+---
+
+<StarlightPage {...props}>
 	<Header entries={notes} />
 	<div
 		class="w-full max-w-[50rem] justify-self-center px-4 md:grid md:grid-cols-[15%_auto]"
@@ -158,15 +162,15 @@ notes.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 		.sl-steps {
 			--bullet-size: 24px !important;
 
-			li {
+			& > li {
 				padding-inline-start: calc(var(--bullet-size) + 2.5rem) !important;
-			}
 
-			& > li::before {
-				content: "•" !important;
-				font-size: calc(var(--bullet-size) * 2) !important;
-				line-height: calc(var(--bullet-size) / 1.5) !important;
-				color: var(--orange-accent-200) !important;
+				&::before {
+					content: "•" !important;
+					font-size: calc(var(--bullet-size) * 2) !important;
+					line-height: calc(var(--bullet-size) / 1.5) !important;
+					color: var(--orange-accent-200) !important;
+				}
 			}
 		}
 	}
