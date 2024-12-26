@@ -23,6 +23,10 @@ entries:
     general_definition: |-
       a cryptographic method of signing records that associate a route with an originating autonomous system number.
 
+  - term: Route Origin Authorization (ROA)
+    general_definition: |-
+      the cryptographically signed object used for Resource Public Key Infrastructure (RPKI) validation.
+
   - term: Unicast Reverse Path Forwarding (uRPF)
     general_definition: |-
       a security feature that can prevent spoofing attacks.
