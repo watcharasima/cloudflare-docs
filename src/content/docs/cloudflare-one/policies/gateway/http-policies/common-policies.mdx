@@ -241,7 +241,7 @@ Perform an [OS version check](/cloudflare-one/identity/devices/warp-client-check
 
 | Selector                     | Operator | Value                | Action |
 | ---------------------------- | -------- | -------------------- | ------ |
-| Passed Device Posture Checks | in       | `Minimum OS version` | Allow  |
+| Passed Device Posture Checks | in       | _Minimum OS version_ | Allow  |
 
 </TabItem>
 
@@ -261,7 +261,7 @@ curl https://api.cloudflare.com/client/v4/accounts/{account_id}/gateway/rule\
   ],
   "traffic": "",
   "identity": "",
-  "device_posture": "any(device_posture.checks.passed[*] in {\"<POSTURE-CHECK-UUID>\"})",
+  "device_posture": "any(device_posture.checks.passed[*] in {\"<POSTURE-CHECK-UUID>\"})"
 }'
 ```
 
@@ -271,14 +271,42 @@ To get the UUIDs of your device posture checks, use the [List device posture rul
 
 ### Check for a specific file
 
-Perform a [file check](/cloudflare-one/identity/devices/warp-client-checks/file-check/) to ensure users have a certain file on their system.
+Perform a [file check](/cloudflare-one/identity/devices/warp-client-checks/file-check/) to ensure users have a certain file on their device.
 
 Since the file path will be different for each operating system, you can configure a file check for each system and use the **Or** logical operator to only require one of the checks to pass.
 
+<Tabs syncKey="dashPlusAPI"> <TabItem label="Dashboard">
+
 | Selector                     | Operator | Value              | Logic | Action |
 | ---------------------------- | -------- | ------------------ | ----- | ------ |
-| Passed Device Posture Checks | in       | `macOS File Check` | Or    | Allow  |
-| Passed Device Posture Checks | in       | `Linux File Check` |       |        |
+| Passed Device Posture Checks | in       | _macOS File Check_ | Or    | Allow  |
+| Passed Device Posture Checks | in       | _Linux File Check_ |       |        |
+
+</TabItem>
+
+<TabItem label="API">
+
+```sh
+curl https://api.cloudflare.com/client/v4/accounts/{account_id}/gateway/rule\
+--header "Content-Type: application/json" \
+--header "Authorization: Bearer <API_TOKEN>" \
+--data '{
+  "name": "Check for specific file",
+  "description": "Ensure users have a specific file on their device regardless of operating system",
+  "enabled": true,
+  "action": "allow",
+  "filters": [
+    "http"
+  ],
+  "traffic": "",
+  "identity": "",
+  "device_posture": "any(device_posture.checks.passed[*] in {\"<POSTURE-CHECK-1-UUID>\"}) or any(device_posture.checks.passed[*] in {\"<POSTURE-CHECK-2-UUID>\"})"
+}'
+```
+
+To get the UUIDs of your device posture checks, use the [List device posture rules](/api/resources/zero_trust/subresources/devices/subresources/posture/methods/list/) endpoint.
+
+</TabItem> </Tabs>
 
 ## Enforce session duration
 
