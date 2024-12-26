@@ -28,7 +28,9 @@ There are two major prerequisites before Cloudflare can begin onboarding your IP
     - `route` or `route6` objects matching the exact prefixes you want to onboard
     - `origin` matching the correct ASN you want to onboard
 
-Optionally, if you use the <GlossaryTooltip term="Resource Public Key Infrastructure (RPKI)">Resource Public Key Infrastructure (RPKI)</GlossaryTooltip> protocol to sign your routes, Cloudflare can help with this as well. Contact your account team if you are interested in using RPKI.
+:::caution[RPKI validation]
+You are not required to use <GlossaryTooltip term="Resource Public Key Infrastructure (RPKI)">Resource Public Key Infrastructure (RPKI)</GlossaryTooltip>. However, if you do, make sure your ROAs are accurate. You can use [Cloudflare's RPKI Portal](https://rpki.cloudflare.com/?view=validator) to check your prefixes.
+:::
 
 After onboarding, [Border Gateway Protocol (BGP)](https://www.cloudflare.com/learning/security/glossary/what-is-bgp/) announcements for customer prefixes can be controlled with the [Dynamic Advertisement](/byoip/concepts/dynamic-advertisement/) API or via the Cloudflare dashboard.
 
