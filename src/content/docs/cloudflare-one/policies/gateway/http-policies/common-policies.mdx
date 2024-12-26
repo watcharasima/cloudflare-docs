@@ -237,9 +237,37 @@ Require devices to have certain software installed or other configuration attrib
 
 Perform an [OS version check](/cloudflare-one/identity/devices/warp-client-checks/os-version/) to ensure users are running at least a minimum version.
 
+<Tabs syncKey="dashPlusAPI"> <TabItem label="Dashboard">
+
 | Selector                     | Operator | Value                | Action |
 | ---------------------------- | -------- | -------------------- | ------ |
 | Passed Device Posture Checks | in       | `Minimum OS version` | Allow  |
+
+</TabItem>
+
+<TabItem label="API">
+
+```sh
+curl https://api.cloudflare.com/client/v4/accounts/{account_id}/gateway/rule\
+--header "Content-Type: application/json" \
+--header "Authorization: Bearer <API_TOKEN>" \
+--data '{
+  "name": "Require OS version",
+  "description": "Perform an OS version check for minimum version",
+  "enabled": true,
+  "action": "allow",
+  "filters": [
+    "http"
+  ],
+  "traffic": "",
+  "identity": "",
+  "device_posture": "any(device_posture.checks.passed[*] in {\"<POSTURE-CHECK-UUID>\"})",
+}'
+```
+
+To get the UUIDs of your device posture checks, use the [List device posture rules](/api/resources/zero_trust/subresources/devices/subresources/posture/methods/list/) endpoint.
+
+</TabItem> </Tabs>
 
 ### Check for a specific file
 
