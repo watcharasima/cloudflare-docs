@@ -320,9 +320,37 @@ If you are using the [Browser Isolation add-on](/cloudflare-one/policies/browser
 
 When accessing origin servers with certificates not signed by a public certificate authority, you must bypass TLS decryption.
 
-| Selector | Operator | Value               | Action         |
-| -------- | -------- | ------------------- | -------------- |
-| Domain   | in       | `internal.site.com` | Do Not Inspect |
+<Tabs syncKey="dashPlusAPI"> <TabItem label="Dashboard">
+
+| Selector | Operator | Value                  | Action         |
+| -------- | -------- | ---------------------- | -------------- |
+| Domain   | in       | `internal.example.com` | Do Not Inspect |
+
+</TabItem>
+
+<TabItem label="API">
+
+```sh
+curl https://api.cloudflare.com/client/v4/accounts/{account_id}/gateway/rule\
+--header "Content-Type: application/json" \
+--header "Authorization: Bearer <API_TOKEN>" \
+--data '{
+  "name": "Bypass internal site inspection",
+  "description": "Bypass TLS decryption for internal sites with self-signed certificates",
+  "enabled": true,
+  "action": "off",
+  "filters": [
+    "http"
+  ],
+  "traffic": "any(http.conn.domains[*] in {\"internal.example.com\"})",
+  "identity": "",
+  "device_posture": ""
+}'
+```
+
+</TabItem> </Tabs>
+
+## Block file types
 
 <Render file="gateway/policies/block-file-types" />
 
@@ -332,29 +360,72 @@ For more information on supported file types, refer to [Download and Upload File
 
 To enable Gateway inspection for Google Drive traffic, you must [add a Cloudflare certificate to Google Drive](/cloudflare-one/connections/connect-devices/user-side-certificates/manual-deployment/#google-drive-for-desktop).
 
-### Block Google Drive uploads
-
-Block file uploads to Google Drive.
-
-| Selector         | Operator      | Value        | Logic | Action |
-| ---------------- | ------------- | ------------ | ----- | ------ |
-| Application      | in            | Google Drive | And   | Block  |
-| Upload Mime Type | matches regex | `.*`         |       |        |
-
 ### Block Google Drive downloads
 
 Block file downloads from Google Drive.
 
+<Tabs syncKey="dashPlusAPI"> <TabItem label="Dashboard">
+
 | Selector         | Operator      | Value                      | Logic | Action |
 | ---------------- | ------------- | -------------------------- | ----- | ------ |
-| Application      | in            | Google Drive               | And   | Block  |
+| Application      | in            | _Google Drive_             | And   | Block  |
 | URL Path & Query | matches regex | `.*(e=download\|export).*` |       |        |
+
+</TabItem>
+
+<TabItem label="API">
+
+```sh
+curl https://api.cloudflare.com/client/v4/accounts/{account_id}/gateway/rule\
+--header "Content-Type: application/json" \
+--header "Authorization: Bearer <API_TOKEN>" \
+--data '{
+  "name": "Block Google Drive downloads",
+  "description": "Block file downloads from Google Drive",
+  "enabled": true,
+  "action": "block",
+  "filters": [
+    "http"
+  ],
+  "traffic": "any(app.ids[*] in {554}) and http.request.uri.path_and_query matches \".*(e=download\\|export).*\"",
+  "identity": "",
+  "device_posture": ""
+}'
+```
+
+</TabItem> </Tabs>
 
 ### Block Gmail downloads
 
 Block file downloads from Gmail.
 
+<Tabs syncKey="dashPlusAPI"> <TabItem label="Dashboard">
+
 | Selector         | Operator | Value                                   | Logic | Action |
 | ---------------- | -------- | --------------------------------------- | ----- | ------ |
 | Host             | is       | `mail-attachment.googleusercontent.com` | And   | Block  |
 | URL Path & Query | is       | `/attachment/u/0`                       |       |        |
+
+</TabItem>
+
+<TabItem label="API">
+
+```sh
+curl https://api.cloudflare.com/client/v4/accounts/{account_id}/gateway/rule\
+--header "Content-Type: application/json" \
+--header "Authorization: Bearer <API_TOKEN>" \
+--data '{
+  "name": "Block Gmail downloads",
+  "description": "Block file downloads from Gmail",
+  "enabled": true,
+  "action": "block",
+  "filters": [
+    "http"
+  ],
+  "traffic": "http.request.host == \"mail-attachment.googleusercontent.com\" and http.request.uri.path_and_query matches \"/attachment/u/0\"",
+  "identity": "",
+  "device_posture": ""
+}'
+```
+
+</TabItem> </Tabs>
