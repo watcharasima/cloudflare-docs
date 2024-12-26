@@ -105,7 +105,7 @@ curl https://api.cloudflare.com/client/v4/accounts/{account_id}/gateway/rule\
 --header "Content-Type: application/json" \
 --header "Authorization: Bearer <API_TOKEN>" \
 --data '{
-  "name": "Block adult categories",
+  "name": "Block content categories",
   "description": "Block access to unauthorized adult and gambling applications",
   "enabled": true,
   "action": "block",
@@ -124,9 +124,35 @@ curl https://api.cloudflare.com/client/v4/accounts/{account_id}/gateway/rule\
 
 <Render file="gateway/policies/block-applications" product="cloudflare-one" />
 
+<Tabs syncKey="dashPlusAPI"> <TabItem label="Dashboard">
+
 | Selector    | Operator | Value                     | Action |
 | ----------- | -------- | ------------------------- | ------ |
 | Application | in       | _Artificial Intelligence_ | Block  |
+
+</TabItem>
+
+<TabItem label="API">
+
+```sh
+curl https://api.cloudflare.com/client/v4/accounts/{account_id}/gateway/rule\
+--header "Content-Type: application/json" \
+--header "Authorization: Bearer <API_TOKEN>" \
+--data '{
+  "name": "Block unauthorized applications",
+  "description": "Block access to unauthorized AI applications",
+  "enabled": true,
+  "action": "block",
+  "filters": [
+    "http"
+  ],
+  "traffic": "any(app.type.ids[*] in {25})",
+  "identity": "",
+  "device_posture": ""
+}'
+```
+
+</TabItem> </Tabs>
 
 ## Check user identity
 
