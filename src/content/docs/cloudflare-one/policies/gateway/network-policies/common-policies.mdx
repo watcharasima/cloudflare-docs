@@ -127,16 +127,68 @@ Restrict user access to only the specific sites or applications configured in yo
 
 ### 1. Allow HTTP and HTTPS traffic
 
+<Tabs syncKey="dashPlusAPI"> <TabItem label="Dashboard">
+
 | Selector          | Operator | Value       | Logic | Action |
 | ----------------- | -------- | ----------- | ----- | ------ |
 | Detected Protocol | is       | _TLS_       | And   | Allow  |
 | Destination Port  | in       | `80`, `443` |       |        |
 
+</TabItem>
+
+<TabItem label="API">
+
+```sh
+curl https://api.cloudflare.com/client/v4/accounts/{account_id}/gateway/rule\
+--header "Content-Type: application/json" \
+--header "Authorization: Bearer <API_TOKEN>" \
+--data '{
+  "name": "Allow HTTP and HTTPS traffic",
+  "description": "Restrict traffic to HTTP and HTTPS traffic",
+  "enabled": true,
+  "action": "allow",
+  "filters": [
+    "l4"
+  ],
+  "traffic": "net.detected_protocol == \"tls\" and net.dst.port in {80 443}",
+  "identity": "",
+  "device_posture": ""
+}'
+```
+
+</TabItem> </Tabs>
+
 ### 2. Block all other traffic
+
+<Tabs syncKey="dashPlusAPI"> <TabItem label="Dashboard">
 
 | Selector | Operator | Value        | Action |
 | -------- | -------- | ------------ | ------ |
-| Protocol | in       | _UDP_, _TCP_ | Block  |
+| Protocol | in       | _TCP_, _UDP_ | Block  |
+
+</TabItem>
+
+<TabItem label="API">
+
+```sh
+curl https://api.cloudflare.com/client/v4/accounts/{account_id}/gateway/rule\
+--header "Content-Type: application/json" \
+--header "Authorization: Bearer <API_TOKEN>" \
+--data '{
+  "name": "Block all other traffic",
+  "description": "Block all other traffic that is not HTTP or HTTPS",
+  "enabled": true,
+  "action": "block",
+  "filters": [
+    "l4"
+  ],
+  "traffic": "net.protocol in {\"tcp\" \"udp\"}",
+  "identity": "",
+  "device_posture": ""
+}'
+```
+
+</TabItem> </Tabs>
 
 ## Restrict access to private networks
 
