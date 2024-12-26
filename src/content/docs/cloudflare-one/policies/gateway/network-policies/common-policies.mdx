@@ -194,17 +194,69 @@ curl https://api.cloudflare.com/client/v4/accounts/{account_id}/gateway/rule\
 
 Restrict access to resources which you have connected through [Cloudflare Tunnel](/cloudflare-one/connections/connect-networks/).
 
-The following example consists of two policies: the first allows specific users to reach your application, and the second blocks all other traffic. Make sure that the Allow policy has higher priority (by positioning it towards the top of the list in the UI).
+The following example consists of two policies: the first allows specific users to reach your application, and the second blocks all other traffic.
 
 ### 1. Allow company employees
+
+<Tabs syncKey="dashPlusAPI"> <TabItem label="Dashboard">
 
 | Selector       | Operator      | Value            | Logic | Action |
 | -------------- | ------------- | ---------------- | ----- | ------ |
 | Destination IP | in            | `10.0.0.0/8`     | And   | Allow  |
 | User Email     | matches regex | `.*@example.com` |       |        |
 
+</TabItem>
+
+<TabItem label="API">
+
+```sh
+curl https://api.cloudflare.com/client/v4/accounts/{account_id}/gateway/rule\
+--header "Content-Type: application/json" \
+--header "Authorization: Bearer <API_TOKEN>" \
+--data '{
+  "name": "Allow company employees",
+  "description": "Allow any users with an organization email to reach the application",
+  "enabled": true,
+  "action": "allow",
+  "filters": [
+    "l4"
+  ],
+  "traffic": "net.dst.ip in {10.0.0.0/8}",
+  "identity": "identity.email matches \".*@example.com\"",
+  "device_posture": ""
+}'
+```
+
+</TabItem> </Tabs>
+
 ### 2. Block everyone else
+
+<Tabs syncKey="dashPlusAPI"> <TabItem label="Dashboard">
 
 | Selector       | Operator | Value        | Action |
 | -------------- | -------- | ------------ | ------ |
 | Destination IP | in       | `10.0.0.0/8` | Block  |
+
+</TabItem>
+
+<TabItem label="API">
+
+```sh
+curl https://api.cloudflare.com/client/v4/accounts/{account_id}/gateway/rule\
+--header "Content-Type: application/json" \
+--header "Authorization: Bearer <API_TOKEN>" \
+--data '{
+  "name": "Block everyone else",
+  "description": "Block any other users from accessing the application",
+  "enabled": true,
+  "action": "block",
+  "filters": [
+    "l4"
+  ],
+  "traffic": "net.dst.ip in {10.0.0.0/8}",
+  "identity": "",
+  "device_posture": ""
+}'
+```
+
+</TabItem> </Tabs>
