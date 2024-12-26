@@ -191,16 +191,41 @@ curl https://api.cloudflare.com/client/v4/accounts/{account_id}/gateway/rule\
 
 ## Skip inspection for groups of applications
 
-Certain client applications, such as Zoom or Apple services, rely on certificate pinning. The [TLS inspection](/cloudflare-one/policies/gateway/http-policies/tls-decryption/) performed by Cloudflare Gateway will cause errors when users visit those applications. To avoid this behavior, you must add a Do Not Inspect HTTP policy.
+Certain client applications, such as Zoom or Apple services, rely on certificate pinning. The [TLS decryption](/cloudflare-one/policies/gateway/http-policies/tls-decryption/) performed by Cloudflare Gateway will cause errors when users visit those applications. To avoid this behavior, you must add a Do Not Inspect HTTP policy.
 
 Gateway [evaluates Do Not Inspect policies first](/cloudflare-one/policies/gateway/order-of-enforcement/#http-policies). We recommend moving your Do Not Inspect policies to the top of the list to reduce confusion.
 
-| Selector    | Operator | Value          | Action         |
-| ----------- | -------- | -------------- | -------------- |
-| Application | in       | Do Not Inspect | Do Not Inspect |
+<Tabs syncKey="dashPlusAPI"> <TabItem label="Dashboard">
+
+| Selector    | Operator | Value            | Action         |
+| ----------- | -------- | ---------------- | -------------- |
+| Application | in       | _Do Not Inspect_ | Do Not Inspect |
+
+</TabItem>
+
+<TabItem label="API">
+
+```sh
+curl https://api.cloudflare.com/client/v4/accounts/{account_id}/gateway/rule\
+--header "Content-Type: application/json" \
+--header "Authorization: Bearer <API_TOKEN>" \
+--data '{
+  "name": "Bypass incompatible applications",
+  "description": "Skip TLS decryption for applications that are incompatible with Gateway",
+  "enabled": true,
+  "action": "off",
+  "filters": [
+    "http"
+  ],
+  "traffic": "any(app.type.ids[*] in {16})",
+  "identity": "",
+  "device_posture": ""
+}'
+```
+
+</TabItem> </Tabs>
 
 :::note
-
 You can select either individual applications or the entire Do Not Inspect set, which will update as new applications are added.
 :::
 
