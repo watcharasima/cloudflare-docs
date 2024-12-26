@@ -158,10 +158,36 @@ curl https://api.cloudflare.com/client/v4/accounts/{account_id}/gateway/rule\
 
 <Render file="gateway/policies/check-user-identity" />
 
+<Tabs syncKey="dashPlusAPI"> <TabItem label="Dashboard">
+
 | Selector         | Operator | Value         | Logic | Action |
 | ---------------- | -------- | ------------- | ----- | ------ |
 | Application      | in       | _Salesforce_  | And   | Block  |
 | User Group Names | in       | _Contractors_ |       |        |
+
+</TabItem>
+
+<TabItem label="API">
+
+```sh
+curl https://api.cloudflare.com/client/v4/accounts/{account_id}/gateway/rule\
+--header "Content-Type: application/json" \
+--header "Authorization: Bearer <API_TOKEN>" \
+--data '{
+  "name": "Check user identity",
+  "description": "Block access to Salesforce by temporary employees and contractors",
+  "enabled": true,
+  "action": "block",
+  "filters": [
+    "http"
+  ],
+  "traffic": "any(app.ids[*] in {606})",
+  "identity": "any(identity.groups.name[*] in {\"Contractors\"})",
+  "device_posture": ""
+}'
+```
+
+</TabItem> </Tabs>
 
 ## Skip inspection for groups of applications
 
