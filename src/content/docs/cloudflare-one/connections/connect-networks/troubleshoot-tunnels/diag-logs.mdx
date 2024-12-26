@@ -46,11 +46,17 @@ This command will output the status of each diagnostic task and place a `cloudfl
 
 ### Docker
 
-`cloudflared` reads diagnostic data from the [tunnel metrics server](/cloudflare-one/connections/connect-networks/monitor-tunnels/metrics/). Therefore, the metrics server must be exposed from the Docker container and reachable from the host machine.
+`cloudflared` reads diagnostic data from the [tunnel metrics server](/cloudflare-one/connections/connect-networks/monitor-tunnels/metrics/). To get diagnostic logs, the metrics server must be exposed from the Docker container and reachable from the host machine.
 
-1. Determine the tunnel's [metrics server port](/cloudflare-one/connections/connect-networks/monitor-tunnels/metrics/#default-metrics-server-address).
+1. Determine the [metrics server port](/cloudflare-one/connections/connect-networks/monitor-tunnels/metrics/#default-metrics-server-address) for the `cloudflared` instance running in Docker.
 
-2. On the host machine, verify that you can reach the metrics server address. For example, if the metrics server is listening at `0.0.0.0:20241`, run the following command:
+2. Re-deploy the container with port forwarding enabled. The diagnostic feature will request information from the Docker instance using local port `20241`, therefore you should forward port `20241` to the container port obtained in Step 1:
+
+		```sh
+		docker run -d -p 20241:<metrics_port> docker.io/cloudflare/cloudflared tunnel ...
+		```
+
+3. Verify that you can reach the metrics server address:
 
 		```curl
 		curl localhost:20241/diag/tunnel
@@ -71,16 +77,7 @@ This command will output the status of each diagnostic task and place a `cloudfl
 		}
 		```
 
-3. If the metrics server is unreachable, deploy the container again with port forwarding enabled. The diagnostic feature will try to request information from the Docker instance using ports `20241` to `20245`. You will need to forward one of these diagnostic ports to the metrics port.
-
-		```sh
-		docker run -d -p <diagnostic_port>:<metrics_port> docker.io/cloudflare/cloudflared tunnel ...
-		```
-
-		- `<diagnostic_port>` is any port in the range `20241` to `20245`.
-		- `<metrics_port>` is the metrics port for the `cloudflared` instance you want to diagnose (obtained in Step 1).
-
-3. Take note of the Docker container ID and then run the diagnostic:
+4. Run the diagnostic using the Docker container ID:
 
 		```sh
 		cloudflared tunnel diag --diag-container-id=<containerID>
