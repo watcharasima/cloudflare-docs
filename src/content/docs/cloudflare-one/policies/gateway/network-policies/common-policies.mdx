@@ -18,24 +18,104 @@ Refer to the [network policies page](/cloudflare-one/policies/gateway/network-po
 
 <Render file="gateway/policies/block-applications" product="cloudflare-one" />
 
+<Tabs syncKey="dashPlusAPI"> <TabItem label="Dashboard">
+
 | Selector    | Operator | Value                     | Action |
 | ----------- | -------- | ------------------------- | ------ |
 | Application | in       | _Artificial Intelligence_ | Block  |
 
+</TabItem>
+
+<TabItem label="API">
+
+```sh
+curl https://api.cloudflare.com/client/v4/accounts/{account_id}/gateway/rule\
+--header "Content-Type: application/json" \
+--header "Authorization: Bearer <API_TOKEN>" \
+--data '{
+  "name": "Block unauthorized applications",
+  "description": "Block access to unauthorized AI applications",
+  "enabled": true,
+  "action": "block",
+  "filters": [
+    "l4"
+  ],
+  "traffic": "any(app.type.ids[*] in {25})",
+  "identity": "",
+  "device_posture": ""
+}'
+```
+
+</TabItem> </Tabs>
+
 ## Check user identity
 
 <Render file="gateway/policies/check-user-identity" />
+
+<Tabs syncKey="dashPlusAPI"> <TabItem label="Dashboard">
 
 | Selector         | Operator | Value         | Logic | Action |
 | ---------------- | -------- | ------------- | ----- | ------ |
 | Application      | in       | _Salesforce_  | And   | Block  |
 | User Group Names | in       | _Contractors_ |       |        |
 
+</TabItem>
+
+<TabItem label="API">
+
+```sh
+curl https://api.cloudflare.com/client/v4/accounts/{account_id}/gateway/rule\
+--header "Content-Type: application/json" \
+--header "Authorization: Bearer <API_TOKEN>" \
+--data '{
+  "name": "Check user identity",
+  "description": "Block access to Salesforce by temporary employees and contractors",
+  "enabled": true,
+  "action": "block",
+  "filters": [
+    "l4"
+  ],
+  "traffic": "any(app.ids[*] in {606})",
+  "identity": "any(identity.groups.name[*] in {\"Contractors\"})",
+  "device_posture": ""
+}'
+```
+
+</TabItem> </Tabs>
+
 ## Enforce device posture
 
-Require devices to have certain software installed or other configuration attributes. For instructions on enabling a device posture check, refer to the [device posture section](/cloudflare-one/identity/devices/).
+Require devices to have certain software installed or other configuration attributes. For instructions on enabling a device posture check, refer to the [device posture section](/cloudflare-one/identity/devices/). For example, you can use a list of [device serial numbers](/cloudflare-one/identity/devices/warp-client-checks/corp-device/) to ensure users can only access an application if they connect with the WARP client from a company device:
+
+<Tabs syncKey="dashPlusAPI"> <TabItem label="Dashboard">
 
 <Render file="gateway/policies/enforce-device-posture" />
+
+</TabItem>
+
+<TabItem label="API">
+
+```sh
+curl https://api.cloudflare.com/client/v4/accounts/{account_id}/gateway/rule\
+--header "Content-Type: application/json" \
+--header "Authorization: Bearer <API_TOKEN>" \
+--data '{
+  "name": "Enforce device posture",
+  "description": "Limit access to an internal application to approved organization devices",
+  "enabled": true,
+  "action": "block",
+  "filters": [
+    "l4"
+  ],
+  "traffic": "any(net.sni.domains[*] == \"example.com\")",
+  "identity": "",
+  "device_posture": "not(any(device_posture.checks.passed[*] in {\"<POSTURE-CHECK-UUID>\"}))"
+}'
+```
+
+To get the UUIDs of your device posture checks, use the [List device posture rules](/api/resources/zero_trust/subresources/devices/subresources/posture/methods/list/) endpoint.
+
+</TabItem> </Tabs>
 
 ## Enforce session duration
 
