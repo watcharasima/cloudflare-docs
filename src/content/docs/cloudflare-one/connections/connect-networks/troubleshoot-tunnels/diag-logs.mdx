@@ -88,6 +88,8 @@ This command will output the status of each diagnostic task and place a `cloudfl
 		cloudflared tunnel diag --diag-container-id=<containerName>
 		```
 
+		Running the diagnostic command with the container ID allows `cloudflared` to collect information from the Docker environment such as logs and container details.
+
 This command will output the status of each diagnostic task and place a `cloudflared-diag-YYYY-MM-DDThh-mm-ss.zip` file in your working directory.
 
 ### Kubernetes
@@ -103,8 +105,8 @@ The diagnostic feature will request data from the [tunnel metrics server](/cloud
 		```
 
 		- `<pod>`: Name of the pod where the tunnel is running
-		- `<diagnostic_port>` is any port in the range `20241` to `20245`.
-		- `<metrics_port>` is the metrics port for the `cloudflared` instance you want to diagnose (obtained in Step 1).
+		- `<diagnostic_port>` is any local port in the range `20241` to `20245`.
+		- `<metrics_port>` is the Kubernetes pod port for the `cloudflared` instance you want to diagnose (obtained in Step 1).
 
 		For example, if you set the metrics server address to `0.0.0.0:12345`:
 
