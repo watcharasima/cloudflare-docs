@@ -25,7 +25,7 @@ entries:
 
   - term: Route Origin Authorization (ROA)
     general_definition: |-
-      the RPKI-signed object that states an autonomous system (AS) is authorized to originate a particular IP address prefix or set of prefixes.
+      the RPKI-signed object that states an autonomous system is authorized to originate a particular IP address prefix or set of prefixes.
 
   - term: Unicast Reverse Path Forwarding (uRPF)
     general_definition: |-
