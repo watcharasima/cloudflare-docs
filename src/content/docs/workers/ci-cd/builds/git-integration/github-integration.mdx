@@ -15,14 +15,14 @@ Beyond automatic builds and deployments, the Cloudflare GitHub integration lets 
 :::note[Upcoming features]
 In Beta, Workers Builds supports automatic builds and deployments only from a single selected branch (e.g. `main`).
 
-Support for building and deploying from multiple branches will be added soon, along with the ability to generate Preview URLs for pull requests (PRs).
+Support for building and deploying preview versions from multiple branches will be added soon, along with the ability to generate [Preview URLs](/workers/configuration/previews/) for pull requests (PRs).
 :::
 
 ### Check run
 
-If you have multiple Workers connected to a repository (i.e. a [monorepo](/workers/ci-cd/builds/advanced-setups/#monorepos)), you can check on the status of each build within GitHub via [GitHub check runs](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/collaborating-on-repositories-with-code-quality-features/about-status-checks#checks).
+If you have one or multiple Workers connected to a repository (i.e. a [monorepo](/workers/ci-cd/builds/advanced-setups/#monorepos)), you can check on the status of each build within GitHub via [GitHub check runs](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/collaborating-on-repositories-with-code-quality-features/about-status-checks#checks).
 
-You can see the checks by selecting on the status icon next to a commit within your GitHub repository. In the example below, you can select on the green check mark to see the results of the check run.
+You can see the checks by selecting on the status icon next to a commit within your GitHub repository. In the example below, you can select the green check mark to see the results of the check run.
 
 ![GitHub status](~/assets/images/workers/platform/ci-cd/gh-status-check-runs.png)
 
@@ -34,7 +34,7 @@ Note that when using [build watch paths](/workers/ci-cd/builds/build-watch-paths
 
 ## Managing access
 
-You can deploy projects to Cloudflare Workers from your open-source team, company, or side project on GitHub.
+You can deploy projects to Cloudflare Workers from your open-source team, company, or side project on GitHub using the [Cloudflare Workers & Pages GitHub App](https://github.com/apps/cloudflare-workers-and-pages).
 
 ### Organizational access
 
@@ -50,7 +50,7 @@ A GitHub account should only point to one Cloudflare account. If you are setting
 
 ### Removing access
 
-You can remove Cloudflare Workers' access to your GitHub repository or account by viewing the [Applications page](https://github.com/settings/installations) on GitHub or going to [manage Git installation](/workers/ci-cd/builds/git-integration/#managing-a-git-installation) on the dashboard. The GitHub App is named Cloudflare Workers and Pages, and it is shared between Workers and Pages projects.
+You can remove Cloudflare Workers' access to your GitHub repository or account by viewing the [Applications page](https://github.com/settings/installations) on GitHub (if you're in an organization, select Switch settings context to access your GitHub organization settings) or going to [manage Git installation](/workers/ci-cd/builds/git-integration/#managing-a-git-installation) on the dashboard. The GitHub App is named Cloudflare Workers and Pages, and it is shared between Workers and Pages projects.
 
 To remove access to an individual GitHub repository, you can navigate to **Repository access**. Select the **Only select repositories** option, and configure which repositories you would like Cloudflare to have access to.
 

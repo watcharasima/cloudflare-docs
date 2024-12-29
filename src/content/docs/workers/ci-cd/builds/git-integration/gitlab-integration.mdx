@@ -15,12 +15,12 @@ Beyond automatic builds and deployments, the Cloudflare GitLab integration lets 
 :::note[Upcoming features]
 In Beta, Workers Builds supports automatic builds and deployments only from a single selected branch (e.g. `main`).
 
-Support for building and deploying from multiple branches will be added soon, along with the ability to generate Preview URLs for pull requests (PRs) on other branches.
+Support for building and deploying preview versions from multiple branches will be added soon, along with the ability to generate [Preview URLs](/workers/configuration/previews/) for pull requests (PRs).
 :::
 
 ### Commit Status
 
-If you have multiple Workers connected to a repository (i.e. a [monorepo](/workers/ci-cd/builds/advanced-setups/#monorepos)), you can check on the status of each build within GitLab via [Gitlab commit status](https://docs.gitlab.com/ee/user/project/merge_requests/status_checks.html).
+If you have one or multiple Workers connected to a repository (i.e. a [monorepo](/workers/ci-cd/builds/advanced-setups/#monorepos)), you can check on the status of each build within GitLab via [Gitlab commit status](https://docs.gitlab.com/ee/user/project/merge_requests/status_checks.html).
 
 You can see the statuses by selecting on the status icon next to a commit or by going to **Build** > **Pipelines** within your GitLab repository. In the example below, you can select on the green check mark to see the results of the check run.
 
@@ -34,7 +34,7 @@ Note that when using [build watch paths](/workers/ci-cd/builds/build-watch-paths
 
 ## Managing access
 
-You can deploy projects to Cloudflare Workers from your open-source team, company, or side project on GitLab.
+You can deploy projects to Cloudflare Workers from your open-source team, company, or side project on GitLab using the Cloudflare Pages app.
 
 ### Organizational access
 
@@ -42,7 +42,7 @@ By authorizing Cloudflare Workers to access your GitLab account, you will automa
 
 ### Removing access
 
-You can remove Cloudflare Workers' access to your GitLab account by navigating to **Profile** > **Edit Profile** **Applications** > **Authorized Applications**. Find the applications called Cloudflare Pages and select the **Revoke** button to revoke access.
+You can remove Cloudflare Workers' access to your GitLab account by navigating to [Authorized Applications page](https://gitlab.com/-/profile/applications) on GitLab. Find the applications called Cloudflare Pages and select the **Revoke** button to revoke access.
 
 Note that the GitLab application Cloudflare Pages is shared between Workers and Pages projects, and removing access to GitLab will disable new builds for Workers and Pages, though the last build of your project will continue to be hosted via Cloudflare Workers.
 
