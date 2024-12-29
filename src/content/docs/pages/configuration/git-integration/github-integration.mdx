@@ -23,6 +23,10 @@ Every time you open a new pull request on your GitHub repository, Cloudflare Pag
 
 ![GitHub Preview Urls](~/assets/images/pages/configuration/ghpreviewurls.png)
 
+:::note
+Commits/PRs created from forked repositories will not create a preview.
+:::
+
 ### Skipping a build via a commit message
 
 Without any configuration required, you can choose to skip a deployment on an adhoc basis. By adding the `[CI Skip]`, `[CI-Skip]`, `[Skip CI]`, `[Skip-CI]`, or `[CF-Pages-Skip]` flag as a prefix in your commit message, and Pages will omit that deployment. The prefixes are not case sensitive.
@@ -53,7 +57,7 @@ When authorizing Cloudflare Pages to access a GitHub account, you can specify ac
 
 :::caution[GitHub security consideration]
 
-A GitHub account should only point to one Cloudflare account, however, this is not enforced. If you are setting up Cloudflare with GitHub for your organization, Cloudflare recommends that you limit the scope of the application to only the repositories you intend to build with Pages at the time that you set up your project. You can modify these permissions as you build more applications.
+A GitHub account should only point to one Cloudflare account. If you are setting up Cloudflare with GitHub for your organization, Cloudflare recommends that you limit the scope of the application to only the repositories you intend to build with Pages. You can modify these permissions by going to the [Applications page](https://github.com/settings/installations) on GitHub, select **Switch settings context** to access your GitHub organization settings. Then, select **Cloudflare Workers & Pages** > For **Repository access**, select **Only select repositories** > select your repositories.
 
 :::
 

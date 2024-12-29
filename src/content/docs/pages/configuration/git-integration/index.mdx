@@ -7,7 +7,7 @@ Cloudflare supports connecting Cloudflare Pages to your [GitHub](/pages/configur
 
 Using Git integration with Cloudflare also provides:
 
-- **Preview deployments for custom branches**, generating preview URLs for any branch in the repository without affecting your production deployment.
+- **Preview deployments for custom branches**, generating preview URLs for a commit to any branch in the repository without affecting your production deployment.
 - **Preview URLs in pull requests** (PRs) to the repository.
 - **Build and deployment status checks** within the Git repository.
 - **Skipping builds using a commit message**.
@@ -32,8 +32,8 @@ Cloudflare Pages supports the following Git providers:
 
 If you use [GitHub Enterprise Server](https://docs.github.com/en/enterprise-server@3.10/admin/overview/about-github-enterprise-server), [Self-Managed GitLab](https://about.gitlab.com/pricing/), or another Git provider (e.g., Bitbucket), you can:
 
-- Start with a Direct Upload project and deploy using a CI/CD provider with [Wrangler CLI](/workers/wrangler/commands/#deploy)
-- Or, [disable automatic deployments](/pages/configuration/git-integration/#disable-automatic-deployments) in a Git-integrated project and use a CI/CD provider to deploy with [Wrangler CLI](/workers/wrangler/commands/#deploy).
+- Start with a Direct Upload project and deploy using a [CI/CD provider with Wrangler CLI](/pages/how-to/use-direct-upload-with-continuous-integration/).
+- Or, [disable automatic deployments](/pages/configuration/git-integration/#disable-automatic-deployments) in a Git-integrated project and use a [CI/CD provider with Wrangler CLI](/pages/how-to/use-direct-upload-with-continuous-integration/).
 
 ## Adding Git Integration
 
