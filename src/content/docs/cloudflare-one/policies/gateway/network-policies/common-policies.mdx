@@ -109,7 +109,7 @@ curl https://api.cloudflare.com/client/v4/accounts/{account_id}/gateway/rule \
   ],
   "traffic": "any(net.sni.domains[*] == \"example.com\")",
   "identity": "",
-  "device_posture": "not(any(device_posture.checks.passed[*] in {\"<POSTURE-CHECK-UUID>\"}))"
+  "device_posture": "not(any(device_posture.checks.passed[*] in {\"<POSTURE_CHECK_UUID>\"}))"
 }'
 ```
 
