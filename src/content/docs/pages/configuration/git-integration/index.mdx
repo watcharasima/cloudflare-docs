@@ -14,6 +14,11 @@ Using Git integration with Cloudflare also provides:
 
 These features allow you to manage your deployments directly within GitHub or GitLab without leaving your team's regular development workflow.
 
+:::caution[You cannot switch to Direct Upload later]
+If you deploy using the Git integration, you cannot switch to [Direct Upload](/pages/get-started/direct-upload/) later. However, if you already use a Git-integrated project and do not want to trigger deployments every time you push a commit, you can [disable automatic deployments](/pages/configuration/git-integration/#disable-automatic-deployments) on all branches. Then, you can use Wrangler to deploy directly to your Pages projects and make changes to your Git repository without automatically triggering a build.
+
+:::
+
 ## Supported Git Providers
 
 Cloudflare Pages supports the following Git providers:
